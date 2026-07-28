@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="uz" class="road-tech-host">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yo'l qurilish texnologiyasi — interaktiv taqdimot</title>
+<style>
+/* =========================================================================
+   YO'L QURILISH TEXNOLOGIYASI — INTERAKTIV TAQDIMOT
+   Barcha class nomlari  road-tech-  prefiksi bilan.
+   Umumiy selektorlar (button, section, p, h1, *) ishlatilmagan.
+   ========================================================================= */
+html.road-tech-host{ font-size:clamp(18px, calc(.62vw + .62vh), 34px) }
+html.road-tech-host, body.road-tech-host{
+  margin:0; padding:0; width:100%; background:#070d18; overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+.road-tech-page{
+  --road-tech-primary:#d8b26c;
+  --road-tech-primary-light:#f2dda8;
+  --road-tech-primary-pale:#b98f45;
+  --road-tech-secondary:#e9dcc4;
+  --road-tech-background:#070d18;
+  --road-tech-background-2:#0b1526;
+  --road-tech-surface:#101f38;
+  --road-tech-surface-2:#16294a;
+  --road-tech-text:#dfd4bf;
+  --road-tech-muted:rgba(223,212,191,.66);
+  --road-tech-border:rgba(212,175,110,.16);
+  --road-tech-line:rgba(212,175,110,.34);
+  --road-tech-ok:#8fbf86;
+  --road-tech-no:#d08a7e;
+  --road-tech-water:#9ec6e8;
+
+  --road-tech-radius:22px;
+  --road-tech-radius-btn:12px;
+  --road-tech-radius-pill:999px;
+  --road-tech-shadow:0 14px 34px rgba(0,0,0,.5);
+  --road-tech-shadow-card:0 16px 40px rgba(0,0,0,.6), 0 0 30px rgba(216,178,108,.14);
+  --road-tech-container-width:1560px;
+  --road-tech-transition:.45s cubic-bezier(.22,.9,.3,1);
+
+  --road-tech-serif:"Trajan Pro","Palatino Linotype","Book Antiqua",Georgia,"Times New Roman",serif;
+  --road-tech-sans:"Segoe UI",Tahoma,Verdana,"Helvetica Neue",sans-serif;
+  --road-tech-btn-h:3.9em;
+
+  position:relative; width:100%; max-width:100%; margin:0; box-sizing:border-box;
+  font-family:var(--road-tech-sans); font-size:1rem; line-height:1.6;
+  color:var(--road-tech-text);
+  background:
+    radial-gradient(130% 95% at 50% 0%, #14263f 0%, #0a1120 58%, #070d18 100%);
+  overflow:hidden; -webkit-tap-highlight-color:transparent;
+}
+.road-tech-page *, .road-tech-page *::before, .road-tech-page *::after{ box-sizing:border-box }
+.road-tech-page::before{
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:0; opacity:.55;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="520" height="900" viewBox="0 0 520 900"><path d="M60 900 L60 420 A 300 300 0 0 1 260 120 A 300 300 0 0 1 460 420 L460 900" fill="none" stroke="%23e3b25e" stroke-opacity="0.05" stroke-width="2.5"/></svg>');
+  background-repeat:no-repeat; background-position:right -60px top 240px;
+}
+
+/* =========================  TIPOGRAFIKA  ========================= */
+.road-tech-container{ position:relative; z-index:1; width:100%;
+  max-width:var(--road-tech-container-width); margin:0 auto; padding:0 clamp(14px,3vw,40px) }
+.road-tech-section{ position:relative; z-index:1; padding:clamp(34px,5.2vw,70px) 0 }
+.road-tech-section-head{ margin-bottom:clamp(18px,2.6vw,30px) }
+.road-tech-eyebrow{ display:block; margin:0 0 .8em; letter-spacing:.3em; font-size:.8rem;
+  font-weight:600; color:var(--road-tech-primary-pale); text-transform:uppercase }
+.road-tech-heading{ margin:0; font-family:var(--road-tech-serif); font-weight:400;
+  font-size:clamp(1.9rem,3.2vw,2.8rem); line-height:1.16; letter-spacing:.12em; text-transform:uppercase;
+  background:linear-gradient(180deg,#fdf3d8,#dcb87e 55%,#b98f45);
+  -webkit-background-clip:text; background-clip:text; color:transparent }
+.road-tech-lead{ margin:1em 0 0; max-width:76ch; font-size:clamp(1rem,1.25vw,1.16rem);
+  line-height:1.75; color:var(--road-tech-text) }
+.road-tech-lead-strong{ color:var(--road-tech-primary-light); font-weight:600 }
+.road-tech-muted{ color:var(--road-tech-muted) }
+.road-tech-roadline{ height:8px; margin:0 auto; border-radius:4px; opacity:.35;
+  width:calc(100% - 2*clamp(14px,3vw,40px));
+  background-image:repeating-linear-gradient(90deg,var(--road-tech-primary) 0 46px,transparent 46px 104px) }
+
+/* =========================  TUGMALAR  ========================= */
+.road-tech-btn{ display:inline-flex; align-items:center; justify-content:center; gap:.8em;
+  min-height:var(--road-tech-btn-h); padding:0 2.2em; border-radius:var(--road-tech-radius-btn);
+  border:1px solid var(--road-tech-line);
+  background:linear-gradient(180deg,rgba(22,41,74,.6),rgba(11,21,38,.7));
+  color:var(--road-tech-secondary); font-family:var(--road-tech-sans); font-weight:600;
+  font-size:.96rem; letter-spacing:.2em; text-transform:uppercase;
+  cursor:pointer; transition:transform .18s, box-shadow .25s, border-color .25s }
+.road-tech-btn:hover{ border-color:var(--road-tech-primary); box-shadow:0 0 22px rgba(216,178,108,.18) }
+.road-tech-btn:active{ transform:scale(.96) }
+.road-tech-btn-primary{ background:linear-gradient(180deg,rgba(216,178,108,.24),rgba(185,143,69,.14));
+  color:var(--road-tech-primary-light); border-color:var(--road-tech-primary);
+  box-shadow:var(--road-tech-shadow) }
+.road-tech-btn-icon{ opacity:.9 }
+.road-tech-btn-off{ opacity:.32; pointer-events:none }
+.road-tech-btn-icon{ width:1.2em; height:1.2em }
+.road-tech-btnrow{ display:flex; gap:1em; flex-wrap:wrap; align-items:center; margin-top:1.8em }
+.road-tech-lang{ display:flex; gap:.7em }
+.road-tech-chip{ display:inline-flex; align-items:center; border:1px solid var(--road-tech-line);
+  border-radius:8px; background:transparent; color:var(--road-tech-muted); font-weight:600;
+  font-size:.9rem; letter-spacing:.2em; text-transform:uppercase; padding:.85em 1.5em;
+  cursor:pointer; transition:.25s }
+.road-tech-chip:active{ transform:scale(.94) }
+.road-tech-chip-on{ background:linear-gradient(180deg,#f2dda8,#b98f45);
+  color:var(--road-tech-background); border-color:transparent; font-weight:700 }
+
+/* =========================  HERO  ========================= */
+.road-tech-hero{ padding-top:clamp(40px,6vw,86px) }
+.road-tech-hero-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(20px,3vw,46px);
+  align-items:center }
+.road-tech-hero-title{ margin:.2em 0 0; font-family:var(--road-tech-serif); font-weight:400;
+  font-size:clamp(2.2rem,4.8vw,3.8rem); line-height:1.12; letter-spacing:.1em; text-transform:uppercase;
+  background:linear-gradient(180deg,#fdf3d8,#e2c07f 48%,#b98f45);
+  -webkit-background-clip:text; background-clip:text; color:transparent }
+.road-tech-hero-svg{ width:100%; height:auto; display:block;
+  filter:drop-shadow(0 18px 40px rgba(0,0,0,.45)) }
+
+/* =========================  KARTOCHKALAR  ========================= */
+.road-tech-cards{ display:grid; gap:clamp(12px,1.1vw,18px) }
+.road-tech-cards-3{ grid-template-columns:repeat(3,1fr) }
+.road-tech-cards-4{ grid-template-columns:repeat(4,1fr) }
+.road-tech-card{ position:relative;
+  background:linear-gradient(170deg,rgba(22,41,74,.86),rgba(11,21,38,.92));
+  border:1px solid var(--road-tech-line); border-radius:var(--road-tech-radius);
+  padding:clamp(16px,1.5vw,24px); transition:box-shadow .25s, transform .12s; overflow:hidden }
+.road-tech-card-btn{ cursor:pointer }
+.road-tech-card-btn:hover{ box-shadow:var(--road-tech-shadow-card); border-color:rgba(212,175,110,.8) }
+.road-tech-card-btn:active{ transform:scale(.985) }
+.road-tech-card-on{ border-color:var(--road-tech-primary);
+  box-shadow:inset 0 0 0 2px rgba(216,178,108,.28), var(--road-tech-shadow-card) }
+.road-tech-card-no{ font-family:var(--road-tech-serif); font-size:1.1rem; letter-spacing:.34em;
+  color:var(--road-tech-primary-pale); line-height:1 }
+.road-tech-card-title{ margin:.5em 0 0; font-family:var(--road-tech-serif); font-weight:400;
+  color:var(--road-tech-primary-light); font-size:clamp(1.15rem,1.6vw,1.45rem); line-height:1.3;
+  letter-spacing:.06em; text-transform:uppercase }
+.road-tech-card-sub{ margin:.5em 0 0; color:var(--road-tech-primary-pale); font-weight:600;
+  font-size:.78rem; letter-spacing:.16em; text-transform:uppercase }
+.road-tech-card-text{ margin:.85em 0 0; font-size:.95rem; line-height:1.65; color:var(--road-tech-muted) }
+
+/* =========================  RAQAMLAR  ========================= */
+.road-tech-metric{ text-align:center }
+.road-tech-metric-val{ font-family:var(--road-tech-serif); font-weight:400; letter-spacing:.04em;
+  font-size:clamp(2.2rem,4.2vw,3.4rem); line-height:1;
+  background:linear-gradient(180deg,#fdf3d8,#dcb87e 55%,#b98f45);
+  -webkit-background-clip:text; background-clip:text; color:transparent }
+.road-tech-metric-lab{ margin-top:.7em; color:var(--road-tech-muted); font-weight:600;
+  font-size:.82rem; letter-spacing:.14em; text-transform:uppercase }
+
+/* =========================  KESIM QURUVCHI  ========================= */
+.road-tech-build{ display:grid; grid-template-columns:1.55fr 1fr; gap:clamp(14px,1.4vw,22px);
+  align-items:stretch }
+.road-tech-site{ position:relative; border:1px solid var(--road-tech-line);
+  border-radius:var(--road-tech-radius); overflow:hidden; padding:.5em;
+  background:linear-gradient(180deg,#16283f,#1d3352); min-height:min(56vh,520px) }
+.road-tech-site-svg{ width:100%; height:100%; display:block }
+.road-tech-st{ animation:road-tech-drop .55s cubic-bezier(.3,1.5,.5,1) both }
+@keyframes road-tech-drop{ from{ transform:translateY(-46px); opacity:0 } to{ transform:none; opacity:1 } }
+.road-tech-grow{ animation:road-tech-grow-k .6s ease both }
+@keyframes road-tech-grow-k{ from{ opacity:0; transform:translateY(14px) } to{ opacity:1; transform:none } }
+.road-tech-flow{ animation:road-tech-flow-k 1.6s ease-in-out infinite }
+@keyframes road-tech-flow-k{ 0%{opacity:0;transform:translateY(-6px)} 35%{opacity:1}
+  100%{opacity:0;transform:translateY(16px)} }
+.road-tech-lname{ font-family:var(--road-tech-serif); font-size:22px; fill:var(--road-tech-primary-light) }
+.road-tech-lsize{ font-family:var(--road-tech-sans); font-size:15px; fill:var(--road-tech-muted); font-weight:700 }
+.road-tech-mtxt{ font-family:var(--road-tech-serif); font-size:19px; fill:#e8e2d4; text-anchor:middle }
+.road-tech-ruler{ position:absolute; right:1em; top:1em; background:rgba(7,13,24,.82);
+  border:1px solid var(--road-tech-line); border-radius:var(--road-tech-radius-pill);
+  padding:.4em 1.1em; color:var(--road-tech-primary-pale); font-weight:800; font-size:.78rem }
+.road-tech-panel{ background:linear-gradient(170deg,rgba(22,41,74,.86),rgba(11,21,38,.92)); border:1px solid var(--road-tech-line);
+  border-radius:var(--road-tech-radius); padding:clamp(16px,1.5vw,24px);
+  display:flex; flex-direction:column; gap:.9em }
+.road-tech-step{ color:var(--road-tech-primary-pale); font-weight:600; letter-spacing:.24em; text-transform:uppercase;
+  font-size:.72rem; text-transform:uppercase }
+.road-tech-panel-title{ margin:0; font-family:var(--road-tech-serif); letter-spacing:.06em;
+  color:var(--road-tech-primary-light); font-size:clamp(1.25rem,2vw,1.75rem); line-height:1.14 }
+.road-tech-why{ background:rgba(11,21,38,.7); border:1px solid var(--road-tech-border);
+  border-radius:var(--road-tech-radius-btn); padding:.7em }
+.road-tech-why-svg{ width:100%; height:auto; display:block }
+.road-tech-wl{ font-family:var(--road-tech-sans); font-size:13px; font-weight:800;
+  fill:var(--road-tech-primary-pale); text-anchor:middle }
+.road-tech-ws{ font-family:var(--road-tech-sans); font-size:12px; font-weight:700;
+  fill:var(--road-tech-muted); text-anchor:middle }
+.road-tech-fact{ margin-top:auto; border-top:1px solid var(--road-tech-border); padding-top:.8em }
+.road-tech-fact-val{ font-family:var(--road-tech-serif); color:var(--road-tech-primary-light); letter-spacing:.04em;
+  font-size:clamp(1.7rem,2.6vw,2.2rem); line-height:1 }
+.road-tech-fact-lab{ color:var(--road-tech-muted); font-weight:600; font-size:.78rem;
+  letter-spacing:.14em; text-transform:uppercase; margin-top:.45em }
+.road-tech-hint{ color:var(--road-tech-no); font-weight:600; font-size:.92rem; min-height:2.4em; letter-spacing:.04em;
+  opacity:0; transition:.3s }
+.road-tech-hint-on{ opacity:1 }
+.road-tech-picks{ display:grid; grid-template-columns:repeat(6,1fr); gap:.7em; margin-top:1em }
+.road-tech-pick{ background:linear-gradient(180deg,rgba(22,41,74,.72),rgba(11,21,38,.82));
+  border:1px solid var(--road-tech-line);
+  border-radius:var(--road-tech-radius-btn); padding:.8em .5em; cursor:pointer; text-align:center }
+.road-tech-pick:active{ transform:scale(.96) }
+.road-tech-pick-done{ background:linear-gradient(180deg,#8fbf86,#4b7f52); border-color:#b6dcae; pointer-events:none }
+.road-tech-pick-done .road-tech-pick-t, .road-tech-pick-done .road-tech-pick-s{ color:#06210c }
+.road-tech-pick-bad{ animation:road-tech-shake .4s; border-color:var(--road-tech-no) }
+@keyframes road-tech-shake{ 0%,100%{transform:translateX(0)} 20%{transform:translateX(-9px)}
+  40%{transform:translateX(9px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }
+.road-tech-pick-ic{ height:26px; margin-bottom:.3em }
+.road-tech-pick-ic-svg{ width:100%; height:100%; display:block }
+.road-tech-pick-t{ display:block; font-family:var(--road-tech-serif); letter-spacing:.05em;
+  color:var(--road-tech-primary-light); font-size:1.1rem; line-height:1.12 }
+.road-tech-pick-s{ display:block; font-size:.72rem; color:var(--road-tech-muted);
+  margin-top:.25em; font-weight:700 }
+.road-tech-done-note{ margin-top:1em; border:1.5px dashed var(--road-tech-ok);
+  border-radius:var(--road-tech-radius-btn); padding:1em 1.2em; color:var(--road-tech-secondary);
+  display:none }
+.road-tech-done-note-on{ display:block; animation:road-tech-grow-k .5s both }
+
+/* =========================  QATLAMLAR RO'YXATI  ========================= */
+.road-tech-rows{ display:flex; flex-direction:column; gap:.45em }
+.road-tech-row{ display:flex; align-items:center; gap:1em; padding:.85em 1em;
+  border:1px solid var(--road-tech-border); border-left:3px solid var(--road-tech-primary-pale);
+  border-radius:10px;
+  background:linear-gradient(160deg,rgba(22,41,74,.66),rgba(11,21,38,.82));
+  cursor:pointer; transition:.25s }
+.road-tech-row:hover{ border-color:var(--road-tech-primary) }
+.road-tech-row-on{ border-color:var(--road-tech-primary);
+  border-left-color:var(--road-tech-primary-light);
+  box-shadow:inset 0 0 0 2px rgba(216,178,108,.24) }
+.road-tech-row-no{ width:2em; height:2em; flex-shrink:0; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-family:var(--road-tech-serif);
+  font-size:1.05rem; color:var(--road-tech-background); font-weight:700 }
+.road-tech-row-body{ min-width:0; flex:1 }
+.road-tech-row-n{ font-family:var(--road-tech-serif); color:var(--road-tech-primary-light);
+  font-size:1.08rem; line-height:1.25; letter-spacing:.05em; display:block }
+.road-tech-row-p{ color:var(--road-tech-muted); font-size:.78rem; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; display:block }
+.road-tech-row-s{ margin-left:auto; flex-shrink:0; color:var(--road-tech-primary);
+  font-family:var(--road-tech-serif); font-size:.95rem; letter-spacing:.08em }
+
+/* =========================  BIR KUN  ========================= */
+.road-tech-day-scene{ border:1px solid var(--road-tech-line);
+  border-radius:var(--road-tech-radius); overflow:hidden; background:#0a1424 }
+.road-tech-day-svg{ width:100%; height:auto; display:block }
+.road-tech-day-bar{ display:flex; gap:.7em; flex-wrap:wrap; margin-top:1em; align-items:center }
+.road-tech-day-time{ margin-left:auto; font-family:var(--road-tech-serif);
+  color:var(--road-tech-primary-light); font-size:1.5rem; letter-spacing:.1em }
+
+/* =========================  QOPLAMA SOLISHTIRISH  ========================= */
+.road-tech-cut2{ display:flex; height:2.8em; border-radius:6px; overflow:hidden;
+  border:1px solid rgba(0,0,0,.45); margin-top:.9em }
+.road-tech-cut2-l{ flex:1 }
+
+@media (max-width:1200px){
+  .road-tech-hero-grid{ grid-template-columns:1fr }
+  .road-tech-build{ grid-template-columns:1fr }
+  .road-tech-cards-3,.road-tech-cards-4{ grid-template-columns:1fr 1fr }
+  .road-tech-picks{ grid-template-columns:repeat(3,1fr) }
+}
+@media (max-width:620px){
+  .road-tech-cards-3,.road-tech-cards-4{ grid-template-columns:1fr }
+  .road-tech-picks{ grid-template-columns:1fr 1fr }
+  .road-tech-btn{ min-height:3.4em; padding:0 1.4em; letter-spacing:.14em }
+}
+</style>
+</head>
+<body class="road-tech-host">
+<div class="road-tech-page" id="road-tech-page">
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+  <linearGradient id="road-tech-gg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f0c979"/><stop offset="1" stop-color="#c9973f"/></linearGradient>
+  <g id="road-tech-i-arch"><path d="M20 190 L20 90 A 92 92 0 0 1 80 22 A 92 92 0 0 1 140 90 L140 190"
+     fill="none" stroke="url(#road-tech-gg)" stroke-width="9" stroke-linecap="round"/></g>
+  <g id="road-tech-i-prev"><path fill="currentColor" d="M20 11H7.8l4.6-4.6L11 5l-7 7 7 7 1.4-1.4L7.8 13H20z"/></g>
+  <g id="road-tech-i-hand"><path fill="currentColor" d="M9 11V4a1.5 1.5 0 013 0v6h1V6a1.5 1.5 0 013 0v5h1V8a1.5 1.5 0 013 0v7a6 6 0 01-6 6h-1.6a6 6 0 01-4.6-2.2L4.3 14a1.6 1.6 0 012.4-2l1.3 1.5z"/></g>
+  <g id="road-tech-i-redo"><path fill="currentColor" d="M12 5V2L8 6l4 4V7a5 5 0 11-5 5H5a7 7 0 107-7z"/></g>
+  <g id="road-tech-i-sun"><path fill="currentColor" d="M12 7a5 5 0 100 10 5 5 0 000-10zm0-5v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" stroke="currentColor" stroke-width="1.8"/></g>
+  <g id="road-tech-i-sound"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9zm13.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z"/></g>
+</defs></svg>
+
+<!-- ================= HERO ================= -->
+<section class="road-tech-section road-tech-hero" id="road-tech-intro">
+  <div class="road-tech-container">
+    <div class="road-tech-hero-grid">
+      <div>
+        <span class="road-tech-eyebrow" id="road-tech-hero-eyebrow">Interaktiv taqdimot</span>
+        <h2 class="road-tech-hero-title" id="road-tech-hero-title">YO'L QURILISH TEXNOLOGIYASI</h2>
+        <p class="road-tech-lead" id="road-tech-hero-lead"></p>
+        <div class="road-tech-btnrow">
+          <button class="road-tech-btn road-tech-btn-primary" id="road-tech-go">
+            <svg class="road-tech-btn-icon" viewBox="0 0 24 24"><use href="#road-tech-i-hand"/></svg>
+            <span id="road-tech-go-t"></span></button>
+          <button class="road-tech-btn" id="road-tech-snd">
+            <svg class="road-tech-btn-icon" viewBox="0 0 24 24"><use href="#road-tech-i-sound"/></svg>
+            <span id="road-tech-snd-t"></span></button>
+          <span class="road-tech-lang">
+            <span class="road-tech-chip road-tech-chip-on" data-lang="uz">O'ZB</span>
+            <span class="road-tech-chip" data-lang="ru">РУС</span>
+            <span class="road-tech-chip" data-lang="en">ENG</span>
+          </span>
+        </div>
+      </div>
+      <div>
+        <svg class="road-tech-hero-svg" viewBox="0 0 720 380" id="road-tech-hero-svg"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="road-tech-roadline"></div>
+
+<!-- ================= 1 · TRASSA ================= -->
+<section class="road-tech-section" id="road-tech-route">
+  <div class="road-tech-container">
+    <div class="road-tech-section-head">
+      <span class="road-tech-eyebrow" data-t="e1"></span>
+      <h2 class="road-tech-heading" data-t="h1"></h2>
+      <p class="road-tech-lead" data-t="l1"></p>
+    </div>
+    <div class="road-tech-cards road-tech-cards-4" id="road-tech-route-cards"></div>
+  </div>
+</section>
+
+
+<!-- ================= 2 · QATLAMLAR TARTIBI ================= -->
+<section class="road-tech-section" id="road-tech-order">
+  <div class="road-tech-container">
+    <div class="road-tech-section-head">
+      <span class="road-tech-eyebrow" data-t="e2"></span>
+      <h2 class="road-tech-heading" data-t="h2"></h2>
+      <p class="road-tech-lead" data-t="l2"></p>
+    </div>
+    <div class="road-tech-build">
+      <div class="road-tech-site">
+        <svg class="road-tech-site-svg" id="road-tech-order-svg" viewBox="0 0 900 560"
+             preserveAspectRatio="xMidYMid meet"></svg>
+        <span class="road-tech-ruler" data-t="depth"></span>
+      </div>
+      <div class="road-tech-panel">
+        <span class="road-tech-step" data-t="orderhint"></span>
+        <div class="road-tech-rows" id="road-tech-order-rows"></div>
+        <div class="road-tech-why" id="road-tech-order-why"></div>
+        <p class="road-tech-card-text" id="road-tech-order-text" style="color:var(--road-tech-text)"></p>
+      </div>
+    </div>
+    <div class="road-tech-btnrow">
+      <button class="road-tech-btn road-tech-btn-primary" id="road-tech-toGame">
+        <span data-t="toGame"></span>
+        <svg class="road-tech-btn-icon" viewBox="0 0 24 24" style="transform:scaleX(-1)"><use href="#road-tech-i-prev"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3 · KESIM (asosiy interaktiv) ================= -->
+<section class="road-tech-section" id="road-tech-cut">
+  <div class="road-tech-container">
+    <div class="road-tech-section-head">
+      <span class="road-tech-eyebrow" data-t="e3"></span>
+      <h2 class="road-tech-heading" data-t="h3"></h2>
+      <p class="road-tech-lead" data-t="l3"></p>
+    </div>
+    <div class="road-tech-build">
+      <div class="road-tech-site">
+        <svg class="road-tech-site-svg" id="road-tech-site-svg" viewBox="0 0 900 560"
+             preserveAspectRatio="xMidYMid meet"></svg>
+        <span class="road-tech-ruler" data-t="depth"></span>
+      </div>
+      <div class="road-tech-panel">
+        <span class="road-tech-step" id="road-tech-stepno"></span>
+        <h3 class="road-tech-panel-title" id="road-tech-steptitle"></h3>
+        <div class="road-tech-why" id="road-tech-whybox"></div>
+        <p class="road-tech-card-text" id="road-tech-steptext" style="color:var(--road-tech-text)"></p>
+        <div class="road-tech-fact">
+          <div class="road-tech-fact-val" id="road-tech-factval">—</div>
+          <div class="road-tech-fact-lab" id="road-tech-factlab"></div>
+        </div>
+        <div class="road-tech-hint" id="road-tech-hint"></div>
+      </div>
+    </div>
+    <div class="road-tech-picks" id="road-tech-picks"></div>
+    <div class="road-tech-done-note" id="road-tech-donenote"></div>
+    <div class="road-tech-btnrow">
+      <button class="road-tech-btn" id="road-tech-again">
+        <svg class="road-tech-btn-icon" viewBox="0 0 24 24"><use href="#road-tech-i-redo"/></svg>
+        <span data-t="again"></span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4 · MATERIALLAR ================= -->
+<section class="road-tech-section" id="road-tech-mat">
+  <div class="road-tech-container">
+    <div class="road-tech-section-head">
+      <span class="road-tech-eyebrow" data-t="e4"></span>
+      <h2 class="road-tech-heading" data-t="h4"></h2>
+      <p class="road-tech-lead" data-t="l4"></p>
+    </div>
+    <div class="road-tech-cards road-tech-cards-4" id="road-tech-mat-cards"></div>
+  </div>
+</section>
+
+<!-- ================= 5 · RAQAMLAR ================= -->
+<section class="road-tech-section" id="road-tech-num">
+  <div class="road-tech-container">
+    <div class="road-tech-section-head">
+      <span class="road-tech-eyebrow" data-t="e5"></span>
+      <h2 class="road-tech-heading" data-t="h5"></h2>
+    </div>
+    <div class="road-tech-cards road-tech-cards-4" id="road-tech-num-cards"></div>
+  </div>
+</section>
+
+<!-- ================= 6 · BIR KUN ================= -->
+<section class="road-tech-section" id="road-tech-day">
+  <div class="road-tech-container">
+    <div class="road-tech-section-head">
+      <span class="road-tech-eyebrow" data-t="e6"></span>
+      <h2 class="road-tech-heading" data-t="h6"></h2>
+      <p class="road-tech-lead" data-t="l6"></p>
+    </div>
+    <div class="road-tech-day-scene">
+      <svg class="road-tech-day-svg" viewBox="0 0 900 300" id="road-tech-day-svg"></svg>
+    </div>
+    <div class="road-tech-panel" style="margin-top:1em">
+      <h3 class="road-tech-panel-title" id="road-tech-day-title"></h3>
+      <p class="road-tech-card-text" id="road-tech-day-text" style="color:var(--road-tech-text)"></p>
+    </div>
+    <div class="road-tech-day-bar">
+      <button class="road-tech-btn" id="road-tech-day-prev">
+        <svg class="road-tech-btn-icon" viewBox="0 0 24 24"><use href="#road-tech-i-prev"/></svg>
+        <span data-t="prev"></span></button>
+      <button class="road-tech-btn road-tech-btn-primary" id="road-tech-day-next">
+        <span data-t="next"></span>
+        <svg class="road-tech-btn-icon" viewBox="0 0 24 24" style="transform:scaleX(-1)"><use href="#road-tech-i-prev"/></svg></button>
+      <span class="road-tech-day-time" id="road-tech-day-time"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 7 · ASBOBLAR ================= -->
+<section class="road-tech-section" id="road-tech-tools">
+  <div class="road-tech-container">
+    <div class="road-tech-section-head">
+      <span class="road-tech-eyebrow" data-t="e7"></span>
+      <h2 class="road-tech-heading" data-t="h7"></h2>
+      <p class="road-tech-lead" data-t="l7"></p>
+    </div>
+    <div class="road-tech-cards road-tech-cards-3" id="road-tech-tool-cards"></div>
+  </div>
+</section>
+
+<!-- ================= 8 · USULLAR ================= -->
+<section class="road-tech-section" id="road-tech-compare">
+  <div class="road-tech-container">
+    <div class="road-tech-section-head">
+      <span class="road-tech-eyebrow" data-t="e8"></span>
+      <h2 class="road-tech-heading" data-t="h8"></h2>
+      <p class="road-tech-lead" data-t="l8"></p>
+    </div>
+    <div class="road-tech-cards road-tech-cards-3" id="road-tech-cmp-cards"></div>
+  </div>
+</section>
+
+<!-- ================= 9 · MEROS ================= -->
+<section class="road-tech-section" id="road-tech-legacy">
+  <div class="road-tech-container">
+    <div class="road-tech-section-head">
+      <span class="road-tech-eyebrow" data-t="e9"></span>
+      <h2 class="road-tech-heading" data-t="h9"></h2>
+      <p class="road-tech-lead" data-t="l9"></p>
+    </div>
+    <div class="road-tech-cards road-tech-cards-3" id="road-tech-leg-cards"></div>
+  </div>
+</section>
+<div class="road-tech-roadline"></div>
+<div style="height:clamp(30px,4vw,60px)"></div>
+
+</div>
+<script>
+/* =========================================================================
+   1. YORDAMCHI: prosedural toshlar
+   ========================================================================= */
+function roadTechRng(seed){ let s=seed||1; return ()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; }; }
+function roadTechStone(cx,cy,r,rng,k){
+  const n=k||6, pts=[];
+  for(let i=0;i<n;i++){ const a=i/n*Math.PI*2+(rng()-.5)*.45, rr=r*(.60+rng()*.52);
+    pts.push([cx+Math.cos(a)*rr, cy+Math.sin(a)*rr*.8]); }
+  return 'M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join('L')+'Z';
+}
+function roadTechSlab(x,y,w,h,rng){ const j=()=>(rng()-.5)*w*.10;
+  return `M${(x+j()).toFixed(1)},${(y+j()).toFixed(1)}L${(x+w+j()).toFixed(1)},${(y+j()).toFixed(1)}`+
+         `L${(x+w+j()).toFixed(1)},${(y+h+j()).toFixed(1)}L${(x+j()).toFixed(1)},${(y+h+j()).toFixed(1)}Z`; }
+function roadTechShade(hex,k){ const n=parseInt(hex.slice(1),16);
+  const c=[(n>>16)&255,(n>>8)&255,n&255].map(v=>Math.min(255,Math.max(0,v+k)));
+  return '#'+((c[0]<<16)|(c[1]<<8)|c[2]).toString(16).padStart(6,'0'); }
+function roadTechFill(x0,x1,y0,y1,size,color,seed,kind){
+  const rng=roadTechRng(seed), out=[]; const CAP=260; let i=0;
+  if(kind==='slab'){ const w=size*2.1, h=y1-y0;
+    for(let x=x0;x<x1-4;x+=w+2) out.push({d:roadTechSlab(x,y0,Math.min(w,x1-x-2),h-2,rng),
+      f:roadTechShade(color,Math.round((rng()-.5)*26)), i:i++});
+    return out; }
+  const rows=Math.max(1,Math.round((y1-y0)/(size*1.35)));
+  for(let r=0;r<rows;r++){
+    const cy=y0+size*.8+r*((y1-y0-size*.5)/Math.max(1,rows-.001)), step=size*1.55;
+    for(let cx=x0+size*.7+(r%2?step*.5:0); cx<x1-size*.4; cx+=step*(.86+rng()*.3)){
+      if(out.length>=CAP) return out;
+      out.push({d:roadTechStone(cx+(rng()-.5)*size*.4, cy+(rng()-.5)*size*.35,
+        size*(.72+rng()*.55), rng, 5+Math.floor(rng()*3)),
+        f:roadTechShade(color,Math.round((rng()-.5)*34)), i:i++}); } }
+  return out;
+}
+
+/* =========================================================================
+   2. MA'LUMOTLAR
+   ========================================================================= */
+const RT_STEPS=[
+{ id:'fossa', pur:["Yumshoq tuproqni olib tashlash","Снять мягкий грунт","Strip the soft soil"], h:20, size:0, kind:'earth', c:'#3a3228',
+  n:{uz:"Fossa",ru:"Fossa — корыто",en:"Fossa — the trench"}, sz:{uz:"1 m gacha",ru:"до 1 м",en:"up to 1 m"},
+  t:{uz:"Avval yer olib tashlanadi",ru:"Сначала снимают землю",en:"First the ground is removed"},
+  d:{uz:"Yumshoq tuproq zich qatlamgacha olib tashlanadi. Rimliklar yo'lni yer ustiga emas, yer ichiga qurgan — shuning uchun ba'zilari bugungacha turibdi.",
+     ru:"Мягкий грунт снимают до плотного слоя. Римляне строили дорогу не поверх земли, а внутри неё — поэтому некоторые стоят до сих пор.",
+     en:"Soft soil is stripped down to firm ground. The Romans built the road inside the earth, not on top of it — which is why some still stand."},
+  f:["1 m",{uz:"chuqurlik",ru:"глубина корыта",en:"trench depth"}],
+  why:['Yer ustiga|На грунт|On soil','Chuqurlikka|В корыто|Into a trench','turadi|стоит|holds','cho\'kadi|проседает|sinks'] },
+{ id:'statumen', pur:["Suvni pastga o'tkazish","Пропустить воду вниз","Let water drain down"], h:22, size:17, kind:'rock', c:'#5f5a50',
+  n:{uz:"Statumen",ru:"Statumen — крупный камень",en:"Statumen — large stone"}, sz:{uz:"25–50 sm",ru:"25–50 см",en:"25–50 cm"},
+  t:{uz:"Poydevor suvni o'tkazishi kerak",ru:"Основание должно пропускать воду",en:"The base must drain"},
+  d:{uz:"Yirik toshlar butun qurilmani ko'taradi va suvni pastga o'tkazadi. Suv qolgan joyda yo'l qishda yorilib ketadi.",
+     ru:"Крупные камни держат конструкцию и пропускают воду вниз. Там, где вода остаётся, дорогу зимой разрывает.",
+     en:"Large stones carry the structure and let water drain. Where water stays, frost tears the road apart."},
+  f:["25–50 sm",{uz:"qatlam qalinligi",ru:"толщина слоя",en:"layer thickness"}],
+  why:['Suv pastga o\'tadi|Вода уходит вниз|Water drains down',
+       'Yirik tosh orasidan suv oqib ketadi|Между крупными камнями вода проходит насквозь|Water passes between the large stones'] },
+{ id:'rudus', pur:["Yukni tarqatish","Распределить нагрузку","Spread the load"], h:20, size:11, kind:'rock', c:'#7d7466',
+  n:{uz:"Rudus",ru:"Rudus — щебень на извести",en:"Rudus — lime rubble"}, sz:{uz:"25–40 sm",ru:"25–40 см",en:"25–40 cm"},
+  t:{uz:"Yukni tarqatuvchi qatlam",ru:"Слой, распределяющий нагрузку",en:"The load-spreading layer"},
+  d:{uz:"Siniq tosh ohak qorishmasiga aralashtirilib zichlanadi. Aynan bu qatlam g'ildirak bosimini keng maydonga tarqatadi — bugungi shag'al asosining ajdodi.",
+     ru:"Битый камень мешают с известковым раствором и трамбуют. Именно этот слой распределяет давление колеса на широкую площадь — предок нынешнего щебёночного основания.",
+     en:"Broken stone is mixed with lime and compacted. This layer spreads the wheel load over a wide area — the ancestor of today's crushed-stone base."},
+  f:["25–40 sm",{uz:"qatlam qalinligi",ru:"толщина слоя",en:"layer thickness"}],
+  why:['Bosim tarqaladi|Давление распределяется|The load spreads',
+       'G\'ildirak bosimi keng maydonga bo\'linadi|Давление колеса делится на широкую площадь|The wheel load is divided over a wide area'] },
+{ id:'nucleus', pur:["Plitalar uchun tekis yostiq","Ровная подушка под плиты","An even bed for slabs"], h:16, size:6.5, kind:'rock', c:'#a09482',
+  n:{uz:"Nucleus",ru:"Nucleus — мелкий гравий",en:"Nucleus — fine gravel"}, sz:{uz:"20–30 sm",ru:"20–30 см",en:"20–30 cm"},
+  t:{uz:"Plitalar uchun tekis yostiq",ru:"Ровная подушка под плиты",en:"An even bed for the slabs"},
+  d:{uz:"Mayda gravий va ohak aralashmasi tekislanadi. Notekis yostiqda plita tebranadi va bir necha yilda sinadi.",
+     ru:"Смесь мелкого гравия с известью выравнивают. На неровной подушке плита качается и за несколько лет лопается.",
+     en:"A mix of fine gravel and lime is levelled. On an uneven bed the slab rocks and cracks within a few years."},
+  f:["20–30 sm",{uz:"qatlam qalinligi",ru:"толщина слоя",en:"layer thickness"}],
+  why:['Notekis|Неровно|Uneven','Tekis|Ровно|Even','plita tebranadi|плита качается|the slab rocks','qimirlamaydi|не шевелится|it stays put'] },
+{ id:'dorsum', pur:["Yurish yuzasi","Поверхность для езды","The running surface"], h:14, size:16, kind:'slab', c:'#8d8378',
+  n:{uz:"Summum dorsum",ru:"Summum dorsum — плиты",en:"Summum dorsum — slabs"}, sz:{uz:"15–30 sm",ru:"15–30 см",en:"15–30 cm"},
+  t:{uz:"Zich terilgan tosh yuza",ru:"Плотно пригнанная каменная поверхность",en:"A tightly fitted stone surface"},
+  d:{uz:"Toshlar shunday zich teriladiki, orasiga pichoq kirmaydi. Yuzasi qavariq qilinadi — buning sababi keyingi qadamda.",
+     ru:"Камни подгоняют так плотно, что между ними не входит нож. Поверхность делают выпуклой — причина на следующем шаге.",
+     en:"The stones are fitted so tightly a knife will not pass. The surface is cambered — the reason comes next."},
+  f:["15–30 sm",{uz:"plita qalinligi",ru:"толщина плиты",en:"slab thickness"}],
+  why:['Bir-birini ushlab turadi|Держат друг друга|They lock together',
+       'Ko\'p qirrali plitalar yon tomonga sura olmaydi|Многоугольные плиты не дают сдвинуться вбок|Polygonal slabs cannot shift sideways'] },
+{ id:'water', pur:["Suvni yo'ldan chiqarish","Увести воду с дороги","Take water off the road"], h:0, size:0, kind:'none', c:'#5c7385',
+  n:{uz:"Suv oqizish",ru:"Водоотвод",en:"Drainage"}, sz:{uz:"qavariqlik va ariq",ru:"выпуклость и канавы",en:"camber and ditches"},
+  t:{uz:"Yo'lni suv o'ldiradi, yuk emas",ru:"Дорогу убивает вода, а не груз",en:"Water kills a road, not the load"},
+  d:{uz:"Qavariq yuza suvni chetga haydaydi, yon ariqlar olib ketadi. Rimliklarning asosiy kashfiyoti shu: qatlamlar emas, suvni boshqarish. Qoida bugungi yo'llarda ham ishlaydi.",
+     ru:"Выпуклая поверхность гонит воду к обочине, канавы уводят её прочь. Главное открытие римлян именно это: не слои, а управление водой. Правило работает и на сегодняшних дорогах.",
+     en:"The camber pushes water to the verge and ditches carry it away. This was the Romans' real discovery: not the layers but the control of water. The rule still holds today."},
+  f:["2 %",{uz:"ko'ndalang qiyalik",ru:"поперечный уклон",en:"cross-fall"}],
+  why:['Suv chetga ketadi|Вода уходит к обочине|Water runs to the verge',
+       'Qavariqlik haydaydi, ariq olib ketadi|Выпуклость гонит, канава уводит|The camber pushes, the ditch carries away'] }
+];
+
+const RT_ROUTE=[
+{ n:{uz:"To'g'ri chiziq",ru:"Прямая линия",en:"A straight line"},
+  s:{uz:"eng qisqa yo'l",ru:"кратчайший путь",en:"the shortest way"},
+  d:{uz:"Rim yo'llarining to'g'riligi tejamkorlikdan: har qo'shimcha kilometr — bu qazish, tosh va ish kuni.",
+     ru:"Прямизна римских дорог из экономии: каждый лишний километр — это выемка, камень и человеко-дни.",
+     en:"The straightness of Roman roads came from thrift: every extra kilometre means digging, stone and man-days."} },
+{ n:{uz:"Qiyalik",ru:"Уклон",en:"Gradient"},
+  s:{uz:"aravaga chegara",ru:"предел для повозки",en:"the cart's limit"},
+  d:{uz:"Yuk aravasi ko'tara oladigan qiyalik chegaralangan. Shuning uchun trassa tepalikni aylanib emas, yonbag'irdan qiya kesib o'tadi.",
+     ru:"Уклон, который берёт гружёная повозка, ограничен. Поэтому трасса не обходит холм, а режет склон наискось.",
+     en:"The gradient a loaded cart can take is limited, so the route cuts across a slope rather than going round the hill."} },
+{ n:{uz:"Grunt",ru:"Грунт",en:"The ground"},
+  s:{uz:"nima ustida turadi",ru:"на чём стоит",en:"what it stands on"},
+  d:{uz:"Botqoq va yumshoq joydan qochiladi. Iloji bo'lmasa — yog'och to'shama yoki qo'shimcha tosh qatlami.",
+     ru:"Болото и слабый грунт обходят. Если нельзя — деревянный настил или дополнительный слой камня.",
+     en:"Marsh and soft ground are avoided. Where they cannot be, a timber raft or an extra stone layer goes in."} },
+{ n:{uz:"Suv va karer",ru:"Вода и карьер",en:"Water and quarry"},
+  s:{uz:"yaqin bo'lishi shart",ru:"должны быть рядом",en:"must be close"},
+  d:{uz:"Ohak uchun suv, qatlamlar uchun tosh kerak. Karer uzoq bo'lsa, qurilish bir necha barobar qimmatlashadi.",
+     ru:"Для извести нужна вода, для слоёв — камень. Если карьер далеко, стройка дорожает в разы.",
+     en:"Lime needs water, layers need stone. If the quarry is far, the works cost several times more."} }
+];
+
+const RT_MAT=[
+{ n:{uz:"Yirik tosh",ru:"Крупный камень",en:"Large stone"}, size:17, c:'#5f5a50',
+  d:{uz:"Nima uchun yirik: orasidagi bo'shliq suvni o'tkazadi va poydevor quriq qoladi.",
+     ru:"Почему крупный: пустоты между камнями пропускают воду, и основание остаётся сухим.",
+     en:"Why large: the voids between stones drain water and the base stays dry."} },
+{ n:{uz:"Siniq tosh",ru:"Битый камень",en:"Broken stone"}, size:11, c:'#7d7466',
+  d:{uz:"Nima uchun siniq, dumaloq emas: qirrali bo'laklar bir-biriga tishlashadi va siljimaydi.",
+     ru:"Почему битый, а не окатанный: угловатые куски заклиниваются друг о друга и не расползаются.",
+     en:"Why broken and not rounded: angular pieces wedge together and do not spread."} },
+{ n:{uz:"Ohak",ru:"Известь",en:"Lime"}, size:0, c:'#c9c2b0',
+  d:{uz:"Nima uchun ohak: u shag'alni bog'laydi va nam muhitda qotadi. Sement hali yo'q edi.",
+     ru:"Почему известь: она связывает щебень и твердеет во влажной среде. Цемента ещё не было.",
+     en:"Why lime: it binds the rubble and sets in damp conditions. Cement did not yet exist."} },
+{ n:{uz:"Ko'p qirrali plita",ru:"Многоугольная плита",en:"Polygonal slab"}, size:16, c:'#8d8378', kind:'slab',
+  d:{uz:"Nima uchun ko'p qirrali: to'g'ri burchakli plita yon tomonga suriladi, ko'p qirrali esa qulflanadi.",
+     ru:"Почему многоугольная: прямоугольная плита сдвигается вбок, многоугольная запирается соседями.",
+     en:"Why polygonal: a rectangular slab shifts sideways; a polygonal one is locked by its neighbours."} }
+];
+
+const RT_NUM=[
+ ["80 000",{uz:"km tosh yo'l imperiyada",ru:"км мощёных дорог в империи",en:"km of paved road in the empire"}],
+ ["1 m",{uz:"kesim chuqurligi",ru:"глубина корыта",en:"trench depth"}],
+ ["4",{uz:"qatlam",ru:"слоя",en:"layers"}],
+ ["2 %",{uz:"ko'ndalang qiyalik",ru:"поперечный уклон",en:"cross-fall"}]
+];
+
+const RT_DAY=[
+{ time:"06:00", sun:.08,
+  n:{uz:"Razbivka",ru:"Разбивка",en:"Setting out"},
+  d:{uz:"Kun groma bilan boshlanadi: o'q chiziladi, qoziqlar qoqiladi, kenglik belgilanadi. Xato shu yerda qilinsa, uni keyin tuzatib bo'lmaydi.",
+     ru:"День начинается с громы: выносят ось, забивают колышки, размечают ширину. Ошибка, сделанная здесь, потом не исправляется.",
+     en:"The day begins with the groma: the axis is set out, pegs driven, the width marked. A mistake made here cannot be fixed later."} },
+{ time:"08:00", sun:.25,
+  n:{uz:"Qazish",ru:"Выемка",en:"Digging"},
+  d:{uz:"Yumshoq tuproq olib tashlanadi. Bir brigada kuniga bir necha metr yo'l tayyorlaydi — hammasi qo'lda, ketmon va zambil bilan.",
+     ru:"Снимают мягкий грунт. Бригада готовит за день несколько метров дороги — всё вручную, кетменём и носилками.",
+     en:"Soft soil is stripped. A team prepares a few metres of road a day — all by hand, with mattock and stretcher."} },
+{ time:"11:00", sun:.55,
+  n:{uz:"Qatlamlar",ru:"Слои",en:"Layers"},
+  d:{uz:"Yirik tosh, keyin ohakli shag'al, keyin mayda gravий. Har qatlam alohida zichlanadi — zichlamasdan keyingisini yotqizib bo'lmaydi.",
+     ru:"Крупный камень, затем щебень на извести, затем мелкий гравий. Каждый слой трамбуют отдельно — без этого следующий класть нельзя.",
+     en:"Large stone, then lime-bound rubble, then fine gravel. Each layer is compacted separately — the next cannot go on until it is."} },
+{ time:"15:00", sun:.8,
+  n:{uz:"Plitalar",ru:"Плиты",en:"Slabs"},
+  d:{uz:"Eng sekin ish. Har plita joyiga urib o'rnatiladi va qo'shnisiga moslab yo'niladi. Bir usta kuniga bir necha kvadrat metr teradi.",
+     ru:"Самая медленная работа. Каждую плиту осаживают на место и подтёсывают под соседнюю. Мастер укладывает несколько квадратных метров в день.",
+     en:"The slowest work. Each slab is bedded down and dressed to fit its neighbour. A mason lays a few square metres a day."} },
+{ time:"18:00", sun:.35,
+  n:{uz:"Suv va chegara",ru:"Вода и граница",en:"Water and boundary"},
+  d:{uz:"Kun oxirida ariqlar qaziladi, bordyur o'rnatiladi, mil ustuni qo'yiladi. Ustunda kim qurgani yoziladi — bu qabul dalolatnomasi.",
+     ru:"К концу дня роют канавы, ставят бордюр и мильный столб. На столбе пишут, кто строил, — это и есть акт приёмки.",
+     en:"By day's end the ditches are dug, the kerb set and the milestone placed. The stone records who built it — that is the acceptance certificate."} }
+];
+
+const RT_TOOLS=[
+{ n:{uz:"Groma",ru:"Грома",en:"Groma"}, s:{uz:"to'g'ri chiziq va burchak",ru:"прямая и прямой угол",en:"line and right angle"},
+  d:{uz:"Chorrahali tayoq, uchlarida shoqullar. Ikki shoqul bir chiziqqa tushsa — yo'nalish to'g'ri. Burchak ham shu asbob bilan olinadi.",
+     ru:"Шест с крестовиной и отвесами на концах. Совместил два отвеса — линия прямая. Прямой угол берут тем же прибором.",
+     en:"A staff with a cross-piece and plumb lines. Line up two plumbs and the direction is true. The right angle comes from the same tool."} },
+{ n:{uz:"Xorobat",ru:"Хоробат",en:"Chorobates"}, s:{uz:"suv sathi",ru:"водяной уровень",en:"water level"},
+  d:{uz:"Uzun yog'och lineyka, ustida suv o'yig'i. Suv sathi bo'yicha qiyalik tekshiriladi — bugungi niveliрning ajdodi.",
+     ru:"Длинная деревянная линейка с водяным жёлобом сверху. По уровню воды проверяют уклон — предок нынешнего нивелира.",
+     en:"A long wooden rule with a water channel on top. The water level checks the gradient — the ancestor of today's level."} },
+{ n:{uz:"Dioptra",ru:"Диоптра",en:"Dioptra"}, s:{uz:"burchak va masofa",ru:"угол и расстояние",en:"angle and distance"},
+  d:{uz:"Aylanadigan doira va vizir. Burchak o'lchanadi, undan masofa hisoblanadi. Tunnel ikki tomondan qazilganda aynan shu asbob ishlatilgan.",
+     ru:"Поворотный круг с визиром. Меряют угол, из него считают расстояние. Именно этим прибором вели тоннель с двух сторон навстречу.",
+     en:"A rotating circle with a sight. Angles are measured and distances computed from them. This is the instrument that drove tunnels from both ends."} }
+];
+
+const RT_CMP=[
+{ n:{uz:"Misr usuli",ru:"Египетский способ",en:"The Egyptian way"}, y:{uz:"mil. av. 2600",ru:"2600 до н.э.",en:"2600 BC"},
+  d:{uz:"Plitalar to'g'ridan-to'g'ri tekislangan yerga. Qatlam yo'q — faqat quruq iqlimda ishlaydi.",
+     ru:"Плиты прямо на выровненный грунт. Слоёв нет — работает только в сухом климате.",
+     en:"Slabs straight onto levelled ground. No layers — it works only in a dry climate."},
+  cut:['#8d8378','#4a4438'] },
+{ n:{uz:"Rim usuli",ru:"Римский способ",en:"The Roman way"}, y:{uz:"mil. av. 312",ru:"312 до н.э.",en:"312 BC"},
+  d:{uz:"To'rt qatlam va suv oqizish. Qimmat va sekin, ammo ayrim uchastkalar ikki ming yildan keyin ham yuk ko'taradi.",
+     ru:"Четыре слоя и водоотвод. Дорого и медленно, зато участки держат нагрузку и через две тысячи лет.",
+     en:"Four layers and drainage. Costly and slow, yet stretches still carry loads two thousand years on."},
+  cut:['#8d8378','#a09482','#7d7466','#5f5a50','#4a4438'] },
+{ n:{uz:"Sharq usuli",ru:"Восточный способ",en:"The eastern way"}, y:{uz:"IX–XIX asr",ru:"IX–XIX века",en:"9th–19th c."},
+  d:{uz:"Polotno tuproq, kuch inshootlarda: karvonsaroy, sardoba, quduq. Yo'lni qoplama emas, xizmat ushlab turgan.",
+     ru:"Полотно грунтовое, сила в сооружениях: караван-сарай, сардоба, колодец. Дорогу держало обслуживание, а не покрытие.",
+     en:"An earth roadbed, the strength in structures: caravanserai, sardoba, well. Service held the road, not surfacing."},
+  cut:['#8a7c63','#4a4438'] }
+];
+
+const RT_LEG=[
+{ n:{uz:"Qatlamlar qoldi",ru:"Слои остались",en:"The layers remain"},
+  d:{uz:"Bugungi yo'lda ham to'rt qatlam: asfalt, pastki asfalt, shag'al asos, qum yostiq. Nomlar boshqa — mantiq o'sha.",
+     ru:"В сегодняшней дороге те же четыре слоя: асфальт, нижний асфальт, щебёночное основание, песчаная подушка. Названия другие — логика та же.",
+     en:"Today's road has the same four layers: wearing course, binder course, crushed-stone base, sand sub-base. Different names, the same logic."},
+  cut:['#2f3237','#3b3f45','#6b6257','#8a7c63'] },
+{ n:{uz:"Suv oqizish qoldi",ru:"Водоотвод остался",en:"Drainage remains"},
+  d:{uz:"Ko'ndalang qiyalik hozir ham 2 foizga yaqin, ariqlar hozir ham yon tomonda. Ikki ming yilda bu o'zgarmadi.",
+     ru:"Поперечный уклон и сейчас около двух процентов, канавы и сейчас по бокам. За две тысячи лет это не изменилось.",
+     en:"The cross-fall is still about two per cent and the ditches are still at the side. In two thousand years this has not changed."},
+  cut:['#8fb3d9','#5c7385'] },
+{ n:{uz:"Belgi qoldi",ru:"Знак остался",en:"The marker remains"},
+  d:{uz:"Mil ustuni kilometr belgisiga aylandi, ammo vazifasi o'sha: masofa va javobgar. Yo'lda hech narsa shunchaki turmaydi.",
+     ru:"Мильный столб стал километровым знаком, но задача та же: расстояние и ответственный. На дороге ничего не стоит просто так.",
+     en:"The milestone became the kilometre marker, but its job is unchanged: distance and who answers for it. Nothing on a road is there by accident."},
+  cut:['#c9973f','#5c6472'] }
+];
+
+const RT_T={
+ uz:{ lead:"Yo'l qanday quriladi — trassani tanlashdan mil ustunigacha. Har qatlamni o'zingiz yotqizib ko'ring va nima uchun aynan shu material ishlatilganini ko'ring.",
+   go:"Kesimni yig'ish", snd:"Ovoz", prev:"Orqaga", next:"Keyingi", again:"Boshidan",
+   depth:"kesim chuqurligi 1 m gacha", pick:"Keyingi qatlamni tanlang",
+   intro:"Har bir qatlam nima uchun kerakligi bosgan sari ochiladi.",
+   wrong:"Bu qatlam hali erta. Pastdan yuqoriga quriladi.",
+   done:"Yo'l tayyor. Appiy yo'li mil. av. 312-yilda aynan shunday qurilgan — ayrim uchastkalari bugun ham yuk ko'taradi.",
+   orderhint:"Qatlamni bosing — sxemada yonadi", toGame:"Endi o'zingiz yig'ing",
+   e2:"2-bosqich · Tartib", h2:"Qatlamlar tartibi",
+   l2:"Avval butun kesimni ko'rib chiqing. Har qatlam pastdan yuqoriga o'z vazifasi bilan. Keyingi bosqichda xuddi shuni o'zingiz yig'asiz.",
+   e1:"1-bosqich · Trassa", h1:"Yo'l qayerdan o'tadi",
+   l1:"Qatlamlardan oldin savol: umuman qayerdan yurish kerak. To'rt shart bir vaqtda hisobga olinadi.",
+   e3:"3-bosqich · Kesim", h3:"Rim yo'lini yig'ing",
+   l3:"Pastdan yuqoriga. Har qatlamda uning nima uchun kerakligi sxema bilan ko'rsatiladi.",
+   e4:"4-bosqich · Materiallar", h4:"Nima uchun aynan shu material",
+   l4:"Har fraksiya tasodifan tanlanmagan. Kartochkani bosing — sababi ochiladi.",
+   e5:"5-bosqich · Raqamlar", h5:"Texnik ko'rsatkichlar",
+   e6:"6-bosqich · Bir kun", h6:"Qurilishdagi bir kun",
+   l6:"Ertalabki razbivkadan kechki mil ustunigacha.",
+   e7:"7-bosqich · Asboblar", h7:"Nima bilan o'lchashgan",
+   l7:"Avval o'lchov, keyin qatlam. O'lchovsiz hech narsa ishlamaydi.",
+   e8:"8-bosqich · Usullar", h8:"Boshqacha ham qurishgan",
+   l8:"Rim usuli yagona emas edi. Har iqlim va har davlat o'z yechimini topgan.",
+   e9:"9-bosqich · Meros", h9:"Bugungi yo'lda nima qoldi",
+   l9:"Materiallar o'zgardi, mantiq o'zgarmadi." },
+ ru:{ lead:"Как строится дорога — от выбора трассы до мильного столба. Уложите каждый слой сами и увидите, почему взят именно этот материал.",
+   go:"Собрать разрез", snd:"Звук", prev:"Назад", next:"Дальше", again:"Заново",
+   depth:"глубина корыта до 1 м", pick:"Выберите следующий слой",
+   intro:"Зачем нужен каждый слой — раскрывается по ходу укладки.",
+   wrong:"Этот слой ещё рано. Строят снизу вверх.",
+   done:"Дорога готова. Так в 312 году до н.э. построили Аппиеву дорогу — отдельные её участки держат нагрузку и сегодня.",
+   orderhint:"Нажмите слой — он подсветится в разрезе", toGame:"Теперь соберите сами",
+   e2:"2-й этап · Порядок", h2:"Порядок слоёв",
+   l2:"Сначала разберём весь разрез. Каждый слой снизу вверх со своей задачей. На следующем этапе вы соберёте то же самое сами.",
+   e1:"1-й этап · Трасса", h1:"Где пройдёт дорога",
+   l1:"До всяких слоёв стоит вопрос: где вообще вести. Четыре условия учитывают разом.",
+   e3:"3-й этап · Разрез", h3:"Соберите римскую дорогу",
+   l3:"Снизу вверх. На каждом слое схемой показано, зачем он нужен.",
+   e4:"4-й этап · Материалы", h4:"Почему именно этот материал",
+   l4:"Ни одна фракция не выбрана случайно. Нажмите карточку — раскроется причина.",
+   e5:"5-й этап · Числа", h5:"Технические показатели",
+   e6:"6-й этап · Один день", h6:"Один день на стройке",
+   l6:"От утренней разбивки до вечернего мильного столба.",
+   e7:"7-й этап · Инструменты", h7:"Чем мерили",
+   l7:"Сначала измерение, потом слои. Без измерения не работает ничего.",
+   e8:"8-й этап · Способы", h8:"Строили и по-другому",
+   l8:"Римский способ был не единственным. Каждый климат и каждое государство находили своё решение.",
+   e9:"9-й этап · Наследие", h9:"Что осталось в сегодняшней дороге",
+   l9:"Материалы изменились, логика — нет." },
+ en:{ lead:"How a road is built — from choosing the route to the milestone. Lay each layer yourself and see why that particular material was used.",
+   go:"Build the cross-section", snd:"Sound", prev:"Back", next:"Next", again:"Restart",
+   depth:"trench up to 1 m deep", pick:"Choose the next layer",
+   intro:"Why each layer is needed unfolds as you lay it.",
+   wrong:"That layer is too early. You build from the bottom up.",
+   done:"The road is finished. This is how the Appian Way was built in 312 BC — some of its stretches still carry loads today.",
+   orderhint:"Tap a layer to light it in the section", toGame:"Now build it yourself",
+   e2:"Stage 2 · The order", h2:"The order of the layers",
+   l2:"First look at the whole section. Each layer from the bottom up, with its own job. In the next stage you build the same thing yourself.",
+   e1:"Stage 1 · The route", h1:"Where the road will run",
+   l1:"Before any layers comes the question of where to run at all. Four conditions are weighed at once.",
+   e3:"Stage 3 · Cross-section", h3:"Build a Roman road",
+   l3:"From the bottom up. Each layer comes with a diagram of why it is there.",
+   e4:"Stage 4 · Materials", h4:"Why this material",
+   l4:"No fraction was chosen at random. Tap a card and the reason opens.",
+   e5:"Stage 5 · Figures", h5:"Technical measures",
+   e6:"Stage 6 · One day", h6:"A day on the site",
+   l6:"From the morning setting-out to the evening milestone.",
+   e7:"Stage 7 · Instruments", h7:"What they measured with",
+   l7:"Measurement first, layers after. Without measurement nothing works.",
+   e8:"Stage 8 · Methods", h8:"They also built otherwise",
+   l8:"The Roman way was not the only one. Each climate and each state found its own answer.",
+   e9:"Stage 9 · Legacy", h9:"What remains in today's road",
+   l9:"The materials changed, the logic did not." }
+};
+
+/* =========================================================================
+   3. HOLAT VA CHIZISH
+   ========================================================================= */
+(function(){
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+let lang='uz', placed=[], order=[], bad=null, day=0, matOpen=-1, ordSel=0;
+const tr=k=>RT_T[lang][k];
+const tx=v=> typeof v==='string'? v : v[lang];
+
+/* --- ovoz --- */
+let AC=null,M=null,sndOn=true;
+function ac(){ if(!AC){ AC=new (window.AudioContext||window.webkitAudioContext)();
+  M=AC.createGain(); M.gain.value=.6; M.connect(AC.destination); }
+  if(AC.state==='suspended') AC.resume(); return AC; }
+function gravelSound(){
+  if(!sndOn) return;
+  try{ const a=ac(), t=a.currentTime, D=.7;
+    const n=a.createBufferSource(), len=Math.round(a.sampleRate*D);
+    const b=a.createBuffer(1,len,a.sampleRate), d=b.getChannelData(0);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,1.6);
+    n.buffer=b;
+    const f=a.createBiquadFilter(); f.type='bandpass'; f.frequency.value=2400; f.Q.value=.8;
+    const g=a.createGain(); g.gain.setValueAtTime(.0001,t);
+    g.gain.linearRampToValueAtTime(.5,t+.05); g.gain.exponentialRampToValueAtTime(.0001,t+D);
+    n.connect(f); f.connect(g); g.connect(M); n.start(t); n.stop(t+D+.05);
+    for(let i=0;i<14;i++){ const tt=t+Math.random()*D*.8, o=a.createOscillator(), og=a.createGain();
+      o.type='triangle'; o.frequency.value=800+Math.random()*1800;
+      og.gain.setValueAtTime(.0001,tt); og.gain.exponentialRampToValueAtTime(.22,tt+.003);
+      og.gain.exponentialRampToValueAtTime(.0001,tt+.05);
+      o.connect(og); og.connect(M); o.start(tt); o.stop(tt+.06); }
+  }catch(e){}
+}
+function thudSound(){
+  if(!sndOn) return;
+  try{ const a=ac(), t=a.currentTime, o=a.createOscillator(), g=a.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(120,t); o.frequency.exponentialRampToValueAtTime(45,t+.18);
+    g.gain.setValueAtTime(.5,t); g.gain.exponentialRampToValueAtTime(.0001,t+.3);
+    o.connect(g); g.connect(M); o.start(t); o.stop(t+.32);
+  }catch(e){}
+}
+
+/* --- «nima uchun» sxemalari --- */
+const WHY={
+ fossa:t=>`<svg class="road-tech-why-svg" viewBox="0 0 300 150">
+   <text x="72" y="16" class="road-tech-wl">${t[0]}</text><text x="228" y="16" class="road-tech-wl">${t[1]}</text>
+   <rect x="14" y="34" width="118" height="86" fill="#3a3228" rx="3"/>
+   <rect x="30" y="30" width="86" height="16" fill="#8d8378"/>
+   <path d="M30 46 q43 26 86 0" fill="none" stroke="#c9736a" stroke-width="3" stroke-dasharray="5 4"/>
+   <path d="M73 60 l0 26 l-6 -8 m6 8 l6 -8" stroke="#c9736a" stroke-width="2.6" fill="none"/>
+   <rect x="168" y="34" width="118" height="86" fill="#3a3228" rx="3"/>
+   <rect x="180" y="58" width="94" height="58" fill="#5f5a50"/>
+   <rect x="180" y="46" width="94" height="14" fill="#8d8378"/>
+   <path d="M180 46 h94" stroke="#7bc47f" stroke-width="3"/>
+   <text x="73" y="140" class="road-tech-ws">${t[3]}</text>
+   <text x="227" y="140" class="road-tech-ws">${t[2]}</text></svg>`,
+ statumen:t=>`<svg class="road-tech-why-svg" viewBox="0 0 300 150">
+   <text x="150" y="16" class="road-tech-wl">${t[0]}</text>
+   <rect x="24" y="30" width="252" height="24" fill="#8d8378"/>
+   <rect x="24" y="54" width="252" height="54" fill="#5f5a50"/>
+   ${[0,1,2,3,4,5].map(i=>`<circle cx="${44+i*38}" cy="${70+(i%2)*16}" r="11" fill="#241d14" opacity=".6"/>`).join('')}
+   ${[0,1,2,3,4].map(i=>`<path d="M${56+i*44} 32 l0 70 l-5 -8 m5 8 l5 -8" stroke="#8fb3d9" stroke-width="2.6" fill="none"/>`).join('')}
+   <rect x="24" y="108" width="252" height="10" fill="#3a3228"/>
+   <text x="150" y="140" class="road-tech-ws">${t[1]}</text></svg>`,
+ rudus:t=>`<svg class="road-tech-why-svg" viewBox="0 0 300 150">
+   <text x="150" y="16" class="road-tech-wl">${t[0]}</text>
+   <circle cx="150" cy="36" r="13" fill="none" stroke="#e3b25e" stroke-width="3"/>
+   <path d="M150 50 L150 62" stroke="#e3b25e" stroke-width="3"/>
+   <path d="M150 62 L86 116 L214 116 Z" fill="#c9973f" opacity=".22"/>
+   <path d="M150 62 L86 116 M150 62 L214 116" stroke="#e3b25e" stroke-width="2" stroke-dasharray="5 4"/>
+   <rect x="24" y="62" width="252" height="54" fill="#7d7466" opacity=".55"/>
+   <rect x="24" y="116" width="252" height="12" fill="#5f5a50"/>
+   <text x="150" y="142" class="road-tech-ws">${t[1]}</text></svg>`,
+ nucleus:t=>`<svg class="road-tech-why-svg" viewBox="0 0 300 150">
+   <text x="72" y="16" class="road-tech-wl">${t[0]}</text><text x="228" y="16" class="road-tech-wl">${t[1]}</text>
+   <path d="M14 92 q14 -12 28 0 t28 0 t28 0" fill="none" stroke="#a09482" stroke-width="8"/>
+   <path d="M20 68 h44 l6 12 h-44 z" fill="#8d8378" transform="rotate(-9 44 74)"/>
+   <path d="M78 70 h44 l6 12 h-44 z" fill="#8d8378" transform="rotate(7 100 76)"/>
+   <path d="M44 56 l0 -10 m-6 5 l6 -6 l6 6" stroke="#c9736a" stroke-width="2.6" fill="none"/>
+   <path d="M168 92 h118" stroke="#a09482" stroke-width="8"/>
+   <path d="M174 70 h50 l0 12 h-50 z" fill="#8d8378"/>
+   <path d="M228 70 h50 l0 12 h-50 z" fill="#8d8378"/>
+   <path d="M174 68 h104" stroke="#7bc47f" stroke-width="3"/>
+   <text x="72" y="128" class="road-tech-ws">${t[2]}</text>
+   <text x="228" y="128" class="road-tech-ws">${t[3]}</text></svg>`,
+ dorsum:t=>`<svg class="road-tech-why-svg" viewBox="0 0 300 150">
+   <text x="150" y="16" class="road-tech-wl">${t[0]}</text>
+   ${(()=>{const rng=roadTechRng(7); let s='';
+     for(let r=0;r<2;r++) for(let c=0;c<6;c++){ const x=26+c*41+(r%2?10:0), y=34+r*36;
+       s+=`<path d="${roadTechSlab(x,y,38,33,rng)}" fill="${roadTechShade('#8d8378',Math.round((rng()-.5)*30))}" stroke="#241d14" stroke-width="1.6"/>`; }
+     return s; })()}
+   <path d="M124 118 h52 M124 118 l7 -6 m-7 6 l7 6 M176 118 l-7 -6 m7 6 l-7 6"
+     stroke="#7bc47f" stroke-width="3" fill="none"/>
+   <text x="150" y="142" class="road-tech-ws">${t[1]}</text></svg>`,
+ water:t=>`<svg class="road-tech-why-svg" viewBox="0 0 300 150">
+   <text x="150" y="16" class="road-tech-wl">${t[0]}</text>
+   <path d="M30 88 q120 -46 240 0 L270 110 L30 110 Z" fill="#8d8378" stroke="#241d14" stroke-width="2"/>
+   ${[0,1,2,3].map(i=>{ const x=110+i*30, y=58+Math.abs(i-1.5)*7, dir=i<2?-1:1;
+     return `<path d="M${x} ${y} l${dir*26} 22 l${dir*-7} -7 m${dir*7} 7 l${dir*10} 2"
+       stroke="#8fb3d9" stroke-width="2.8" fill="none"/>`; }).join('')}
+   <path d="M10 110 q16 24 32 0 z" fill="#0f1a26" stroke="#5c7385" stroke-width="2"/>
+   <path d="M258 110 q16 24 32 0 z" fill="#0f1a26" stroke="#5c7385" stroke-width="2"/>
+   <text x="150" y="142" class="road-tech-ws">${t[1]}</text></svg>`
+};
+
+
+/* --- 2-bosqich: butun kesim, tanlangan qatlam yonadi --- */
+function drawOrder(){
+  const W=900,H=560,x0=120,x1=780,ground=170,floor=520;
+  let s=`<defs>
+   <linearGradient id="road-tech-soil2" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="#4a3d2c"/><stop offset="1" stop-color="#241d14"/></linearGradient>
+   <linearGradient id="road-tech-grass2" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="#4a5c34"/><stop offset="1" stop-color="#33421f"/></linearGradient></defs>
+   <rect x="0" y="${ground}" width="${W}" height="${H-ground}" fill="url(#road-tech-soil2)"/>
+   <rect x="0" y="${ground-16}" width="${W}" height="18" fill="url(#road-tech-grass2)"/>
+   <rect x="${x0}" y="${ground}" width="${x1-x0}" height="${floor-ground}" fill="#1a140d"/>`;
+  const solid=RT_STEPS.filter(x=>x.h>0), total=solid.reduce((a,b)=>a+b.h,0), hpx=floor-ground;
+  let acc=0; const bands=[];
+  solid.forEach((st,idx)=>{ const hh=hpx*st.h/total;
+    bands.push({st,idx,y1:floor-acc,y0:floor-acc-hh}); acc+=hh; });
+  bands.forEach(({st,idx,y0,y1})=>{
+    const on = ordSel===idx, dim = ordSel>=0 && !on;
+    s+=`<g opacity="${dim?.34:1}">`;
+    roadTechFill(x0+4,x1-4,y0,y1,st.size,st.c,idx*997+13,st.kind).forEach(p=>{
+      s+=`<path d="${p.d}" fill="${p.f}" stroke="#1a140d" stroke-width="1.1"/>`; });
+    s+=`</g>`;
+    /* номер слоя кружком слева */
+    s+=`<circle cx="${x0-44}" cy="${(y0+y1)/2}" r="17" fill="${on?'#e3b25e':'#16283f'}"
+          stroke="${on?'#f0d9a8':'#3d5474'}" stroke-width="${on?3:2}"/>
+        <text x="${x0-44}" y="${(y0+y1)/2+7}" text-anchor="middle"
+          style="font-family:var(--road-tech-serif);font-size:19px;font-weight:700;
+                 fill:${on?'#0c1728':'#9fb0c8'}">${idx+1}</text>`;
+    if(on) s+=`<rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" fill="none"
+                 stroke="#f0d9a8" stroke-width="3"/>`;
+    s+=`<text class="road-tech-lname" x="${x1+14}" y="${(y0+y1)/2+3}"
+          opacity="${dim?.45:1}">${st.n[lang].split('—')[0].trim()}</text>
+        <text class="road-tech-lsize" x="${x1+14}" y="${(y0+y1)/2+22}"
+          opacity="${dim?.45:1}">${st.sz[lang]}</text>`;
+  });
+  const topY=bands[bands.length-1].y0;
+  const wsel = ordSel===RT_STEPS.length-1;
+  s+=`<g opacity="${ordSel>=0&&!wsel?.45:1}">
+      <path d="M${x0} ${topY} Q${(x0+x1)/2} ${topY-30} ${x1} ${topY} L${x1} ${topY+10} L${x0} ${topY+10} Z"
+        fill="#8d8378" stroke="#1a140d" stroke-width="1.2"/>
+      <path d="M${x0-88} ${ground} q30 62 60 0 z" fill="#0f1a26" stroke="#5c7385" stroke-width="2"/>
+      <path d="M${x1+28} ${ground} q30 62 60 0 z" fill="#0f1a26" stroke="#5c7385" stroke-width="2"/></g>`;
+  if(wsel) for(let i=0;i<5;i++){ const px=(x0+x1)/2+(i-2)*70, dir=(i-2)<0?-1:1;
+    s+=`<path class="road-tech-flow" d="M${px} ${topY-34} l${dir*46} 30" stroke="#8fb3d9"
+         stroke-width="3" fill="none" stroke-linecap="round" style="animation-delay:${i*130}ms"/>`; }
+  s+=`<circle cx="${x0-44}" cy="${topY-26}" r="17" fill="${wsel?'#e3b25e':'#16283f'}"
+        stroke="${wsel?'#f0d9a8':'#3d5474'}" stroke-width="${wsel?3:2}"/>
+      <text x="${x0-44}" y="${topY-19}" text-anchor="middle"
+        style="font-family:var(--road-tech-serif);font-size:19px;font-weight:700;
+               fill:${wsel?'#0c1728':'#9fb0c8'}">6</text>`;
+  document.getElementById('road-tech-order-svg').innerHTML=s;
+
+  const st=RT_STEPS[ordSel];
+  document.getElementById('road-tech-order-rows').innerHTML=RT_STEPS.map((x,i)=>`
+    <div class="road-tech-row ${i===ordSel?'road-tech-row-on':''}" data-o="${i}">
+      <span class="road-tech-row-no" style="background:${i===ordSel?'#e3b25e':x.c};
+        color:${i===ordSel?'#0c1728':'#f5eedf'}">${i+1}</span>
+      <span class="road-tech-row-body">
+        <span class="road-tech-row-n">${x.n[lang].split('—')[0].trim()}</span>
+        <span class="road-tech-row-p">${x.pur[{uz:0,ru:1,en:2}[lang]]}</span></span>
+      <span class="road-tech-row-s">${x.sz[lang]}</span></div>`).join('');
+  Array.from(document.querySelectorAll('#road-tech-order-rows .road-tech-row')).forEach(el=>
+    el.addEventListener('click',()=>{ ordSel=+el.dataset.o; drawOrder(); }));
+  document.getElementById('road-tech-order-why').innerHTML =
+    WHY[st.id]? WHY[st.id](st.why.map(x=>x.split('|')[{uz:0,ru:1,en:2}[lang]])) : '';
+  document.getElementById('road-tech-order-text').textContent=st.d[lang];
+}
+
+/* --- kesim chizish --- */
+function drawSite(){
+  const W=900,H=560,x0=120,x1=780,ground=170,floor=520;
+  let s=`<defs>
+   <linearGradient id="road-tech-soil" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="#4a3d2c"/><stop offset="1" stop-color="#241d14"/></linearGradient>
+   <linearGradient id="road-tech-grass" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="#4a5c34"/><stop offset="1" stop-color="#33421f"/></linearGradient></defs>
+   <rect x="0" y="${ground}" width="${W}" height="${H-ground}" fill="url(#road-tech-soil)"/>
+   <rect x="0" y="${ground-16}" width="${W}" height="18" fill="url(#road-tech-grass)"/>
+   <rect x="${x0}" y="${ground}" width="${x1-x0}" height="${floor-ground}" fill="#1a140d"/>`;
+  const solid=RT_STEPS.filter(x=>x.h>0), total=solid.reduce((a,b)=>a+b.h,0), hpx=floor-ground;
+  let acc=0; const bands=[];
+  solid.forEach((st,idx)=>{ const hh=hpx*st.h/total;
+    bands.push({st,idx,y1:floor-acc,y0:floor-acc-hh}); acc+=hh; });
+  const lastIdx = placed.length? placed[placed.length-1] : -1;
+  bands.forEach(({st,idx,y0,y1})=>{
+    if(!placed.includes(idx)) return;
+    const fresh=idx===lastIdx;
+    roadTechFill(x0+4,x1-4,y0,y1,st.size,st.c,idx*997+13,st.kind).forEach(p=>{
+      s+=`<path class="${fresh?'road-tech-st':''}" d="${p.d}" fill="${p.f}" stroke="#1a140d" stroke-width="1.1"
+           ${fresh?`style="animation-delay:${Math.min(p.i*7,520)}ms"`:''}/>`; });
+    s+=`<text class="road-tech-lname" x="${x1+12}" y="${(y0+y1)/2+5}">${st.n[lang].split('—')[0].trim()}</text>
+        <text class="road-tech-lsize" x="${x1+12}" y="${(y0+y1)/2+24}">${st.sz[lang]}</text>`;
+  });
+  const topY = bands.length? bands[bands.length-1].y0 : floor;
+  if(placed.length>=5)
+    s+=`<rect x="${x0-26}" y="${topY-6}" width="26" height="${floor-topY+6}" fill="#6b665c" stroke="#1a140d" stroke-width="1.2"/>
+        <rect x="${x1}" y="${topY-6}" width="26" height="${floor-topY+6}" fill="#6b665c" stroke="#1a140d" stroke-width="1.2"/>`;
+  if(placed.includes(RT_STEPS.length-1)){
+    s+=`<path class="road-tech-grow" d="M${x0} ${topY} Q${(x0+x1)/2} ${topY-30} ${x1} ${topY} L${x1} ${topY+10} L${x0} ${topY+10} Z" fill="#8d8378" stroke="#1a140d" stroke-width="1.2"/>`;
+    [x0-58,x1+58].forEach(cx=>{ s+=`<path class="road-tech-grow" d="M${cx-30} ${ground} q30 62 60 0 z" fill="#0f1a26" stroke="#5c7385" stroke-width="2"/>`; });
+    for(let i=0;i<5;i++){ const px=(x0+x1)/2+(i-2)*70, dir=(i-2)<0?-1:1;
+      s+=`<path class="road-tech-flow" d="M${px} ${topY-34} l${dir*46} 30" stroke="#8fb3d9" stroke-width="3" fill="none" stroke-linecap="round" style="animation-delay:${i*130}ms"/>`; }
+    s+=`<g class="road-tech-grow"><rect x="${x0-120}" y="${ground-92}" width="34" height="92" rx="4" fill="#5c6472" stroke="#1a140d" stroke-width="1.5"/>
+        <text x="${x0-103}" y="${ground-58}" class="road-tech-mtxt">XV</text></g>`;
+  }
+  $('#road-tech-site-svg').innerHTML=s;
+}
+function fracIcon(st){
+  if(st.kind==='earth') return `<svg class="road-tech-pick-ic-svg" viewBox="0 0 60 26"><path d="M4 20 q12 -12 26 0 t26 0" fill="none" stroke="#8a7c63" stroke-width="4"/></svg>`;
+  if(st.kind==='none')  return `<svg class="road-tech-pick-ic-svg" viewBox="0 0 60 26"><path d="M6 18 q24 -14 48 0" fill="none" stroke="#8fb3d9" stroke-width="3"/><path d="M18 8 l-8 8 M42 8 l8 8" stroke="#8fb3d9" stroke-width="3"/></svg>`;
+  const rng=roadTechRng(st.size*31+5); let g='';
+  if(st.kind==='slab'){ for(let i=0;i<3;i++) g+=`<path d="${roadTechSlab(4+i*19,5,16,16,rng)}" fill="${st.c}" stroke="#1a140d" stroke-width="1"/>`; }
+  else { const r=st.size<8?2.6:st.size<13?4.6:7.5;
+    for(let i=0;i<Math.round(58/(r*2.1));i++)
+      g+=`<path d="${roadTechStone(6+i*r*2.2,13+(i%2?3:-3),r,rng,6)}" fill="${roadTechShade(st.c,Math.round((rng()-.5)*30))}" stroke="#1a140d" stroke-width=".9"/>`; }
+  return `<svg class="road-tech-pick-ic-svg" viewBox="0 0 60 26">${g}</svg>`;
+}
+function drawPanel(){
+  const n=placed.length, last = n? RT_STEPS[placed[n-1]] : null;
+  $('#road-tech-stepno').textContent=`${Math.min(n+1,RT_STEPS.length)} / ${RT_STEPS.length}`;
+  if(last){
+    $('#road-tech-steptitle').textContent=last.t[lang];
+    $('#road-tech-whybox').innerHTML=WHY[last.id]? WHY[last.id](last.why.map(x=>x.split('|')[{uz:0,ru:1,en:2}[lang]])) : '';
+    $('#road-tech-steptext').textContent=last.d[lang];
+    $('#road-tech-factval').textContent=last.f[0];
+    $('#road-tech-factlab').textContent=tx(last.f[1]);
+  } else {
+    $('#road-tech-steptitle').textContent=tr('pick');
+    $('#road-tech-whybox').innerHTML='';
+    $('#road-tech-steptext').textContent=tr('intro');
+    $('#road-tech-factval').textContent='—'; $('#road-tech-factlab').textContent='';
+  }
+  $('#road-tech-hint').textContent = bad!==null? tr('wrong'):'';
+  $('#road-tech-hint').classList.toggle('road-tech-hint-on', bad!==null);
+  $('#road-tech-donenote').textContent=tr('done');
+  $('#road-tech-donenote').classList.toggle('road-tech-done-note-on', n===RT_STEPS.length);
+}
+function drawPicks(){
+  $('#road-tech-picks').innerHTML=order.map(i=>{
+    const st=RT_STEPS[i], on=placed.includes(i);
+    return `<div class="road-tech-pick ${on?'road-tech-pick-done':''} ${bad===i?'road-tech-pick-bad':''}" data-i="${i}">
+      <div class="road-tech-pick-ic">${fracIcon(st)}</div>
+      <span class="road-tech-pick-t">${st.n[lang].split('—')[0].trim()}</span>
+      <span class="road-tech-pick-s">${st.sz[lang]}</span></div>`; }).join('');
+  $$('#road-tech-picks .road-tech-pick').forEach(el=>el.addEventListener('click',()=>place(+el.dataset.i)));
+}
+function place(i){
+  if(placed.includes(i)) return;
+  if(i===placed.length){ placed.push(i); bad=null; gravelSound();
+    if(i===RT_STEPS.length-1) thudSound(); }
+  else { bad=i; setTimeout(()=>{ bad=null; drawPicks(); drawPanel(); },700); }
+  drawSite(); drawPicks(); drawPanel();
+}
+function resetGame(){ placed=[]; bad=null;
+  order=RT_STEPS.map((_,i)=>i).sort(()=>Math.random()-.5);
+  drawSite(); drawPicks(); drawPanel(); }
+
+/* --- hero sahna --- */
+function drawHero(){
+  const rng=roadTechRng(3); let s='';
+  s+=`<rect x="0" y="0" width="720" height="380" fill="none"/>`;
+  s+=`<rect x="0" y="250" width="720" height="130" fill="#3a3228"/>`;
+  s+=`<rect x="0" y="242" width="720" height="12" fill="#4a5c34"/>`;
+  const bands=[['#5f5a50',18,300],['#7d7466',12,282],['#a09482',9,264],['#8d8378',16,248]];
+  let y=300;
+  bands.forEach(([c,sz,yy],bi)=>{
+    const arr = bi===3 ? roadTechFill(70,650,yy-18,yy,sz,c,900+bi,'slab')
+                       : roadTechFill(70,650,yy-18,yy,sz,c,900+bi,'rock');
+    arr.forEach(p=>{ s+=`<path d="${p.d}" fill="${p.f}" stroke="#1a140d" stroke-width="1"/>`; });
+  });
+  s+=`<path d="M70 230 Q360 206 650 230 L650 244 L70 244 Z" fill="#8d8378" stroke="#1a140d" stroke-width="1.4"/>`;
+  s+=`<rect x="44" y="224" width="26" height="80" fill="#6b665c" stroke="#1a140d" stroke-width="1.2"/>`;
+  s+=`<rect x="650" y="224" width="26" height="80" fill="#6b665c" stroke="#1a140d" stroke-width="1.2"/>`;
+  for(let i=0;i<4;i++){ const px=360+(i-1.5)*90, dir=(i-1.5)<0?-1:1;
+    s+=`<path class="road-tech-flow" d="M${px} 196 l${dir*44} 28" stroke="#8fb3d9" stroke-width="3.2"
+         fill="none" stroke-linecap="round" style="animation-delay:${i*150}ms"/>`; }
+  s+=`<g><rect x="8" y="150" width="30" height="86" rx="4" fill="#5c6472" stroke="#1a140d" stroke-width="1.4"/>
+      <text x="23" y="184" class="road-tech-mtxt">XV</text></g>`;
+  s+=`<g transform="translate(500,44) scale(.62)"><use href="#road-tech-i-arch"/></g>`;
+  $('#road-tech-hero-svg').innerHTML=s;
+}
+
+/* --- «bir kun» sahnasi --- */
+function drawDay(){
+  const d=RT_DAY[day], sun=d.sun;
+  const sky1=`hsl(${210-sun*30} 45% ${8+sun*22}%)`, sky2=`hsl(${28+sun*10} ${40+sun*20}% ${14+sun*28}%)`;
+  let s=`<defs><linearGradient id="road-tech-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${sky1}"/><stop offset="1" stop-color="${sky2}"/></linearGradient></defs>
+    <rect x="0" y="0" width="900" height="300" fill="url(#road-tech-sky)"/>
+    <circle cx="${90+sun*720}" cy="${226-Math.sin(sun*Math.PI)*168}" r="26"
+      fill="#f0d9a8" opacity="${.35+sun*.5}"/>
+    <rect x="0" y="212" width="900" height="88" fill="#3a3228"/>
+    <rect x="0" y="204" width="900" height="10" fill="#4a5c34"/>`;
+  /* uchastka: qadamga qarab qatlamlar to'planadi */
+  const lv=[0,0,3,4,5][day];
+  const cols=['#5f5a50','#7d7466','#a09482','#8d8378'];
+  for(let i=0;i<Math.max(0,lv-1);i++)
+    s+=`<rect x="240" y="${236-i*10}" width="420" height="10" fill="${cols[Math.min(i,3)]}" stroke="#1a140d" stroke-width="1"/>`;
+  if(day>=1) s+=`<rect x="240" y="236" width="420" height="26" fill="#1a140d"/>`;
+  if(day>=4){
+    s+=`<path d="M240 ${236-4*10} Q450 ${228-4*10} 660 ${236-4*10} l0 8 l-420 0 z" fill="#8d8378" stroke="#1a140d"/>`;
+    s+=`<rect x="150" y="150" width="22" height="62" rx="3" fill="#5c6472" stroke="#1a140d"/>`;
+  }
+  /* qoziqlar va arqon — razbivka */
+  if(day===0){ for(let i=0;i<7;i++){ const x=250+i*68;
+    s+=`<rect x="${x}" y="192" width="4" height="22" fill="#8a7c63"/>`; }
+    s+=`<path d="M250 194 L660 194" stroke="#f0d9a8" stroke-width="1.6" stroke-dasharray="7 6"/>`; }
+  /* ishchilar — oddiy siluetlar */
+  const men=[[300,day],[420,day],[540,day]];
+  men.forEach(([x],i)=>{
+    const yy=206, t=(day+i)%2? 1:-1;
+    s+=`<g transform="translate(${x},${yy})">
+      <circle cx="0" cy="-34" r="6" fill="#d8c29a"/>
+      <path d="M0 -28 L0 -12 M0 -12 L-6 0 M0 -12 L6 0" stroke="#d8c29a" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+      <path d="M0 -24 L${t*12} ${-18+t*4}" stroke="#d8c29a" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M${t*12} ${-18+t*4} L${t*22} ${-6+t*2}" stroke="#8a7c63" stroke-width="3" stroke-linecap="round"/></g>`;
+  });
+  $('#road-tech-day-svg').innerHTML=s;
+  $('#road-tech-day-title').textContent=d.n[lang];
+  $('#road-tech-day-text').textContent=d.d[lang];
+  $('#road-tech-day-time').textContent=d.time;
+  $('#road-tech-day-prev').classList.toggle('road-tech-btn-off', day===0);
+  $('#road-tech-day-next').classList.toggle('road-tech-btn-off', day===RT_DAY.length-1);
+}
+
+/* --- kartochkalar --- */
+function cutStrip(cols){ return `<div class="road-tech-cut2">${cols.map(c=>`<i class="road-tech-cut2-l" style="background:${c}"></i>`).join('')}</div>`; }
+function drawCards(){
+  $('#road-tech-route-cards').innerHTML=RT_ROUTE.map((x,i)=>`
+    <div class="road-tech-card"><div class="road-tech-card-no">${String(i+1).padStart(2,'0')}</div>
+      <h3 class="road-tech-card-title">${x.n[lang]}</h3>
+      <div class="road-tech-card-sub">${x.s[lang]}</div>
+      <p class="road-tech-card-text">${x.d[lang]}</p></div>`).join('');
+
+  $('#road-tech-mat-cards').innerHTML=RT_MAT.map((x,i)=>`
+    <div class="road-tech-card road-tech-card-btn ${matOpen===i?'road-tech-card-on':''}" data-m="${i}">
+      <div class="road-tech-pick-ic" style="height:32px">${fracIcon({kind:x.kind||(x.size?'rock':'earth'),size:x.size||10,c:x.c})}</div>
+      <h3 class="road-tech-card-title">${x.n[lang]}</h3>
+      <p class="road-tech-card-text">${matOpen===i? x.d[lang] : ''}</p>
+      ${matOpen===i?'':`<div class="road-tech-card-sub">${tr('pick')==null?'':'?'}</div>`}</div>`).join('');
+  $$('#road-tech-mat-cards .road-tech-card-btn').forEach(el=>el.addEventListener('click',()=>{
+    matOpen = matOpen===+el.dataset.m? -1 : +el.dataset.m; drawCards(); }));
+
+  $('#road-tech-num-cards').innerHTML=RT_NUM.map(([v,l])=>`
+    <div class="road-tech-card road-tech-metric">
+      <div class="road-tech-metric-val">${v}</div>
+      <div class="road-tech-metric-lab">${tx(l)}</div></div>`).join('');
+
+  $('#road-tech-tool-cards').innerHTML=RT_TOOLS.map(x=>`
+    <div class="road-tech-card"><h3 class="road-tech-card-title">${x.n[lang]}</h3>
+      <div class="road-tech-card-sub">${x.s[lang]}</div>
+      <p class="road-tech-card-text">${x.d[lang]}</p></div>`).join('');
+
+  $('#road-tech-cmp-cards').innerHTML=RT_CMP.map(x=>`
+    <div class="road-tech-card"><h3 class="road-tech-card-title">${x.n[lang]}</h3>
+      <div class="road-tech-card-sub">${x.y[lang]}</div>
+      <p class="road-tech-card-text">${x.d[lang]}</p>${cutStrip(x.cut)}</div>`).join('');
+
+  $('#road-tech-leg-cards').innerHTML=RT_LEG.map(x=>`
+    <div class="road-tech-card"><h3 class="road-tech-card-title">${x.n[lang]}</h3>
+      <p class="road-tech-card-text">${x.d[lang]}</p>${cutStrip(x.cut)}</div>`).join('');
+}
+function drawTexts(){
+  $$('[data-t]').forEach(el=>{ el.textContent=tr(el.dataset.t); });
+  $('#road-tech-hero-lead').textContent=tr('lead');
+  $('#road-tech-go-t').textContent=tr('go');
+  $('#road-tech-snd-t').textContent=tr('snd');
+}
+function renderAll(){ drawTexts(); drawCards(); drawOrder(); drawSite(); drawPicks(); drawPanel(); drawDay(); }
+
+/* --- hodisalar --- */
+$$('.road-tech-chip').forEach(el=>el.addEventListener('click',()=>{
+  lang=el.dataset.lang;
+  $$('.road-tech-chip').forEach(c=>c.classList.toggle('road-tech-chip-on', c===el));
+  renderAll(); }));
+$('#road-tech-go').addEventListener('click',()=>{ ac();
+  document.getElementById('road-tech-cut').scrollIntoView({behavior:'smooth',block:'start'}); });
+$('#road-tech-snd').addEventListener('click',()=>{ sndOn=!sndOn;
+  $('#road-tech-snd').style.opacity=sndOn?1:.5; if(sndOn){ ac(); gravelSound(); } });
+$('#road-tech-again').addEventListener('click',resetGame);
+$('#road-tech-toGame').addEventListener('click',()=>{ ac();
+  document.getElementById('road-tech-cut').scrollIntoView({behavior:'smooth',block:'start'}); });
+$('#road-tech-day-prev').addEventListener('click',()=>{ if(day>0){day--; drawDay();} });
+$('#road-tech-day-next').addEventListener('click',()=>{ if(day<RT_DAY.length-1){day++; drawDay();} });
+
+drawHero(); resetGame(); renderAll();
+})();
+</script>
+</body>
+</html>
