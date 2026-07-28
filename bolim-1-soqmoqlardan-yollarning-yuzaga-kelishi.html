@@ -202,25 +202,6 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:0 min(6vw,80px)
 </footer>
 <div class="prog"><i id="pbar"></i></div>
 
-<div id="intro">
-  <div class="intro-in">
-    <svg class="big-arch" viewBox="0 0 120 150">
-      <path d="M6 148 V58 A54 54 0 0 1 114 58 V148"/>
-      <line x1="60" y1="128" x2="60" y2="52"/>
-      <line x1="42" y1="140" x2="60" y2="38"/>
-      <line x1="78" y1="140" x2="60" y2="38"/>
-      <line x1="49" y1="106" x2="71" y2="106"/>
-      <line x1="52" y1="80" x2="68" y2="80"/>
-    </svg>
-    <div class="rom">I</div>
-    <h1>SO'QMOQLARDAN<br>YO'LLARNING YUZAGA KELISHI</h1>
-    <div class="line"></div>
-    <p class="sub">Buyuk Ipak yo'li paydo bo'lishidan minglab yillar avval — hayvon izlaridan
-      birinchi davlat yo'llarigacha. Mil. avv. 100 000 – mil. avv. IV asr.</p>
-    <button class="start" id="go">Ko'rishni boshlash</button>
-  </div>
-</div>
-
 <div id="src">
   <button class="btn close" id="cls"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   <h3>Manbalar va rasm mualliflari</h3>
@@ -529,13 +510,8 @@ document.getElementById('snd').onclick=()=>{
 };
 
 /* === START === */
-document.getElementById('go').onclick=()=>{
-  document.getElementById('intro').classList.add('hide');
-  initAudio(); AC.resume(); soundOn=true;
-  master.gain.linearRampToValueAtTime(0.5, AC.currentTime+3);
-  paint(); restart(); setTimeout(chime,600);
-};
 paint();
+restart();
 </script>
 </body>
 </html>
