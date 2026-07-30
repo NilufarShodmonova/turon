@@ -41,24 +41,24 @@ body{user-select:none}
 
 /* ---------- text block ---------- */
 .copy{position:absolute;left:min(6.5vw,90px);bottom:clamp(120px,15vh,190px);
-  width:min(46vw,640px);z-index:5}
-.era{font-family:var(--sans);font-size:clamp(10px,1vw,13px);letter-spacing:.42em;
+  width:min(52vw,900px);z-index:5}
+.era{font-family:var(--sans);font-size:clamp(15.5px,1.55vw,20px);letter-spacing:.42em;
   text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:14px}
 .era::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.9vw,62px);line-height:1.06;
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(46px,6vw,96px);line-height:1.06;
   letter-spacing:.005em;margin-bottom:22px;text-wrap:balance}
 h2 em{font-style:italic;color:var(--gold-soft)}
-.lead{font-size:clamp(14px,1.15vw,18px);line-height:1.72;color:var(--ink-dim);font-weight:300;
+.lead{font-size:clamp(22px,1.78vw,28px);line-height:1.72;color:var(--ink-dim);font-weight:300;
   max-width:56ch;margin-bottom:26px}
 .facts{display:flex;flex-wrap:wrap;gap:10px 26px;padding-top:18px;
   border-top:1px solid rgba(201,151,63,.22)}
 .fact{min-width:0}
-.fact b{display:block;font-family:var(--serif);font-size:clamp(18px,1.7vw,27px);color:var(--gold-soft);
+.fact b{display:block;font-family:var(--serif);font-size:clamp(28px,2.64vw,42px);color:var(--gold-soft);
   font-weight:500;line-height:1.1}
-.fact span{display:block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+.fact span{display:block;font-size:15.5px;letter-spacing:.22em;text-transform:uppercase;
   color:rgba(238,242,250,.45);margin-top:5px}
 .cap{position:absolute;right:min(6vw,80px);bottom:clamp(120px,15vh,190px);max-width:min(30vw,360px);
-  text-align:right;z-index:5;font-size:clamp(11px,.85vw,13px);line-height:1.65;
+  text-align:right;z-index:5;font-size:clamp(17px,1.32vw,20px);line-height:1.65;
   color:rgba(238,242,250,.62);font-weight:300}
 .cap b{display:block;font-family:var(--serif);font-size:1.35em;color:var(--gold-soft);
   font-weight:500;margin-bottom:7px;letter-spacing:.01em}
@@ -167,7 +167,7 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:0 min(6vw,80px)
 
 /* ---------- responsive ---------- */
 @media(max-width:1024px){
-  .copy{width:min(62vw,560px)}
+  .copy{width:min(68vw,720px)}
   .cap{display:none}
   .chapters{display:none}
 }
