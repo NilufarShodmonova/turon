@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="uz" class="road-world-host">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qadimgi Dunyoning Ulkan Yo'llari — Interaktiv Ekspozitsiya</title>
+<style>
+/* =========================================================================
+   QADIMGI DUNYONING ULKAN YO'LLARI (SECTION 4) - 4K ULTRA HD READY
+   ========================================================================= */
+html.road-world-host {
+  font-size: clamp(16px, calc(0.65vw + 0.65vh), 38px);
+}
+html.road-world-host, body.road-world-host {
+  margin: 0; padding: 0; width: 100%; height: 100%;
+  background: #070d18; overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  font-family: "Segoe UI", Tahoma, Verdana, "Helvetica Neue", sans-serif;
+  color: #dfd4bf;
+}
+
+:root {
+  --rw-gold: #d8b26c;
+  --rw-gold-bright: #f3e2b8;
+  --rw-gold-dark: #b98f45;
+  --rw-bg-dark: #070d18;
+  --rw-bg-card: rgba(16, 31, 56, 0.85);
+  --rw-border: rgba(212, 175, 110, 0.35);
+  --rw-border-glow: rgba(216, 178, 108, 0.6);
+  --rw-text: #e9dcc4;
+  --rw-muted: rgba(233, 220, 196, 0.65);
+  --rw-serif: "Trajan Pro", "Palatino Linotype", Georgia, serif;
+}
+
+/* Background */
+.rw-bg {
+  position: fixed; inset: 0; z-index: -1;
+  background: radial-gradient(circle at 50% 20%, rgba(22, 41, 74, 0.85) 0%, rgba(7, 13, 24, 0.95) 70%, #050912 100%);
+}
+.rw-bg__grid {
+  position: absolute; inset: 0; opacity: 0.05;
+  background-image: linear-gradient(rgba(212,175,110,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,110,0.4) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Container */
+.rw-container {
+  display: flex; flex-direction: column; min-height: 100vh;
+  box-sizing: border-box; width: 100%; max-width: 2800px; margin: 0 auto;
+  padding-bottom: 7rem; /* space for fixed bottom bar */
+}
+
+/* Header */
+.rw-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 3rem;
+  background: linear-gradient(135deg, rgba(16, 31, 56, 0.85) 0%, rgba(11, 22, 40, 0.7) 100%);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rw-border);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5); flex: 0 0 auto;
+}
+.rw-header__left { display: flex; align-items: center; gap: 1.8rem; }
+.rw-header__logo { width: 5.2rem; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6)); }
+.rw-header__title {
+  font-family: var(--rw-serif); font-size: 1.8rem; letter-spacing: 0.18em;
+  color: var(--rw-gold-bright); text-transform: uppercase; text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+.rw-header__sub { font-size: 0.95rem; letter-spacing: 0.15em; color: var(--rw-muted); text-transform: uppercase; margin-top: 0.2rem; }
+
+/* Navigation Tabs */
+.rw-nav {
+  display: flex; gap: 1rem; padding: 1.2rem 3rem 0.5rem; justify-content: center; flex-wrap: wrap;
+  flex: 0 0 auto;
+}
+.rw-tab {
+  display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 1.8rem;
+  background: rgba(16, 31, 56, 0.5); border: 1px solid var(--rw-border); border-radius: 1.2rem;
+  color: var(--rw-muted); font-size: 1.15rem; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.2,0.9,0.3,1);
+}
+.rw-tab__num {
+  font-family: var(--rw-serif); font-weight: 700; color: var(--rw-gold); font-size: 1.2rem;
+  width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 1px solid var(--rw-border);
+  display: flex; align-items: center; justify-content: center; background: rgba(7,13,24,0.6);
+}
+.rw-tab.is-active {
+  background: linear-gradient(135deg, rgba(22, 41, 74, 0.9) 0%, rgba(16, 31, 56, 0.95) 100%);
+  border-color: var(--rw-gold); color: var(--rw-gold-bright);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4), inset 0 0 15px rgba(216,178,108,0.2);
+  transform: translateY(-2px);
+}
+.rw-tab.is-active .rw-tab__num { background: var(--rw-gold); color: #070d18; border-color: transparent; }
+
+/* Vertical Presentation Stage (Photo Top -> Description Below) */
+.rw-stage {
+  flex: 1; display: flex; flex-direction: column; gap: 1.8rem;
+  padding: 1.2rem 3rem 2rem; box-sizing: border-box;
+}
+
+/* Photo / Visual Container */
+.rw-visual-card {
+  position: relative; background: var(--rw-bg-card); border: 1px solid var(--rw-border);
+  border-radius: 1.8rem; overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6); min-height: 380px; align-items: center; justify-content: center;
+}
+.rw-visual-card__badge {
+  position: absolute; top: 1.5rem; left: 1.5rem; z-index: 2;
+  background: rgba(7, 13, 24, 0.85); border: 1px solid var(--rw-gold-dark);
+  padding: 0.5rem 1.4rem; border-radius: 0.8rem; font-family: var(--rw-serif);
+  font-size: 1.1rem; color: var(--rw-gold-bright); letter-spacing: 0.15em; text-transform: uppercase;
+}
+.rw-svg-stage { width: 100%; height: 100%; max-height: 420px; filter: drop-shadow(0 10px 25px rgba(0,0,0,0.7)); }
+
+/* Description Card Right Below Photo */
+.rw-desc-card {
+  background: var(--rw-bg-card); border: 1px solid var(--rw-border);
+  border-radius: 1.8rem; padding: 2.2rem; display: flex; flex-direction: column;
+  gap: 1.4rem; box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+}
+.rw-desc-card__title {
+  font-family: var(--rw-serif); font-size: 2.2rem; color: var(--rw-gold-bright);
+  line-height: 1.25; letter-spacing: 0.08em; text-transform: uppercase;
+  border-bottom: 1px solid var(--rw-border); padding-bottom: 0.8rem; margin: 0;
+}
+.rw-desc-card__text { font-size: 1.3rem; line-height: 1.75; color: var(--rw-text); margin: 0; }
+.rw-desc-card__text p { margin: 0 0 1rem 0; }
+
+.rw-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 0.8rem;
+  padding-top: 1.2rem; border-top: 1px solid rgba(212,175,110,0.2);
+}
+@media (max-width: 900px) { .rw-stats { grid-template-columns: repeat(2, 1fr); } }
+
+.rw-stat-card {
+  background: rgba(7, 13, 24, 0.7); border: 1px solid var(--rw-border);
+  border-radius: 1rem; padding: 1.1rem 1.4rem;
+}
+.rw-stat-card__lbl { font-size: 0.95rem; color: var(--rw-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.rw-stat-card__val { font-family: var(--rw-serif); font-size: 1.45rem; color: var(--rw-gold); font-weight: 700; margin-top: 0.3rem; }
+
+/* Controller Bar */
+.rw-controls {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem 1.5rem; flex: 0 0 auto;
+}
+.rw-ctrl-btn {
+  display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 2rem;
+  background: rgba(16, 31, 56, 0.8); border: 1px solid var(--rw-border); border-radius: 1rem;
+  color: var(--rw-gold-bright); font-size: 1.15rem; letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.rw-ctrl-btn:hover {
+  background: linear-gradient(180deg, var(--rw-gold-bright), var(--rw-gold-dark));
+  color: #070d18; border-color: transparent; transform: scale(1.03);
+}
+.rw-progress { display: flex; align-items: center; gap: 1rem; width: 40%; max-width: 600px; }
+.rw-progress__bar { flex: 1; height: 8px; background: rgba(212,175,110,0.2); border-radius: 4px; overflow: hidden; }
+.rw-progress__fill { height: 100%; width: 20%; background: linear-gradient(90deg, var(--rw-gold-dark), var(--rw-gold-bright)); transition: width 0.4s ease; }
+.rw-progress__text { font-family: var(--rw-serif); font-size: 1.2rem; color: var(--rw-gold); font-weight: 700; }
+
+/* Fixed Bottom Center Toolbar */
+.tp-fixed-tools {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 9999;
+  display: flex; align-items: center; justify-content: center; gap: 1.2rem;
+  padding: 0.7rem 1.8rem; background: rgba(11, 21, 38, 0.88);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 110, 0.45); border-radius: 1.2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(216, 178, 108, 0.25);
+}
+.tp-tool-btn {
+  padding: 0.65rem 1.5rem; border: 1px solid rgba(212, 175, 110, 0.35); border-radius: 0.7rem;
+  font-size: 1.1rem; letter-spacing: 0.15em; text-transform: uppercase; color: #e9dcc4;
+  background: rgba(16, 31, 56, 0.7); cursor: pointer; transition: all 0.25s;
+  display: flex; align-items: center; gap: 0.6rem; text-decoration: none;
+}
+.tp-tool-btn:hover, .tp-tool-btn.is-active {
+  color: #070d18; background: linear-gradient(180deg, var(--rw-gold-bright), var(--rw-gold-dark));
+  border-color: transparent; font-weight: 700; box-shadow: 0 4px 16px rgba(216, 178, 108, 0.4);
+}
+.tp-tool-icon {
+  width: 3.6rem; height: 3.6rem; border: 1px solid rgba(212, 175, 110, 0.35); border-radius: 0.7rem;
+  display: flex; align-items: center; justify-content: center; background: rgba(16, 31, 56, 0.7);
+  cursor: pointer; transition: all 0.25s; text-decoration: none;
+}
+.tp-tool-icon svg { width: 2rem; height: 2rem; stroke: var(--rw-gold); fill: none; stroke-width: 2; }
+.tp-tool-icon:hover { border-color: var(--rw-gold); background: rgba(216, 178, 108, 0.2); transform: scale(1.05); }
+
+@media (min-width: 2500px) {
+  html.road-world-host { font-size: 28px; }
+  .rw-container { max-width: 3600px; }
+}
+</style>
+</head>
+<body class="road-world-host">
+<div class="rw-bg"><div class="rw-bg__grid"></div></div>
+
+<div class="rw-container">
+  <!-- HEADER -->
+  <header class="rw-header">
+    <div class="rw-header__left">
+      <img class="rw-header__logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAABhJJREFUeJzt2m2MVVUZx/Hfc87dF5gBhhEGBmRAh4dBwRHBQUUkGkVsjMaX0jSh1tAm2jRNY6xJm7bRpmnbJtUYtU0bE40vUVMTNaKNGgsiigMooKgIzgDDMDDAvF/uPXfPBw73MsC9M3PnvDAPvslJTnbO+Z3/f+3933vttfY+aF06d+7c5oULF24FcOTIkV31ev145CeeE8t76f2Z/9f17K4LgL62wW182z48s62trZ3L5X6Zpun9zrnHOOcet9Y6AAcAOAGvQ3/m59A/921a/6n3nF86AHA/pPfT9+v219+2j0/A++n5rfs5/930+7y/4/y202+Ld2/7yL+fnm9vb29va2v7o7X24865PcaYN8z8308s6/k+/fn0uN+yvfN7n84A2j6zbfub6fd5/6b9nbbvvOds+1vnt5/eS9vOezv9dvrexvsx8+u3nt11/dCgYgA4ePDggfn5+U0AhgC0+17TfWc9u+te8wHkfdgOIH7f2k/r22/9d5l/e9v2n/e11x8A5o2uNf+g/03+u+m3bftb57f+/Laf97XtM9ve5237tL79rXN+6wA4ceLEvEKhcAPA85wz4q2f43xee//p/c17v2j/6ffT9rXW5gAsW7bs5wDuAtA5a/0H9wHk30/fT3vvt+zveH7rtm0/+XvbT8cffmPbtu293/E3z/99W9/157d+g6nValednJzcBOAO7l/y/T/p/bT9tPdr+s4v3r611tTr9Z8DWAtgpXPOiPl+770v+329v7x/817b9pme31rb9p/+zW2f6fO2/afj2/afnv9A5nOdtm1/29969tLWrVvfK4T4M3gqE0c5d7R/652f1lrv+g/G2D0A7ge3qXf9G+/9dNx5T7f8f9t+2n00/9/a+/07/t/bPnIvvX7T7b9te3c07w/8A+/m5uY2AtgG7uN5z0/rvp/a/bT9tPdb937T/uv2m/e111+S/w+lUuk+AJsBrHXOOV7/8b+592mttc2x367f03d+79P6tNbe7/122r6zbdvfaWvbtvfT3u/Y37L9t7a1t3279c1vH/l55v89+/O852zn/7z5rU8v3bt374cHBwc3w/sz8wP/yPl/32u8bXv/af317Tvb/ra+s+2n50/rnO/4W8+8t/b+9PnN456z7bPtb52znf592z7yW1/OvwBwcnJyE4C7AezyXv8d1/te0+9r/Qdr298+vx3te346vnV/+l5v2/7zvuM5nfc2bc5t+0//rW17/+a9Zzvf/vI/yL00f/78lq1btz4C4MOM/3t6zXed3t+s72znt75te+/3a+/7ad0Lrvm/z2/bdtr+tvl3b/vo/fS13vVfsvv2v71f0/E/33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333" alt="Logo">
+      <div>
+        <div class="rw-header__title">QADIMGI DUNYONING ULKAN YO'LLARI</div>
+        <div class="rw-header__sub">BUYUK IPAK YO'LIGACHA BO'LGAN SHOH VA HARBIY TRASSALAR</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CHAPTER TABS -->
+  <nav class="rw-nav" id="rw-tabs"></nav>
+
+  <!-- STAGE: PHOTO TOP -> DESCRIPTION BELOW -->
+  <main class="rw-stage">
+    <!-- VISUAL PHOTO / MAP STAGE -->
+    <div class="rw-visual-card">
+      <div class="rw-visual-card__badge" id="rw-badge">1-EKSPOZITSIYA</div>
+      <div id="rw-visual" style="width:100%; display:flex; justify-content:center; align-items:center;">
+        <!-- Dynamic Visual Diagram / Photo Canvas -->
+      </div>
+    </div>
+
+    <!-- DESCRIPTION CARD (INSTANTLY BELOW PHOTO) -->
+    <div class="rw-desc-card">
+      <h2 class="rw-desc-card__title" id="rw-title">AHEMONIYIYLAR SHOH YO'LI (ACHAEMENID ROYAL ROAD)</h2>
+      <div class="rw-desc-card__text" id="rw-desc">
+        <!-- Dynamic rich exhibit description -->
+      </div>
+      <div class="rw-stats" id="rw-stats">
+        <!-- Dynamic metrics -->
+      </div>
+    </div>
+  </main>
+
+  <!-- CONTROLLER FOOTER -->
+  <footer class="rw-controls">
+    <button class="rw-ctrl-btn" id="rw-prev-btn">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+      ORQAGA
+    </button>
+
+    <div class="rw-progress">
+      <div class="rw-progress__bar"><div class="rw-progress__fill" id="rw-progress-fill"></div></div>
+      <div class="rw-progress__text" id="rw-progress-text">1 / 5</div>
+    </div>
+
+    <button class="rw-ctrl-btn" id="rw-next-btn">
+      KEYINGISI
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </footer>
+</div>
+
+<!-- FIXED BOTTOM CENTER TOOLBAR (BACK, UZ/RU/EN, HOME) -->
+<div class="tp-fixed-tools">
+  <button class="tp-tool-btn" id="tp-back-fixed">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span>ORQAGA</span>
+  </button>
+  <button class="tp-tool-btn is-active" data-lang="uz">UZ</button>
+  <button class="tp-tool-btn" data-lang="ru">RU</button>
+  <button class="tp-tool-btn" data-lang="en">EN</button>
+  <a href="index.html" class="tp-tool-icon" title="Bosh Menyu">
+    <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+  </a>
+</div>
+
+<script>
+/* PRESENTATION DATA */
+var DATA = [
+  {
+    id: 1,
+    badge_uz: "1. SHOH YO'LI (ACHAEMENID ROYAL ROAD)",
+    badge_ru: "1. ЦАРСКАЯ ДОРОГА АХЕМЕНИДОВ",
+    badge_en: "1. ACHAEMENID ROYAL ROAD",
+    title_uz: "AHEMONIYIYLAR SHOH YO'LI (ERADAN AVVALGI VI-V ASRLAR)",
+    title_ru: "ЦАРСКАЯ ДОРОГА АХЕМЕНИДОВ (VI-V ВВ. ДО Н.Э.)",
+    title_en: "ACHAEMENID ROYAL ROAD (6TH-5TH CENTURY BC)",
+    desc_uz: "<p><b>Shoh Yo'li</b> — qadimgi dunyoning eng birinchi mukammal davlat magistrali bo'lib, buyuk Eron shohi Doro I (Darius the Great) farmoyishi bilan barpo etilgan. Ushbu yo'l Susa shahridan (Forsiya) Kichik Osiyodagi Sardis shahrigacha 2,700 kilometrdan ortiq masofaga cho'zilgan.</p><p>Yo'l bo'ylab har 25-30 kilometrda maxsus <b>chaparxonalar</b> (rele bekatlari) joylashgan bo'lib, zudlik bilan ot almashtiruvchi choparlar (chapar) orqali shoh farmonlari va xabarlar bir necha kun ichida butun imperiya bo'ylab yetkazilgan. Yo'l toshlar va shag'al bilan poydor qilib to'shalgan hamda mustahkam ko'priklar bilan ta'minlangan.</p>",
+    desc_ru: "<p><b>Царская дорога</b> — первая в мире грандиозная государственная магистраль, созданная по указу царя Дария I Великого. Она протянулась более чем на 2,700 км от Суз до Сард на Эгейском побережье.</p><p>Через каждые 25–30 км располагались почтовые станции (чапархане) с дежурными всадниками. Благодаря этой системе царские указы доставлялись через всю империю за считанные дни.</p>",
+    desc_en: "<p>The <b>Royal Road</b> was an ancient highway reorganized and rebuilt by the Persian king Darius the Great in the 6th century BC. It spanned 2,700 km from Susa to Sardis.</p><p>Mounted couriers (Chapar) could travel the entire distance in seven days thanks to a network of 111 relay stations equipped with fresh horses.</p>",
+    stats: [
+      { label_uz: "Umumiy Uzunligi", label_ru: "Общая длина", label_en: "Total Length", val: "2,700 km" },
+      { label_uz: "Chaparxonalar Soni", label_ru: "Почтовые станции", label_en: "Relay Stations", val: "111 bekat" },
+      { label_uz: "Xabar Yetkazish", label_ru: "Скорость почты", label_en: "Courier Speed", val: "7 kun" },
+      { label_uz: "Asosiy Bekatlar", label_ru: "Главные узлы", label_en: "Main Hubs", val: "Susa & Sardis" }
+    ],
+    svg: `<svg class="rw-svg-stage" viewBox="0 0 800 400">
+      <defs>
+        <linearGradient id="goldG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f3e2b8"/><stop offset="100%" stop-color="#b98f45"/></linearGradient>
+      </defs>
+      <path d="M 120 280 C 220 200, 380 240, 480 180 C 580 120, 680 160, 720 100" fill="none" stroke="url(#goldG)" stroke-width="6" stroke-dasharray="8 6"/>
+      <g fill="#d8b26c" stroke="#070d18" stroke-width="2">
+        <circle cx="120" cy="280" r="14"/><circle cx="220" cy="230" r="10"/><circle cx="340" cy="225" r="10"/>
+        <circle cx="480" cy="180" r="14"/><circle cx="600" cy="140" r="10"/><circle cx="720" cy="100" r="14"/>
+      </g>
+      <text x="120" y="320" fill="#f3e2b8" font-size="18" text-anchor="middle" font-weight="bold">SUSA (FORSIYA)</text>
+      <text x="480" y="145" fill="#f3e2b8" font-size="16" text-anchor="middle">NINEVIYA</text>
+      <text x="720" y="70" fill="#f3e2b8" font-size="18" text-anchor="middle" font-weight="bold">SARDIS (EGEY)</text>
+      <rect x="280" y="300" width="240" height="70" rx="12" fill="rgba(16,31,56,0.95)" stroke="#d8b26c" stroke-width="1.5"/>
+      <text x="400" y="332" fill="#e9dcc4" font-size="15" text-anchor="middle" font-weight="bold">CHAPARXONA POCHTA TIZIMI</text>
+      <text x="400" y="355" fill="#b98f45" font-size="13" text-anchor="middle">Tezkor ot almashtirish va aloqa</text>
+    </svg>`
+  },
+  {
+    id: 2,
+    badge_uz: "2. QADIMGI TURKISTON YO'LLARI",
+    badge_ru: "2. ДОРОГИ ДРЕВНЕГО ТУРКЕСТАНА",
+    badge_en: "2. ANCIENT TURKESTAN ROUTES",
+    title_uz: "SO'GD, BAQTRIYA VA XORAZM SHOH YO'LLARI",
+    title_ru: "ДОРОЖНЫЕ СЕТИ СОГДИАНЫ, БАКТРИИ И ХОРЕЗМА",
+    title_en: "ROAD NETWORKS OF SOGDIANA, BACTRIA & KHWARAZM",
+    desc_uz: "<p>Buyuk Ipak Yo'ligacha bo'lgan davrda <b>Qadimgi Turkiston</b> hududida mustahkam mintaqalararo shoh yo'llari mavjud bo'lgan. So'g'diyona (Marakanda/Samarqand), Baqtriya (Baktra/Balkh) va Xorazm (Toproq-qala, Erkurgan) o'rtasidagi karvon va harbiy yo'llar mintaqaviy savdoning asosiy tomirlari edi.</p><p>Ushbu yo'llar Amudaryo (Oks) va Sirdaryo (Yaksart) kechuvlaridan o'tib, cho'l hamda tog' dovonlarida suv quduqlari, istehkomlar va qadimgi karvonsaroylar bilan jihozlangan.</p>",
+    desc_ru: "<p>Ещё до создания Великого шелкового пути в <b>Древнем Туркестане</b> существовали царские дороги между Бактрией, Согдианой и Хорезмом. Они связывали Мараканду, Бактру и древние хорезмийские крепости.</p>",
+    desc_en: "<p>Long before the Silk Road, <b>Ancient Turkestan</b> hosted inter-regional trade and royal routes connecting Sogdiana, Bactria, and Khwarazm.</p>",
+    stats: [
+      { label_uz: "Mintaqa", label_ru: "Регион", label_en: "Region", val: "Turkiston" },
+      { label_uz: "Asosiy Shaharlar", label_ru: "Главные города", label_en: "Key Cities", val: "Marakanda, Baktra" },
+      { label_uz: "Daryo Kechuvlari", label_ru: "Переправы", label_en: "River Crossings", val: "Oks & Yaksart" },
+      { label_uz: "Infratuzilma", label_ru: "Инфраструктура", label_en: "Infrastructure", val: "Quduq va Qal'alar" }
+    ],
+    svg: `<svg class="rw-svg-stage" viewBox="0 0 800 400">
+      <path d="M 150 360 C 300 260, 450 210, 650 110" fill="none" stroke="#9ec6e8" stroke-width="8" opacity="0.6"/>
+      <path d="M 250 380 C 400 280, 550 160, 750 40" fill="none" stroke="#9ec6e8" stroke-width="6" opacity="0.5"/>
+      <text x="560" y="150" fill="#9ec6e8" font-size="14" font-style="italic">Oks (Amu Daryo)</text>
+      <path d="M 180 300 L 360 220 L 520 160 L 680 80" fill="none" stroke="#d8b26c" stroke-width="5" stroke-dasharray="6 4"/>
+      <g fill="#f3e2b8">
+        <rect x="160" y="280" width="40" height="30" rx="4"/><text x="180" y="335" fill="#f3e2b8" font-size="14" text-anchor="middle">Toproq-qala</text>
+        <rect x="340" y="200" width="40" height="30" rx="4"/><text x="360" y="255" fill="#f3e2b8" font-size="14" text-anchor="middle">Marakanda</text>
+        <rect x="500" y="140" width="40" height="30" rx="4"/><text x="520" y="195" fill="#f3e2b8" font-size="14" text-anchor="middle">Baktra</text>
+      </g>
+    </svg>`
+  },
+  {
+    id: 3,
+    badge_uz: "3. MISR VA MESOPOTAMIYA YO'LLARI",
+    badge_ru: "3. ДОРОГИ ЕГИПТА И МЕЖДУРЕЧЬЯ",
+    badge_en: "3. EGYPTIAN & MESOPOTAMIAN ROADS",
+    title_uz: "QADIMGI MISR VA MESOPOTAMIYA SHO'H TRASSALARI",
+    title_ru: "ЦАРСКИЕ ДОРОГИ ЕГИПТА И ВАВИЛОНИИ",
+    title_en: "ROYAL CAUSEWAYS OF EGYPT & BABYLONIA",
+    desc_uz: "<p><b>Qadimgi Misr va Mesopotamiya</b> sivilizatsiyalarida yo'llar ibodatxonalar, piramidalar hamda imperiya harbiy yurishlari uchun xizmat qilgan. Misrdagi <b>Gorus Yo'li (Way of Horus)</b> Nil deltasidan Sinay yarim oroli orqali Kichik Osiyoga olib boruvchi mustahkam harbiy magistral bo'lgan.</p><p>Bobilda (Babylon) esa tosh va pishgan g'ishtdan qurilgan hamda asfaltsimon bitum bilan mustahkamlangan tantanali <b>Ziyorat yo'llari (Processional Way)</b> mavjud bo'lgan.</p>",
+    desc_ru: "<p>В <b>Древнем Египте и Месопотамии</b> дороги строили из каменных плит и брусчатки, скрепленных природным битумом. Знаменитый «Путь Гора» соединял Египет с Левантом.</p>",
+    desc_en: "<p>Egyptian causeways and Mesopotamian processional roads were paved with stone and bitumen. The <b>Way of Horus</b> served as a vital military artery.</p>",
+    stats: [
+      { label_uz: "Misr Trassasi", label_ru: "Дорога Египта", label_en: "Egyptian Route", val: "Way of Horus" },
+      { label_uz: "Qoplama Turi", label_ru: "Тип покрытия", label_en: "Paving Material", val: "Tosh va Bitum" },
+      { label_uz: "Bobil Yo'li", label_ru: "Дорога Вавилона", label_en: "Babylon Road", val: "Processional Way" },
+      { label_uz: "Maqsadi", label_ru: "Назначение", label_en: "Purpose", val: "Harbiy va Diniy" }
+    ],
+    svg: `<svg class="rw-svg-stage" viewBox="0 0 800 400">
+      <g stroke="#d8b26c" stroke-width="2" fill="rgba(16,31,56,0.8)">
+        <polygon points="100,240 250,240 230,300 70,300"/>
+        <polygon points="260,240 420,240 400,300 240,300"/>
+        <polygon points="430,240 600,240 580,300 410,300"/>
+        <polygon points="120,170 260,170 250,230 100,230"/>
+        <polygon points="270,170 430,170 420,230 260,230"/>
+        <polygon points="440,170 590,170 580,230 430,230"/>
+      </g>
+      <text x="400" y="110" fill="#f3e2b8" font-size="22" text-anchor="middle" font-weight="bold">BOBIL TANTANALI TOSH YO'LI</text>
+      <text x="400" y="145" fill="#dfd4bf" font-size="16" text-anchor="middle">Bitum va poydor tosh bloklar to'shamasi</text>
+    </svg>`
+  },
+  {
+    id: 4,
+    badge_uz: "4. RIM VA YUNONISTON TOSH YO'LLARI",
+    badge_ru: "4. РИМСКИЕ И ГРЕЧЕСКИЕ ДОРОГИ",
+    badge_en: "4. ROMAN & GREEK PAVED HIGHWAYS",
+    title_uz: "QADIMGI RIMNING MUXANDISLIK TOSH YO'LLARI (VIA APPIA)",
+    title_ru: "РИМСКИЕ ВОЕННО-ИНЖЕНЕРНЫЕ ДОРОГИ (VIA APPIA)",
+    title_en: "ROMAN ENGINEERED HIGHWAYS (VIA APPIA)",
+    desc_uz: "<p><b>Qadimgi Rim Yo'llari (Via Publica)</b> harbiy muhandislikning eng yuksak cho'qqisi bo'lgan. Subkuratsiyali (ko'p qatlamli) to'shama usulida qurilgan mashhur <b>Via Appia (Appiy Yo'li)</b> e.a. 312 yilda barpo etilgan bo'lib, asrlar davomida emirilmay xizmat qilgan.</p><p>Rim yo'llari 4 asosiy qatlamdan iborat edi: yirik tosh poydevor (Statumen), maydalangan tosh va ohak (Rudus), qum-shag'al (Nucleus) hamda ustki silliq tosh bloklar (Pavimentum).</p>",
+    desc_ru: "<p>Знаменитая <b>Аппиева дорога (Via Appia)</b>, построенная в 312 г. до н.э., стала эталоном римского дорожного строительства из 4 многослойных пластов.</p>",
+    desc_en: "<p>Built in 312 BC, <b>Via Appia</b> exemplified Roman road engineering. Constructed with four multilayered strata of stone, gravel, and concrete.</p>",
+    stats: [
+      { label_uz: "Mashhur Yo'l", label_ru: "Главная дорога", label_en: "Famous Route", val: "Via Appia" },
+      { label_uz: "Qatlamlar Soni", label_ru: "Количество слоев", label_en: "Layers", val: "4 asosiy qatlam" },
+      { label_uz: "Qurilgan Yili", label_ru: "Год постройки", label_en: "Built Year", val: "E.a. 312-yil" },
+      { label_uz: "Masofa Belgisi", label_ru: "Указатель", label_en: "Milestone", val: "Milliarium" }
+    ],
+    svg: `<svg class="rw-svg-stage" viewBox="0 0 800 400">
+      <rect x="100" y="80" width="600" height="45" fill="#2d3f5e" stroke="#d8b26c"/><text x="400" y="108" fill="#f3e2b8" font-size="15" text-anchor="middle" font-weight="bold">1. PAVIMENTUM (Silliq tosh bloklar)</text>
+      <rect x="100" y="125" width="600" height="40" fill="#1b2c45" stroke="#d8b26c"/><text x="400" y="150" fill="#e9dcc4" font-size="14" text-anchor="middle">2. NUCLEUS (Qum va mayda shag'al)</text>
+      <rect x="100" y="165" width="600" height="40" fill="#121e30" stroke="#d8b26c"/><text x="400" y="190" fill="#e9dcc4" font-size="14" text-anchor="middle">3. RUDUS (Poydor ohakli tosh qatlami)</text>
+      <rect x="100" y="205" width="600" height="50" fill="#0b1320" stroke="#d8b26c"/><text x="400" y="235" fill="#e9dcc4" font-size="14" text-anchor="middle">4. STATUMEN (Yirik tosh poydevor)</text>
+      <text x="400" y="300" fill="#f3e2b8" font-size="18" text-anchor="middle" font-weight="bold">QADIMGI RIM MULTI-QATLAMLI YO'L MUHANDISLIGI</text>
+    </svg>`
+  },
+  {
+    id: 5,
+    badge_uz: "5. BUYUK IPAK YO'LIGA UTISH",
+    badge_ru: "5. СТАНОВЛЕНИЕ ШЕЛКОВОГО ПУТИ",
+    badge_en: "5. FORMATION OF THE SILK ROAD",
+    title_uz: "BUYUK IPAK YO'LINING SHAKLLANISHI (ERADAN AVVALGI II ASR)",
+    title_ru: "СТАНОВЛЕНИЕ ВЕЛИКОГО ШЕЛКОВОГО ПУТИ (II В. ДО Н.Э.)",
+    title_en: "EMERGENCE OF THE GREAT SILK ROAD (2ND CENTURY BC)",
+    desc_uz: "<p>Eradan avvalgi II asrda Xitoy elchisi <b>Chjan Syan (Zhang Qian)</b> Farg'ona (Dovan) vodiysiga qilgan tarixiy sayohati natijasida Sharq va G'arb o'rtasidagi qadimgi shoh yo'llari o'zaro tutashtirildi. Natijada Xitoydan O'rta Osiyo, Eron, Mesopotamiya va Rimgacha cho'zilgan <b>Buyuk Ipak Yo'li</b> yagona transmintaqaviy tarmoqqa aylandi.</p>",
+    desc_ru: "<p>Во II в. до н.э. дипломатическая миссия Чжан Цяня в Фергану объединила региональные царские дороги в единый <b>Великий шелковый путь</b>.</p>",
+    desc_en: "<p>In the 2nd century BC, Zhang Qian's expedition to Fergana connected local royal roads into the transcontinental <b>Great Silk Road</b> network.</p>",
+    stats: [
+      { label_uz: "Tarixiy Davr", label_ru: "Исторический период", label_en: "Period", val: "E.a. II asr" },
+      { label_uz: "Elchi", label_ru: "Посол", label_en: "Envoy", val: "Chjan Syan" },
+      { label_uz: "Asosiy Mintaqa", label_ru: "Ключевой регион", label_en: "Core Region", val: "Farg'ona / Dovan" },
+      { label_uz: "Natija", label_ru: "Результат", label_en: "Outcome", val: "Yagona Trans-Tarmoq" }
+    ],
+    svg: `<svg class="rw-svg-stage" viewBox="0 0 800 400">
+      <path d="M 80 220 Q 240 140 400 200 T 720 140" fill="none" stroke="#d8b26c" stroke-width="6" stroke-dasharray="10 5"/>
+      <g fill="#f3e2b8">
+        <circle cx="80" cy="220" r="12"/><text x="80" y="255" font-size="14" text-anchor="middle">XAN (XITOY)</text>
+        <circle cx="400" cy="200" r="14"/><text x="400" y="240" font-size="16" font-weight="bold" text-anchor="middle">TURKISTON / DOVAN</text>
+        <circle cx="720" cy="140" r="12"/><text x="720" y="175" font-size="14" text-anchor="middle">RIM (ROMA)</text>
+      </g>
+      <rect x="250" y="280" width="300" height="70" rx="12" fill="rgba(16,31,56,0.95)" stroke="#d8b26c"/>
+      <text x="400" y="312" fill="#f3e2b8" font-size="16" text-anchor="middle" font-weight="bold">SHARQ VA G'ARB TUTASHUVI</text>
+      <text x="400" y="335" fill="#dfd4bf" font-size="13" text-anchor="middle">Trans-mintaqaviy sivilizatsiya magistrali</text>
+    </svg>`
+  }
+];
+
+/* APP LOGIC */
+(function() {
+  var lang = 'uz';
+  var currentIndex = 0;
+
+  var $ = function(id) { return document.getElementById(id); };
+
+  function renderTabs() {
+    var tabsEl = $('rw-tabs');
+    tabsEl.innerHTML = '';
+    DATA.forEach(function(item, idx) {
+      var btn = document.createElement('button');
+      btn.className = 'rw-tab' + (idx === currentIndex ? ' is-active' : '');
+      var badgeText = item['badge_' + lang] || item.badge_uz;
+      btn.innerHTML = '<span class="rw-tab__num">' + item.id + '</span><span>' + badgeText + '</span>';
+      btn.onclick = function() {
+        currentIndex = idx;
+        updateSlide();
+      };
+      tabsEl.appendChild(btn);
+    });
+  }
+
+  function updateSlide() {
+    var d = DATA[currentIndex];
+    $('rw-badge').textContent = d['badge_' + lang] || d.badge_uz;
+    $('rw-title').textContent = d['title_' + lang] || d.title_uz;
+    $('rw-desc').innerHTML = d['desc_' + lang] || d.desc_uz;
+    $('rw-visual').innerHTML = d.svg;
+
+    var statsEl = $('rw-stats');
+    statsEl.innerHTML = '';
+    d.stats.forEach(function(st) {
+      var lbl = st['label_' + lang] || st.label_uz;
+      var card = document.createElement('div');
+      card.className = 'rw-stat-card';
+      card.innerHTML = '<div class="rw-stat-card__lbl">' + lbl + '</div><div class="rw-stat-card__val">' + st.val + '</div>';
+      statsEl.appendChild(card);
+    });
+
+    $('rw-progress-text').textContent = (currentIndex + 1) + ' / ' + DATA.length;
+    $('rw-progress-fill').style.width = ((currentIndex + 1) / DATA.length * 100) + '%';
+
+    renderTabs();
+  }
+
+  // Language buttons logic
+  document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(btn) {
+    btn.onclick = function() {
+      document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(b){ b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      lang = btn.getAttribute('data-lang');
+      updateSlide();
+    };
+  });
+
+  // Fixed Back Button
+  $('tp-back-fixed').onclick = function() {
+    window.location.href = 'index.html#tp-menu';
+  };
+
+  // Prev / Next Buttons
+  $('rw-prev-btn').onclick = function() {
+    currentIndex = (currentIndex - 1 + DATA.length) % DATA.length;
+    updateSlide();
+  };
+  $('rw-next-btn').onclick = function() {
+    currentIndex = (currentIndex + 1) % DATA.length;
+    updateSlide();
+  };
+
+  updateSlide();
+})();
+</script>
+</body>
+</html>

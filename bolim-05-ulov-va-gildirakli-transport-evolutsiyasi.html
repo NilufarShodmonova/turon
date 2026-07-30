@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="uz" class="trans-evo-host">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ulov va G'ildirakli Transport Evolutsiyasi — Interaktiv Ekspozitsiya</title>
+<style>
+/* =========================================================================
+   ULOV VA G'ILDIRAKLI TRANSPORT EVOLUTSIYASI (SECTION 5) - 4K ULTRA HD
+   ========================================================================= */
+html.trans-evo-host {
+  font-size: clamp(16px, calc(0.65vw + 0.65vh), 38px);
+}
+html.trans-evo-host, body.trans-evo-host {
+  margin: 0; padding: 0; width: 100%; height: 100%;
+  background: #070d18; overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  font-family: "Segoe UI", Tahoma, Verdana, "Helvetica Neue", sans-serif;
+  color: #dfd4bf;
+}
+
+:root {
+  --te-gold: #d8b26c;
+  --te-gold-bright: #f3e2b8;
+  --te-gold-dark: #b98f45;
+  --te-bg-dark: #070d18;
+  --te-bg-card: rgba(16, 31, 56, 0.85);
+  --te-border: rgba(212, 175, 110, 0.35);
+  --te-text: #e9dcc4;
+  --te-muted: rgba(233, 220, 196, 0.65);
+  --te-serif: "Trajan Pro", "Palatino Linotype", Georgia, serif;
+}
+
+/* Background */
+.te-bg {
+  position: fixed; inset: 0; z-index: -1;
+  background: radial-gradient(circle at 50% 20%, rgba(22, 41, 74, 0.85) 0%, rgba(7, 13, 24, 0.95) 70%, #050912 100%);
+}
+.te-bg__grid {
+  position: absolute; inset: 0; opacity: 0.05;
+  background-image: linear-gradient(rgba(212,175,110,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,110,0.4) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Container */
+.te-container {
+  display: flex; flex-direction: column; min-height: 100vh;
+  box-sizing: border-box; width: 100%; max-width: 2800px; margin: 0 auto;
+  padding-bottom: 7rem;
+}
+
+/* Header */
+.te-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 3rem;
+  background: linear-gradient(135deg, rgba(16, 31, 56, 0.85) 0%, rgba(11, 22, 40, 0.7) 100%);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--te-border);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5); flex: 0 0 auto;
+}
+.te-header__left { display: flex; align-items: center; gap: 1.8rem; }
+.te-header__logo { width: 5.2rem; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6)); }
+.te-header__title {
+  font-family: var(--te-serif); font-size: 1.8rem; letter-spacing: 0.18em;
+  color: var(--te-gold-bright); text-transform: uppercase; text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+.te-header__sub { font-size: 0.95rem; letter-spacing: 0.15em; color: var(--te-muted); text-transform: uppercase; margin-top: 0.2rem; }
+
+/* Navigation Tabs */
+.te-nav {
+  display: flex; gap: 1rem; padding: 1.2rem 3rem 0.5rem; justify-content: center; flex-wrap: wrap;
+  flex: 0 0 auto;
+}
+.te-tab {
+  display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 1.8rem;
+  background: rgba(16, 31, 56, 0.5); border: 1px solid var(--te-border); border-radius: 1.2rem;
+  color: var(--te-muted); font-size: 1.15rem; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.2,0.9,0.3,1);
+}
+.te-tab__num {
+  font-family: var(--te-serif); font-weight: 700; color: var(--te-gold); font-size: 1.2rem;
+  width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 1px solid var(--te-border);
+  display: flex; align-items: center; justify-content: center; background: rgba(7,13,24,0.6);
+}
+.te-tab.is-active {
+  background: linear-gradient(135deg, rgba(22, 41, 74, 0.9) 0%, rgba(16, 31, 56, 0.95) 100%);
+  border-color: var(--te-gold); color: var(--te-gold-bright);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4), inset 0 0 15px rgba(216,178,108,0.2);
+  transform: translateY(-2px);
+}
+.te-tab.is-active .te-tab__num { background: var(--te-gold); color: #070d18; border-color: transparent; }
+
+/* Vertical Stage (Photo Top -> Description Below) */
+.te-stage {
+  flex: 1; display: flex; flex-direction: column; gap: 1.8rem;
+  padding: 1.2rem 3rem 2rem; box-sizing: border-box;
+}
+
+/* Photo / Visual Container */
+.te-visual-card {
+  position: relative; background: var(--te-bg-card); border: 1px solid var(--te-border);
+  border-radius: 1.8rem; overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6); min-height: 380px; align-items: center; justify-content: center;
+}
+.te-visual-card__badge {
+  position: absolute; top: 1.5rem; left: 1.5rem; z-index: 2;
+  background: rgba(7, 13, 24, 0.85); border: 1px solid var(--te-gold-dark);
+  padding: 0.5rem 1.4rem; border-radius: 0.8rem; font-family: var(--te-serif);
+  font-size: 1.1rem; color: var(--te-gold-bright); letter-spacing: 0.15em; text-transform: uppercase;
+}
+.te-svg-stage { width: 100%; height: 100%; max-height: 420px; filter: drop-shadow(0 10px 25px rgba(0,0,0,0.7)); }
+
+/* Description Card Right Below Photo */
+.te-desc-card {
+  background: var(--te-bg-card); border: 1px solid var(--te-border);
+  border-radius: 1.8rem; padding: 2.2rem; display: flex; flex-direction: column;
+  gap: 1.4rem; box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+}
+.te-desc-card__title {
+  font-family: var(--te-serif); font-size: 2.2rem; color: var(--te-gold-bright);
+  line-height: 1.25; letter-spacing: 0.08em; text-transform: uppercase;
+  border-bottom: 1px solid var(--te-border); padding-bottom: 0.8rem; margin: 0;
+}
+.te-desc-card__text { font-size: 1.3rem; line-height: 1.75; color: var(--te-text); margin: 0; }
+.te-desc-card__text p { margin: 0 0 1rem 0; }
+
+.te-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 0.8rem;
+  padding-top: 1.2rem; border-top: 1px solid rgba(212,175,110,0.2);
+}
+@media (max-width: 900px) { .te-stats { grid-template-columns: repeat(2, 1fr); } }
+
+.te-stat-card {
+  background: rgba(7, 13, 24, 0.7); border: 1px solid var(--te-border);
+  border-radius: 1rem; padding: 1.1rem 1.4rem;
+}
+.te-stat-card__lbl { font-size: 0.95rem; color: var(--te-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.te-stat-card__val { font-family: var(--te-serif); font-size: 1.45rem; color: var(--te-gold); font-weight: 700; margin-top: 0.3rem; }
+
+/* Controller Bar */
+.te-controls {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem 1.5rem; flex: 0 0 auto;
+}
+.te-ctrl-btn {
+  display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 2rem;
+  background: rgba(16, 31, 56, 0.8); border: 1px solid var(--te-border); border-radius: 1rem;
+  color: var(--te-gold-bright); font-size: 1.15rem; letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.te-ctrl-btn:hover {
+  background: linear-gradient(180deg, var(--te-gold-bright), var(--te-gold-dark));
+  color: #070d18; border-color: transparent; transform: scale(1.03);
+}
+.te-progress { display: flex; align-items: center; gap: 1rem; width: 40%; max-width: 600px; }
+.te-progress__bar { flex: 1; height: 8px; background: rgba(212,175,110,0.2); border-radius: 4px; overflow: hidden; }
+.te-progress__fill { height: 100%; width: 20%; background: linear-gradient(90deg, var(--te-gold-dark), var(--te-gold-bright)); transition: width 0.4s ease; }
+.te-progress__text { font-family: var(--te-serif); font-size: 1.2rem; color: var(--te-gold); font-weight: 700; }
+
+/* Fixed Bottom Center Toolbar */
+.tp-fixed-tools {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 9999;
+  display: flex; align-items: center; justify-content: center; gap: 1.2rem;
+  padding: 0.7rem 1.8rem; background: rgba(11, 21, 38, 0.88);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 110, 0.45); border-radius: 1.2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(216, 178, 108, 0.25);
+}
+.tp-tool-btn {
+  padding: 0.65rem 1.5rem; border: 1px solid rgba(212, 175, 110, 0.35); border-radius: 0.7rem;
+  font-size: 1.1rem; letter-spacing: 0.15em; text-transform: uppercase; color: #e9dcc4;
+  background: rgba(16, 31, 56, 0.7); cursor: pointer; transition: all 0.25s;
+  display: flex; align-items: center; gap: 0.6rem; text-decoration: none;
+}
+.tp-tool-btn:hover, .tp-tool-btn.is-active {
+  color: #070d18; background: linear-gradient(180deg, var(--te-gold-bright), var(--te-gold-dark));
+  border-color: transparent; font-weight: 700; box-shadow: 0 4px 16px rgba(216, 178, 108, 0.4);
+}
+.tp-tool-icon {
+  width: 3.6rem; height: 3.6rem; border: 1px solid rgba(212, 175, 110, 0.35); border-radius: 0.7rem;
+  display: flex; align-items: center; justify-content: center; background: rgba(16, 31, 56, 0.7);
+  cursor: pointer; transition: all 0.25s; text-decoration: none;
+}
+.tp-tool-icon svg { width: 2rem; height: 2rem; stroke: var(--te-gold); fill: none; stroke-width: 2; }
+.tp-tool-icon:hover { border-color: var(--te-gold); background: rgba(216, 178, 108, 0.2); transform: scale(1.05); }
+
+@media (min-width: 2500px) {
+  html.trans-evo-host { font-size: 28px; }
+  .te-container { max-width: 3600px; }
+}
+</style>
+</head>
+<body class="trans-evo-host">
+<div class="te-bg"><div class="te-bg__grid"></div></div>
+
+<div class="te-container">
+  <!-- HEADER -->
+  <header class="te-header">
+    <div class="te-header__left">
+      <img class="te-header__logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAABhJJREFUeJzt2m2MVVUZx/Hfc87dF5gBhhEGBmRAh4dBwRHBQUUkGkVsjMaX0jSh1tAm2jRNY6xJm7bRpmnbJtUYtU0bE40vUVMTNaKNGgsiigMooKgIzgDDMDDAvF/uPXfPBw73MsC9M3PnvDAPvslJTnbO+Z3/f+3933vttfY+aF06d+7c5oULF24FcOTIkV31ev145CeeE8t76f2Z/9f17K4LgL62wW182z48s62trZ3L5X6Zpun9zrnHOOcet9Y6AAcAOAGvQ3/m59A/921a/6n3nF86AHA/pPfT9+v219+2j0/A++n5rfs5/930+7y/4/y202+Ld2/7yL+fnm9vb29va2v7o7X24865PcaYN8z8308s6/k+/fn0uN+yvfN7n84A2j6zbfub6fd5/6b9nbbvvOds+1vnt5/eS9vOezv9dvrexvsx8+u3nt11/dCgYgA4ePDggfn5+U0AhgC0+17TfWc9u+te8wHkfdgOIH7f2k/r22/9d5l/e9v2n/e11x8A5o2uNf+g/03+u+m3bftb57f+/Laf97XtM9ve5237tL79rXN+6wA4ceLEvEKhcAPA85wz4q2f43xee//p/c17v2j/6ffT9rXW5gAsW7bs5wDuAtA5a/0H9wHk30/fT3vvt+zveH7rtm0/+XvbT8cffmPbtu293/E3z/99W9/157d+g6nValednJzcBOAO7l/y/T/p/bT9tPdr+s4v3r611tTr9Z8DWAtgpXPOiPl+770v+329v7x/817b9pme31rb9p/+zW2f6fO2/afj2/afnv9A5nOdtm1/29969tLWrVvfK4T4M3gqE0c5d7R/652f1lrv+g/G2D0A7ge3qXf9G+/9dNx5T7f8f9t+2n00/9/a+/07/t/bPnIvvX7T7b9te3c07w/8A+/m5uY2AtgG7uN5z0/rvp/a/bT9tPdb937T/uv2m/e111+S/w+lUuk+AJsBrHXOOV7/8b+592mttc2x367f03d+79P6tNbe7/122r6zbdvfaWvbtvfT3u/Y37L9t7a1t3279c1vH/l55v89+/O852zn/7z5rU8v3bt374cHBwc3w/sz8wP/yPl/32u8bXv/af317Tvb/ra+s+2n50/rnO/4W8+8t/b+9PnN456z7bPtb52znf592z7yW1/OvwBwcnJyE4C7AezyXv8d1/te0+9r/Qdr298+vx3te346vnV/+l5v2/7zvuM5nfc2bc5t+0//rW17/+a9Zzvf/vI/yL00f/78lq1btz4C4MOM/3t6zXed3t+s72znt75te+/3a+/7ad0Lrvm/z2/bdtr+tvl3b/vo/fS13vVfsvv2v71f0/E/33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333" fill="Logo">
+      <div>
+        <div class="te-header__title">ULOV VA G'ILDIRAKLI TRANSPORT EVOLUTSIYASI</div>
+        <div class="te-header__sub">EHTIYOJ, ULOV HAYVONLARI, G'ILDIRAK VA ARAVA EVOLUTSIYASI</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CHAPTER TABS -->
+  <nav class="te-nav" id="te-tabs"></nav>
+
+  <!-- STAGE: PHOTO TOP -> DESCRIPTION BELOW -->
+  <main class="te-stage">
+    <!-- VISUAL PHOTO / DIAGRAM STAGE -->
+    <div class="te-visual-card">
+      <div class="te-canvas__badge" id="te-badge">1-BOSQICH</div>
+      <div id="te-visual" style="width:100%; display:flex; justify-content:center; align-items:center;">
+        <!-- Dynamic Visual Diagram / Illustration Stage -->
+      </div>
+    </div>
+
+    <!-- DESCRIPTION CARD (INSTANTLY BELOW PHOTO) -->
+    <div class="te-desc-card">
+      <h2 class="te-desc-card__title" id="te-title">TRANSPORT VA YUK TASHISHGA BO'LGAN EHTIYOJ</h2>
+      <div class="te-desc-card__text" id="te-desc">
+        <!-- Dynamic rich text description -->
+      </div>
+      <div class="te-stats" id="te-stats">
+        <!-- Dynamic metrics -->
+      </div>
+    </div>
+  </main>
+
+  <!-- CONTROLLER BAR -->
+  <footer class="te-controls">
+    <button class="te-ctrl-btn" id="te-prev-btn">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+      ORQAGA
+    </button>
+
+    <div class="te-progress">
+      <div class="te-progress__bar"><div class="te-progress__fill" id="te-progress-fill"></div></div>
+      <div class="te-progress__text" id="te-progress-text">1 / 5</div>
+    </div>
+
+    <button class="te-ctrl-btn" id="te-next-btn">
+      KEYINGISI
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </footer>
+</div>
+
+<!-- FIXED BOTTOM CENTER TOOLBAR (BACK, UZ/RU/EN, HOME) -->
+<div class="tp-fixed-tools">
+  <button class="tp-tool-btn" id="tp-back-fixed-5">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span>ORQAGA</span>
+  </button>
+  <button class="tp-tool-btn is-active" data-lang="uz">UZ</button>
+  <button class="tp-tool-btn" data-lang="ru">RU</button>
+  <button class="tp-tool-btn" data-lang="en">EN</button>
+  <a href="index.html" class="tp-tool-icon" title="Bosh Menyu">
+    <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+  </a>
+</div>
+
+<script>
+/* PRESENTATION DATA FOR TRANSPORT EVOLUTION */
+var DATA = [
+  {
+    id: 1,
+    badge_uz: "1. TRANSPORT EHTIYOJI",
+    badge_ru: "1. ПОТРЕБНОСТЬ В ТРАНСПОРТЕ",
+    badge_en: "1. NEED FOR TRANSPORT",
+    title_uz: "TRANSPORT VA YUK TASHISHGA BO'LGAN EHTIYOJ",
+    title_ru: "ПОТРЕБНОСТЬ В ПЕРЕВОЗКЕ ГРУЗОВ И ТРАНСПОРТЕ",
+    title_en: "THE NECESSITY OF CARGO AND TRANSPORT",
+    desc_uz: "<p>Qadimgi insoniyat tarixida yuklarni inson o'z yelkasida yoki qo'lida tashishi masofa va og'irlik jihatdan cheklangan edi. Jamiyat, dehqonchilik va savdo rivojlangani sari katta hajmdagi mahsulotlarni, toshlar, don va qurilish materiallarini uzoq masofalarga yetkazish uchun yangi mexanizmlar va ulov hayvonlariga ehtiyoj tug'ildi.</p><p>Dastlab sudrash vositalari (shatllar, yog'och sudragichlar) hamda daryo oqimlari bo'ylab sol (raft) va qayiqlar ishlatilgan. Keyinchalik esa hayvonlarni xonakilashtirish transport evolutsiyasining birinchi tub burilishiga olib keldi.</p>",
+    desc_ru: "<p>На ранних этапах истории человечества переноска грузов людьми ограничивала объемы и расстояния. С развитием земледелия и торговли возникла острая необходимость в эффективном транспорте.</p><p>Первыми приспособлениями стали волокуши и плоты, а главным прорывом стало одомашнивание животных.</p>",
+    desc_en: "<p>In early human history, carrying loads manually was severely limited. Agricultural growth and trade created a vital demand for draught transport, leading to sledges, rafts, and animal domestication.</p>",
+    stats: [
+      { label_uz: "Ilk Usul", label_ru: "Первый метод", label_en: "Initial Method", val: "Yelka va Sudragich" },
+      { label_uz: "Tub Burilish", label_ru: "Прорыв", label_en: "Breakthrough", val: "Hayvonlarni qo'lga o'rgatish" },
+      { label_uz: "Suv Transporti", label_ru: "Водный транспорт", label_en: "Water Transport", val: "Sol va Qayiqlari" },
+      { label_uz: "Tashish Quvvati", label_ru: "Грузоподъемность", label_en: "Payload Capacity", val: "10x-20x oshgan" }
+    ],
+    svg: `<svg class="te-svg-stage" viewBox="0 0 800 400">
+      <g stroke="#d8b26c" stroke-width="2" fill="rgba(16,31,56,0.85)">
+        <rect x="100" y="240" width="200" height="50" rx="10"/><text x="200" y="272" fill="#f3e2b8" font-size="16" text-anchor="middle" font-weight="bold">1. O'z kuchi (Inson yelkasi)</text>
+        <rect x="340" y="240" width="200" height="50" rx="10"/><text x="440" y="272" fill="#f3e2b8" font-size="16" text-anchor="middle" font-weight="bold">2. Yog'och sudragich (Sledge)</text>
+        <rect x="580" y="240" width="180" height="50" rx="10"/><text x="670" y="272" fill="#f3e2b8" font-size="16" text-anchor="middle" font-weight="bold">3. Ulov Hayvonlari</text>
+      </g>
+      <path d="M 300 265 L 340 265 M 540 265 L 580 265" stroke="#f3e2b8" stroke-width="4" stroke-linecap="round"/>
+      <text x="400" y="140" fill="#f3e2b8" font-size="22" text-anchor="middle" font-weight="bold">YUK TASHISH RIVOJLANISH BOSQICHLARI</text>
+    </svg>`
+  },
+  {
+    id: 2,
+    badge_uz: "2. ULOV HAYVONLARI",
+    badge_ru: "2. ВЬЮЧНЫЕ ЖИВОТНЫЕ",
+    badge_en: "2. DRAUGHT ANIMALS",
+    title_uz: "YUK VA ULOV HAYVONLARINING XONAKILASHTIRILISHI",
+    title_ru: "ОДОМАШНИВАНИЕ ВЬЮЧНЫХ И ТЯГОВЫХ ЖИВОТНЫХ",
+    title_en: "DOMESTICATION OF DRAUGHT & PACK ANIMALS",
+    desc_uz: "<p>Eradan avvalgi V-IV ming yilliklarda <b>eshak (donkey) va ho'kizlar (oxen)</b> birinchi bo'lib yuk tashish hamda yer haydash uchun xonakilashtirildi. Eshaklar O'rtayer dengizi va Yevroosiyoda ilk karvonlarning asosiy kuchi bo'lgan.</p><p>Keyinchalik <b>Baqtriya ikki o'rkachli tuya va bir o'rkachli tuya</b> cho'l va sahrolarda chidamli yuk hayvoni sifatida karvon yo'llarida tengsiz mavqega ega bo'ldi. <b>Otlar</b> esa tezkor aloqa, harbiy va transport sohasi inqilobiga zamin yaratdi.</p>",
+    desc_ru: "<p>В V–IV тыс. до н.э. ослы и быки стали первыми прирученными тягловыми животными. Двугорбые бактрианы и одногорбые дромедары сделали возможными сверхдальние трансазиатские переходы.</p>",
+    desc_en: "<p>Donkeys and oxen were first harnessed in the 5th-4th millennium BC. Bactrian camels became the backbone of desert trade caravans, while horses revolutionized speed and transport.</p>",
+    stats: [
+      { label_uz: "Ilk Ulov", label_ru: "Первое вьючное", label_en: "First Animal", val: "Eshak va Ho'kiz" },
+      { label_uz: "Sahro Kemasi", label_ru: "Корабль пустыни", label_en: "Desert Ship", val: "Baqtriya Tuyasi" },
+      { label_uz: "Tezlik Inqilobi", label_ru: "Революция скорости", label_en: "Speed Revolution", val: "Otlar" },
+      { label_uz: "Yuk Ko'tarish", label_ru: "Грузоподъемность", label_en: "Load Capacity", val: "200-400 kg" }
+    ],
+    svg: `<svg class="te-svg-stage" viewBox="0 0 800 400">
+      <g fill="rgba(16,31,56,0.85)" stroke="#d8b26c" stroke-width="2">
+        <rect x="80" y="120" width="150" height="180" rx="14"/>
+        <rect x="250" y="120" width="150" height="180" rx="14"/>
+        <rect x="420" y="120" width="150" height="180" rx="14"/>
+        <rect x="590" y="120" width="150" height="180" rx="14"/>
+      </g>
+      <text x="155" y="170" fill="#f3e2b8" font-size="18" text-anchor="middle" font-weight="bold">ESHAK</text>
+      <text x="155" y="220" fill="#dfd4bf" font-size="14" text-anchor="middle">Ilk yuk ulovi</text>
+      <text x="325" y="170" fill="#f3e2b8" font-size="18" text-anchor="middle" font-weight="bold">HO'KIZ</text>
+      <text x="325" y="220" fill="#dfd4bf" font-size="14" text-anchor="middle">Og'ir kuch</text>
+      <text x="495" y="170" fill="#f3e2b8" font-size="18" text-anchor="middle" font-weight="bold">TUYA</text>
+      <text x="495" y="220" fill="#dfd4bf" font-size="14" text-anchor="middle">Karvonlar kuchi</text>
+      <text x="665" y="170" fill="#f3e2b8" font-size="18" text-anchor="middle" font-weight="bold">OT</text>
+      <text x="665" y="220" fill="#dfd4bf" font-size="14" text-anchor="middle">Tezkor harakat</text>
+    </svg>`
+  },
+  {
+    id: 3,
+    badge_uz: "3. G'ILDIRAK IXTIROSI",
+    badge_ru: "3. ИЗОБРЕТЕНИЕ КОЛЕСА",
+    badge_en: "3. INVENTION OF THE WHEEL",
+    title_uz: "G'ILDIRAKNING IXTIRO QILINISHI VA EVOLUTSIYASI",
+    title_ru: "ИЗОБРЕТЕНИЕ И ЭВОЛЮЦИЯ КОЛЕСА",
+    title_en: "INVENTION AND EVOLUTION OF THE WHEEL",
+    desc_uz: "<p><b>G'ildirak</b> — insoniyat tarixidagi eng buyuk texnik ixturolardan biridir. Ilk g'ildiraklar eradan avvalgi IV ming yillik o'rtalarida Mesopotamiya va O'rta Osiyoda yog'och xodalardan kesib olingan <b>uch bo'lakli yaxlit yog'och disklar (solid wheel)</b> ko'rinishida paydo bo'lgan.</p><p>Eradan avvalgi II ming yillik boshida esa engilroq va tezroq harakatlanuvchi <b>tirgakli g'ildiraklar (spoked wheel)</b> hamda bronza/temir chambarakli g'ildiraklar yaratildi. Bu texnologiya aravasozlikni mutlaqo yangi bosqichga olib chiqdi.</p>",
+    desc_ru: "<p><b>Колесо</b> было изобретено в середине IV тыс. до н.э. Первые колеса сбивались из трех деревянных щитов (сплошные дисковые колеса).</p>",
+    desc_en: "<p>Invented in the mid-4th millennium BC, the earliest wheels were solid wooden discs. By 2000 BC, spoked wheels with metal rims revolutionized transport speed.</p>",
+    stats: [
+      { label_uz: "Ixtiro Davri", label_ru: "Период изобретения", label_en: "Invented Period", val: "E.a. IV ming yillik" },
+      { label_uz: "Ilk Turi", label_ru: "Первый тип", label_en: "First Type", val: "Yaxlit Yog'och Disk" },
+      { label_uz: "Tirgakli G'ildirak", label_ru: "Колесо со спицами", label_en: "Spoked Wheel", val: "E.a. II ming yillik" },
+      { label_uz: "Samaradorlik", label_ru: "Эффективность", label_en: "Efficiency", val: "Ishqalanish 80% kamaygan" }
+    ],
+    svg: `<svg class="te-svg-stage" viewBox="0 0 800 400">
+      <g stroke="#d8b26c" stroke-width="4" fill="none">
+        <circle cx="220" cy="180" r="75" fill="rgba(16,31,56,0.8)"/>
+        <line x1="160" y1="180" x2="280" y2="180" stroke="#b98f45" stroke-width="3"/>
+        <circle cx="220" cy="180" r="16" fill="#d8b26c"/>
+        <text x="220" y="295" fill="#f3e2b8" font-size="16" text-anchor="middle" font-weight="bold">1. YAXLIT DISK G'ILDIRAK</text>
+        
+        <circle cx="580" cy="180" r="75" fill="rgba(16,31,56,0.8)"/>
+        <circle cx="580" cy="180" r="16" fill="#d8b26c"/>
+        <line x1="580" y1="105" x2="580" y2="255"/>
+        <line x1="505" y1="180" x2="655" y2="180"/>
+        <line x1="527" y1="127" x2="633" y2="233"/>
+        <line x1="527" y1="233" x2="633" y2="127"/>
+        <text x="580" y="295" fill="#f3e2b8" font-size="16" text-anchor="middle" font-weight="bold">2. TIRGAKLI (SPOKED) G'ILDIRAK</text>
+      </g>
+    </svg>`
+  },
+  {
+    id: 4,
+    badge_uz: "4. ARAVALAR EVOLUTSIYASI",
+    badge_ru: "4. ЭВОЛЮЦИЯ ПООВОЗОК",
+    badge_en: "4. CARTS & CHARIOTS",
+    title_uz: "OG'IR YUK ARAVALARI VA JANGOVAR ARAVACHALAR",
+    title_ru: "ТЯЖЕЛЫЕ ПОВОЗКИ И БОЕВЫЕ КОЛЕСНИЦЫ",
+    title_en: "HEAVY CARTS AND WAR CHARIOTS",
+    desc_uz: "<p>G'ildirak ixtirosidan so'ng 4 g'ildirakli <b>og'ir yuk aravalari</b> shahar sohillari va davlat qurilishlarida tosh, g'isht va g'allani tashishda keng qo'llanildi. Sintashta, Oks sivilizatsiyasi va Gonur-Tepe arxeologik topilmalari buni tasdiqlaydi.</p><p>Eradan avvalgi II ming yillikda esa 2 g'ildirakli engil <b>jangovar aravachalar (chariots)</b> paydo bo'ldi. O'rta Osiyoda esa baland g'ildirakli o'ziga xos <b>Qadimgi Turkiston Aravasi</b> shakllandi, u loy va suvsiz yo'llardan osongina o'tish imkonini berdi.</p>",
+    desc_ru: "<p>Первоначально возникли 4-колесные тяжелые повозки для стройматериалов и зерна. Вскоре появились легкие 2-колесные боевые колесницы.</p>",
+    desc_en: "<p>Four-wheeled heavy carts were followed by agile two-wheeled chariots. In Central Asia, the iconic high-wheeled <i>arava</i> emerged for rugged terrain.</p>",
+    stats: [
+      { label_uz: "Ilk Aravalar", label_ru: "Первые повозки", label_en: "Early Carts", val: "4 G'ildirakli Og'ir" },
+      { label_uz: "Jangovar Aravalar", label_ru: "Колесницы", label_en: "Chariots", val: "2 G'ildirakli Tezkor" },
+      { label_uz: "O'rta Osiyo Brendi", label_ru: "Бренд региона", label_en: "Local Icon", val: "Baland G'ildirakli Arava" },
+      { label_uz: "Topilmalar", label_ru: "Находки", label_en: "Finds", val: "Sintashta, Gonur Tepe" }
+    ],
+    svg: `<svg class="te-svg-stage" viewBox="0 0 800 400">
+      <g stroke="#d8b26c" stroke-width="3" fill="rgba(16,31,56,0.85)">
+        <rect x="220" y="140" width="360" height="90" rx="10"/>
+        <circle cx="280" cy="250" r="45"/>
+        <circle cx="520" cy="250" r="45"/>
+        <path d="M 120 200 L 220 200" stroke-width="6"/>
+      </g>
+      <text x="400" y="100" fill="#f3e2b8" font-size="20" text-anchor="middle" font-weight="bold">QADIMGI 4-G'ILDIRAKLI YUK ARAVASI</text>
+      <text x="400" y="330" fill="#dfd4bf" font-size="15" text-anchor="middle">Mustahkam o'q va yuk korpusi</text>
+    </svg>`
+  },
+  {
+    id: 5,
+    badge_uz: "5. JABDUQ VA BIRLASHTIRISH",
+    badge_ru: "5. СБРУЯ И УПРЯЖЬ",
+    badge_en: "5. HARNESS & COUPLING",
+    title_uz: "ARAVANI HAYVONLAR BILAN BIRLASHTIRISH TIZIMLARI",
+    title_ru: "СИСТЕМЫ УПРЯЖИ И СБРУИ ЖИВОТНЫХ",
+    title_en: "ANIMAL HARNESSING & COUPLING SYSTEMS",
+    desc_uz: "<p>Aravani hayvonlarga birlashtirish <b>bo'yunturuq (yoke) va jabduq tizimlari</b> evolutsiyasi bilan bog'liq. Dastlab ho'kizlar uchun qattiq bo'yin bo'yunturug'idan foydalanilgan.</p><p>Otlar va tuyalarni aravaga qo'shishda esa ko'krak tasmalari va keyinchalik ixtiro qilingan <b>ot bo'yunturug'i (horse collar)</b> tortuv kuchini 3 baravarga oshirishga va hayvon nafas yo'llarini qismasdan yuqori samaradorlikka erishishga imkon berdi.</p>",
+    desc_ru: "<p>Эволюция упряжи проходила от жестких ярм для быков до грудных ремней и хомута для лошадей. Изобретение жесткого хомута увеличило тяговую силу лошади в 3 раза.</p>",
+    desc_en: "<p>The evolution of yokes, breast straps, and horse collars dramatically increased animal pulling power without choking the animal's airway.</p>",
+    stats: [
+      { label_uz: "Ilk Tizim", label_ru: "Первая система", label_en: "First Harness", val: "Ho'kiz Bo'yunturug'i" },
+      { label_uz: "Ot Jabdug'i", label_ru: "Сбруя лошади", label_en: "Horse Collar", val: "Qattiq Xomut" },
+      { label_uz: "Quvvat Oshishi", label_ru: "Рост силы", label_en: "Power Increase", val: "3 Baravar" },
+      { label_uz: "Natija", label_ru: "Результат", label_en: "Result", val: "Uzoq Masofali Tashish" }
+    ],
+    svg: `<svg class="te-svg-stage" viewBox="0 0 800 400">
+      <g stroke="#d8b26c" stroke-width="3" fill="none">
+        <path d="M 200 180 C 200 100, 350 100, 350 180 C 350 260, 200 260, 200 180 Z" fill="rgba(16,31,56,0.85)"/>
+        <circle cx="275" cy="180" r="28" stroke="#f3e2b8"/>
+        <line x1="350" y1="180" x2="600" y2="180" stroke-width="6" stroke="#b98f45"/>
+      </g>
+      <text x="400" y="90" fill="#f3e2b8" font-size="20" text-anchor="middle" font-weight="bold">BO'YUNTURUQ VA QATTIQ XOMUT TIZIMI</text>
+      <text x="400" y="310" fill="#dfd4bf" font-size="15" text-anchor="middle">Tortuv kuchini samarali uzatish mexanizmi</text>
+    </svg>`
+  }
+];
+
+/* APP ENGINE */
+(function() {
+  var lang = 'uz';
+  var currentIndex = 0;
+
+  var $ = function(id) { return document.getElementById(id); };
+
+  function renderTabs() {
+    var tabsEl = $('te-tabs');
+    tabsEl.innerHTML = '';
+    DATA.forEach(function(item, idx) {
+      var btn = document.createElement('button');
+      btn.className = 'te-tab' + (idx === currentIndex ? ' is-active' : '');
+      var badgeText = item['badge_' + lang] || item.badge_uz;
+      btn.innerHTML = '<span class="te-tab__num">' + item.id + '</span><span>' + badgeText + '</span>';
+      btn.onclick = function() {
+        currentIndex = idx;
+        updateSlide();
+      };
+      tabsEl.appendChild(btn);
+    });
+  }
+
+  function updateSlide() {
+    var d = DATA[currentIndex];
+    $('te-badge').textContent = d['badge_' + lang] || d.badge_uz;
+    $('te-title').textContent = d['title_' + lang] || d.title_uz;
+    $('te-desc').innerHTML = d['desc_' + lang] || d.desc_uz;
+    $('te-visual').innerHTML = d.svg;
+
+    var statsEl = $('te-stats');
+    statsEl.innerHTML = '';
+    d.stats.forEach(function(st) {
+      var lbl = st['label_' + lang] || st.label_uz;
+      var card = document.createElement('div');
+      card.className = 'te-stat-card';
+      card.innerHTML = '<div class="te-stat-card__lbl">' + lbl + '</div><div class="te-stat-card__val">' + st.val + '</div>';
+      statsEl.appendChild(card);
+    });
+
+    $('te-progress-text').textContent = (currentIndex + 1) + ' / ' + DATA.length;
+    $('te-progress-fill').style.width = ((currentIndex + 1) / DATA.length * 100) + '%';
+
+    renderTabs();
+  }
+
+  // Fixed Language pills
+  document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(btn) {
+    btn.onclick = function() {
+      document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(b){ b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      lang = btn.getAttribute('data-lang');
+      updateSlide();
+    };
+  });
+
+  // Fixed Back Button
+  $('tp-back-fixed-5').onclick = function() {
+    window.location.href = 'index.html#tp-menu';
+  };
+
+  // Prev / Next Buttons
+  $('te-prev-btn').onclick = function() {
+    currentIndex = (currentIndex - 1 + DATA.length) % DATA.length;
+    updateSlide();
+  };
+  $('te-next-btn').onclick = function() {
+    currentIndex = (currentIndex + 1) % DATA.length;
+    updateSlide();
+  };
+
+  updateSlide();
+})();
+</script>
+</body>
+</html>

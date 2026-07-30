@@ -4,9 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>II. Qadimgi davlatlarning yo'l tarmoqlari</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy-0:#050b16;
@@ -19,7 +16,7 @@
   --ink:#e8eaf0;
   --ink-dim:rgba(232,234,240,.62);
   --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
-  --sans:'Manrope','Segoe UI',system-ui,sans-serif;
+  --sans:'Manrope',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:var(--navy-0)}
@@ -86,7 +83,11 @@ body{
 
 .topbar{
   flex:0 0 auto;display:flex;align-items:center;gap:18px;
-  padding:2.2vh 3.2vw 1.4vh;border-bottom:1px solid rgba(201,151,63,.13);
+  padding:1.8vh 3.2vw;
+  background:linear-gradient(135deg, rgba(16, 31, 56, 0.85) 0%, rgba(11, 22, 40, 0.70) 50%, rgba(7, 14, 26, 0.92) 100%);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(201,151,63,.28);
+  box-shadow:0 1rem 3rem rgba(0,0,0,.5);
 }
 .tb-mark{font-family:var(--serif);color:var(--gold);font-size:clamp(15px,2.1vh,22px);letter-spacing:.42em}
 .tb-chapter{
@@ -95,12 +96,12 @@ body{
   border-left:1px solid rgba(201,151,63,.22);padding-left:18px;transition:opacity .4s;
 }
 .tb-btn{
-  width:clamp(38px,5vh,48px);height:clamp(38px,5vh,48px);border-radius:50%;
-  border:1px solid rgba(201,151,63,.28);background:transparent;color:var(--gold-lt);
+  width:clamp(46px,5.5vh,58px);height:clamp(46px,5.5vh,58px);border-radius:50%;
+  border:1.5px solid rgba(201,151,63,.38);background:rgba(10,21,38,.5);color:var(--gold-lt);
   display:grid;place-items:center;cursor:pointer;transition:.25s;flex:0 0 auto;
 }
-.tb-btn:hover,.tb-btn:active{background:rgba(201,151,63,.14);border-color:var(--gold)}
-.tb-btn svg{width:44%;height:44%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tb-btn:hover,.tb-btn:active{background:rgba(201,151,63,.2);border-color:var(--gold)}
+.tb-btn svg{width:48%;height:48%;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .tb-btn.off{opacity:.4}
 .tb-count{font-family:var(--serif);font-size:clamp(15px,2.2vh,24px);color:var(--gold-lt);letter-spacing:.1em;min-width:4.5em;text-align:right}
 .tb-count b{font-weight:500}
@@ -158,9 +159,9 @@ h2.title{
 .frame img.kb0{animation:kb0 22s ease-out forwards}
 .frame img.kb1{animation:kb1 22s ease-out forwards}
 .frame img.kb2{animation:kb2 22s ease-out forwards}
-@keyframes kb0{from{transform:scale(1.04) translate(0,0)}to{transform:scale(1.18) translate(-1.8%,-1.4%)}}
-@keyframes kb1{from{transform:scale(1.16) translate(1.5%,1%)}to{transform:scale(1.02) translate(0,0)}}
-@keyframes kb2{from{transform:scale(1.05) translate(1.6%,-1%)}to{transform:scale(1.17) translate(-1.4%,1.2%)}}
+@keyframes kb0{from{transform:scale(1.18) translate(0,0)}to{transform:scale(1.32) translate(-1.8%,-1.4%)}}
+@keyframes kb1{from{transform:scale(1.30) translate(1.5%,1%)}to{transform:scale(1.16) translate(0,0)}}
+@keyframes kb2{from{transform:scale(1.18) translate(1.6%,-1%)}to{transform:scale(1.32) translate(-1.4%,1.2%)}}
 .frame .mapwrap{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .8s}
 .frame .mapwrap.show{opacity:1}
 .frame .mapwrap svg{width:100%;height:100%}
@@ -182,7 +183,7 @@ h2.title{
 
 /* bottom */
 .bottombar{flex:0 0 auto;padding:1.4vh 3.2vw 2.4vh;border-top:1px solid rgba(201,151,63,.13)}
-.segs{display:flex;gap:5px;align-items:center}
+.segs{display:flex;gap:5px;align-items:center;flex-wrap:nowrap}
 .seg{flex:1 1 0;height:3px;background:rgba(232,234,240,.11);border-radius:3px;overflow:hidden;cursor:pointer;position:relative;transition:height .25s}
 .seg:hover{height:7px}
 .seg i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-lt));border-radius:3px}
@@ -211,6 +212,11 @@ h2.title{
   .body{max-width:none}
   .nav{width:14vw}
 }
+
+@media (min-width: 2500px) {
+  html { font-size: clamp(24px, calc(0.7vw + 0.7vh), 42px); }
+}
+
 </style>
 </head>
 <body>
@@ -736,5 +742,73 @@ function resetIdle(){ clearTimeout(idle); idle=setTimeout(()=>{
 ['click','touchstart','keydown'].forEach(ev=>addEventListener(ev,resetIdle,{passive:true}));
 resetIdle();
 </script>
+
+<!-- FIXED BOTTOM CENTER TOOLBAR (BACK, UZ/RU/EN, HOME) -->
+<style>
+.tp-fixed-tools {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 9999;
+  display: flex; align-items: center; justify-content: center; gap: 1.2rem;
+  padding: 0.7rem 1.8rem; background: rgba(11, 21, 38, 0.88);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 110, 0.45); border-radius: 1.2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(216, 178, 108, 0.25);
+}
+.tp-fixed-tools {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 9999;
+  display: flex; align-items: center; justify-content: center; gap: 1.4rem;
+  padding: 0.8rem 2rem; background: rgba(11, 21, 38, 0.92);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 110, 0.55); border-radius: 1.4rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75), 0 0 24px rgba(216, 178, 108, 0.3);
+}
+.tp-tool-btn {
+  padding: 0.75rem 1.65rem; border: 1px solid rgba(212, 175, 110, 0.45); border-radius: 0.85rem;
+  font-size: 1.2rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #e9dcc4;
+  background: rgba(16, 31, 56, 0.8); cursor: pointer; transition: all 0.25s;
+  display: flex; align-items: center; gap: 0.7rem; text-decoration: none;
+}
+.tp-tool-btn:hover, .tp-tool-btn.is-active, .tp-tool-btn.road-tech-chip-on {
+  color: #070d18; background: linear-gradient(180deg, #f3e2b8, #b98f45);
+  border-color: transparent; font-weight: 700; box-shadow: 0 4px 18px rgba(216, 178, 108, 0.45);
+}
+.tp-tool-icon {
+  width: 3.8rem; height: 3.8rem; border: 1px solid rgba(212, 175, 110, 0.45); border-radius: 0.85rem;
+  display: flex; align-items: center; justify-content: center; background: rgba(16, 31, 56, 0.8);
+  cursor: pointer; transition: all 0.25s; text-decoration: none;
+}
+.tp-tool-icon svg { width: 2.2rem; height: 2.2rem; stroke: #d8b26c; fill: none; stroke-width: 2.2; }
+.tp-tool-icon:hover { border-color: #d8b26c; background: rgba(216, 178, 108, 0.25); transform: scale(1.06); }
+</style>
+
+<div class="tp-fixed-tools">
+  <button class="tp-tool-btn" id="tp-back-fixed-generic" onclick="window.location.href='index.html#tp-menu';">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span>ORQAGA</span>
+  </button>
+  <button class="tp-tool-btn is-active" data-lang="uz">UZ</button>
+  <button class="tp-tool-btn" data-lang="ru">RU</button>
+  <button class="tp-tool-btn" data-lang="en">EN</button>
+  <a href="index.html" class="tp-tool-icon" title="Bosh Menyu">
+    <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+  </a>
+</div>
+
+
+<script>
+document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(btn) {
+  btn.onclick = function() {
+    var l = btn.getAttribute('data-lang');
+    document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(b){ b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    if (window.setLang) window.setLang(l);
+    var chip = document.querySelector('.road-tech-chip[data-lang="' + l + '"]');
+    if (chip) chip.click();
+    var pill = document.querySelector('.tp-pill[data-lang="' + l + '"]');
+    if (pill) pill.click();
+  };
+});
+</script>
+
+<!-- bind_lang_script_injected -->
 </body>
 </html>

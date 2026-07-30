@@ -42,7 +42,7 @@ html.road-tech-host, body.road-tech-host{
 
   --road-tech-serif:"Trajan Pro","Palatino Linotype","Book Antiqua",Georgia,"Times New Roman",serif;
   --road-tech-sans:"Segoe UI",Tahoma,Verdana,"Helvetica Neue",sans-serif;
-  --road-tech-btn-h:3.9em;
+  --road-tech-btn-h:4.4em;
 
   position:relative; width:100%; max-width:100%; margin:0; box-sizing:border-box;
   font-family:var(--road-tech-sans); font-size:1rem; line-height:1.6;
@@ -79,11 +79,11 @@ html.road-tech-host, body.road-tech-host{
 
 /* =========================  TUGMALAR  ========================= */
 .road-tech-btn{ display:inline-flex; align-items:center; justify-content:center; gap:.8em;
-  min-height:var(--road-tech-btn-h); padding:0 2.2em; border-radius:var(--road-tech-radius-btn);
+  min-height:var(--road-tech-btn-h); padding:0 2.4em; border-radius:var(--road-tech-radius-btn);
   border:1px solid var(--road-tech-line);
   background:linear-gradient(180deg,rgba(22,41,74,.6),rgba(11,21,38,.7));
   color:var(--road-tech-secondary); font-family:var(--road-tech-sans); font-weight:600;
-  font-size:.96rem; letter-spacing:.2em; text-transform:uppercase;
+  font-size:1.15rem; letter-spacing:.2em; text-transform:uppercase;
   cursor:pointer; transition:transform .18s, box-shadow .25s, border-color .25s }
 .road-tech-btn:hover{ border-color:var(--road-tech-primary); box-shadow:0 0 22px rgba(216,178,108,.18) }
 .road-tech-btn:active{ transform:scale(.96) }
@@ -93,8 +93,8 @@ html.road-tech-host, body.road-tech-host{
 .road-tech-btn-icon{ opacity:.9 }
 .road-tech-btn-off{ opacity:.32; pointer-events:none }
 .road-tech-btn-icon{ width:1.2em; height:1.2em }
-.road-tech-btnrow{ display:flex; gap:1em; flex-wrap:wrap; align-items:center; margin-top:1.8em }
-.road-tech-lang{ display:flex; gap:.7em }
+.road-tech-btnrow{ display:flex; gap:1em; flex-wrap:nowrap; align-items:center; margin-top:1.8em }
+.road-tech-lang{ display:flex; gap:.7em; flex-wrap:nowrap }
 .road-tech-chip{ display:inline-flex; align-items:center; border:1px solid var(--road-tech-line);
   border-radius:8px; background:transparent; color:var(--road-tech-muted); font-weight:600;
   font-size:.9rem; letter-spacing:.2em; text-transform:uppercase; padding:.85em 1.5em;
@@ -254,6 +254,12 @@ html.road-tech-host, body.road-tech-host{
   .road-tech-picks{ grid-template-columns:1fr 1fr }
   .road-tech-btn{ min-height:3.4em; padding:0 1.4em; letter-spacing:.14em }
 }
+
+@media (min-width: 2500px) {
+  html.road-tech-host { font-size: clamp(24px, calc(0.7vw + 0.7vh), 42px); }
+  .road-tech-page { --road-tech-container-width: 2600px; }
+}
+
 </style>
 </head>
 <body class="road-tech-host">
@@ -1157,5 +1163,65 @@ $('#road-tech-day-next').addEventListener('click',()=>{ if(day<RT_DAY.length-1){
 drawHero(); resetGame(); renderAll();
 })();
 </script>
+
+<!-- FIXED BOTTOM CENTER TOOLBAR (BACK, UZ/RU/EN, HOME) -->
+<style>
+.tp-fixed-tools {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 9999;
+  display: flex; align-items: center; justify-content: center; gap: 1.4rem;
+  padding: 0.8rem 2rem; background: rgba(11, 21, 38, 0.92);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 110, 0.55); border-radius: 1.4rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75), 0 0 24px rgba(216, 178, 108, 0.3);
+}
+.tp-tool-btn {
+  padding: 0.75rem 1.65rem; border: 1px solid rgba(212, 175, 110, 0.45); border-radius: 0.85rem;
+  font-size: 1.2rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #e9dcc4;
+  background: rgba(16, 31, 56, 0.8); cursor: pointer; transition: all 0.25s;
+  display: flex; align-items: center; gap: 0.7rem; text-decoration: none;
+}
+.tp-tool-btn:hover, .tp-tool-btn.is-active, .tp-tool-btn.road-tech-chip-on {
+  color: #070d18; background: linear-gradient(180deg, #f3e2b8, #b98f45);
+  border-color: transparent; font-weight: 700; box-shadow: 0 4px 18px rgba(216, 178, 108, 0.45);
+}
+.tp-tool-icon {
+  width: 3.8rem; height: 3.8rem; border: 1px solid rgba(212, 175, 110, 0.45); border-radius: 0.85rem;
+  display: flex; align-items: center; justify-content: center; background: rgba(16, 31, 56, 0.8);
+  cursor: pointer; transition: all 0.25s; text-decoration: none;
+}
+.tp-tool-icon svg { width: 2.2rem; height: 2.2rem; stroke: #d8b26c; fill: none; stroke-width: 2.2; }
+.tp-tool-icon:hover { border-color: #d8b26c; background: rgba(216, 178, 108, 0.25); transform: scale(1.06); }
+</style>
+
+<div class="tp-fixed-tools">
+  <button class="tp-tool-btn" id="tp-back-fixed-generic" onclick="window.location.href='index.html#tp-menu';">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span>ORQAGA</span>
+  </button>
+  <button class="tp-tool-btn is-active" data-lang="uz">UZ</button>
+  <button class="tp-tool-btn" data-lang="ru">RU</button>
+  <button class="tp-tool-btn" data-lang="en">EN</button>
+  <a href="index.html" class="tp-tool-icon" title="Bosh Menyu">
+    <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+  </a>
+</div>
+
+
+<script>
+document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(btn) {
+  btn.onclick = function() {
+    var l = btn.getAttribute('data-lang');
+    document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(b){ b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    if (window.setLang) window.setLang(l);
+    var chip = document.querySelector('.road-tech-chip[data-lang="' + l + '"]');
+    if (chip) chip.click();
+    var pill = document.querySelector('.tp-pill[data-lang="' + l + '"]');
+    if (pill) pill.click();
+  };
+});
+</script>
+
+<!-- bind_lang_script_injected -->
 </body>
 </html>
