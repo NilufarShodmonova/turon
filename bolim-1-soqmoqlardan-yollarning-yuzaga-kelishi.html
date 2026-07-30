@@ -511,64 +511,35 @@ paint();
 restart();
 </script>
 
-<!-- FIXED BOTTOM CENTER TOOLBAR (BACK, UZ/RU/EN, HOME) -->
+<!-- FIXED BOTTOM CENTER: MAIN MENU BUTTON -->
 <style>
-.tp-fixed-tools {
-  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 9999;
-  display: flex; align-items: center; justify-content: center; gap: 1.4rem;
-  padding: 0.8rem 2rem; background: rgba(11, 21, 38, 0.92);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 110, 0.55); border-radius: 1.4rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75), 0 0 24px rgba(216, 178, 108, 0.3);
+/* old bottom navigation removed */
+footer{display:none !important}
+/* ---------- fixed bottom-center main-menu button ---------- */
+.tp-menu-btn{
+  position:fixed;left:50%;bottom:2.4vh;transform:translateX(-50%);z-index:9999;
+  display:flex;align-items:center;gap:.7em;
+  padding:.85em 2.1em;border:1px solid rgba(212,175,110,.55);border-radius:999px;
+  background:linear-gradient(135deg,rgba(16,31,56,.92),rgba(11,22,40,.88));
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 10px 30px rgba(0,0,0,.75),0 0 24px rgba(216,178,108,.28);
+  font-family:"Trajan Pro","Palatino Linotype",Georgia,serif;
+  font-size:clamp(16px,calc(.6vw + .6vh),34px);
+  letter-spacing:.18em;text-transform:uppercase;color:#f3e2b8;
+  text-decoration:none;cursor:pointer;white-space:nowrap;transition:all .25s;
 }
-.tp-tool-btn {
-  padding: 0.75rem 1.65rem; border: 1px solid rgba(212, 175, 110, 0.45); border-radius: 0.85rem;
-  font-size: 1.2rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #e9dcc4;
-  background: rgba(16, 31, 56, 0.8); cursor: pointer; transition: all 0.25s;
-  display: flex; align-items: center; gap: 0.7rem; text-decoration: none;
-}
-.tp-tool-btn:hover, .tp-tool-btn.is-active, .tp-tool-btn.road-tech-chip-on {
-  color: #070d18; background: linear-gradient(180deg, #f3e2b8, #b98f45);
-  border-color: transparent; font-weight: 700; box-shadow: 0 4px 18px rgba(216, 178, 108, 0.45);
-}
-.tp-tool-icon {
-  width: 3.8rem; height: 3.8rem; border: 1px solid rgba(212, 175, 110, 0.45); border-radius: 0.85rem;
-  display: flex; align-items: center; justify-content: center; background: rgba(16, 31, 56, 0.8);
-  cursor: pointer; transition: all 0.25s; text-decoration: none;
-}
-.tp-tool-icon svg { width: 2.2rem; height: 2.2rem; stroke: #d8b26c; fill: none; stroke-width: 2.2; }
-.tp-tool-icon:hover { border-color: #d8b26c; background: rgba(216, 178, 108, 0.25); transform: scale(1.06); }
+.tp-menu-btn svg{width:1.25em;height:1.25em;flex:0 0 auto;stroke:#d8b26c;fill:none;
+  stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .25s}
+.tp-menu-btn:hover,.tp-menu-btn:active{
+  background:linear-gradient(180deg,#f3e2b8,#b98f45);color:#070d18;border-color:transparent;
+  box-shadow:0 6px 22px rgba(216,178,108,.5)}
+.tp-menu-btn:hover svg,.tp-menu-btn:active svg{stroke:#070d18}
 </style>
 
-<div class="tp-fixed-tools">
-  <button class="tp-tool-btn" id="tp-back-fixed-generic" onclick="window.location.href='index.html#tp-menu';">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    <span>ORQAGA</span>
-  </button>
-  <button class="tp-tool-btn is-active" data-lang="uz">UZ</button>
-  <button class="tp-tool-btn" data-lang="ru">RU</button>
-  <button class="tp-tool-btn" data-lang="en">EN</button>
-  <a href="index.html" class="tp-tool-icon" title="Bosh Menyu">
-    <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
-  </a>
-</div>
+<a class="tp-menu-btn" href="index.html#tp-menu">
+  <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+  <span>BOSH MENYU</span>
+</a>
 
-
-<script>
-document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(btn) {
-  btn.onclick = function() {
-    var l = btn.getAttribute('data-lang');
-    document.querySelectorAll('.tp-tool-btn[data-lang]').forEach(function(b){ b.classList.remove('is-active'); });
-    btn.classList.add('is-active');
-    if (window.setLang) window.setLang(l);
-    var chip = document.querySelector('.road-tech-chip[data-lang="' + l + '"]');
-    if (chip) chip.click();
-    var pill = document.querySelector('.tp-pill[data-lang="' + l + '"]');
-    if (pill) pill.click();
-  };
-});
-</script>
-
-<!-- bind_lang_script_injected -->
 </body>
 </html>
