@@ -270,6 +270,13 @@ html.road-tech-host, body.road-tech-host{
   .road-tech-page { --road-tech-container-width: 2600px; }
 }
 
+
+/* ---------- hide scrollbars (pages still scroll) ---------- */
+html,body{scrollbar-width:none;-ms-overflow-style:none}
+*{scrollbar-width:none;-ms-overflow-style:none}
+::-webkit-scrollbar{width:0;height:0;display:none}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:transparent}
 </style>
 </head>
 <body class="road-tech-host">
@@ -311,11 +318,7 @@ html.road-tech-host, body.road-tech-host{
           <button class="road-tech-btn" id="road-tech-snd">
             <svg class="road-tech-btn-icon" viewBox="0 0 24 24"><use href="#road-tech-i-sound"/></svg>
             <span id="road-tech-snd-t"></span></button>
-          <span class="road-tech-lang">
-            <span class="road-tech-chip road-tech-chip-on" data-lang="uz">O'ZB</span>
-            <span class="road-tech-chip" data-lang="ru">РУС</span>
-            <span class="road-tech-chip" data-lang="en">ENG</span>
-          </span>
+          
         </div>
     </div>
   </div>
