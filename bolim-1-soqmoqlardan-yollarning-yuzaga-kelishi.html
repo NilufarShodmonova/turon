@@ -541,5 +541,32 @@ footer{display:none !important}
   <span>BOSH MENYU</span>
 </a>
 
+<script>
+/* main-menu button label follows the language chosen on the main page (uz / ru / en) */
+(function(){
+  var T={uz:"BOSH MENYU",ru:"\u0413\u041b\u0410\u0412\u041d\u041e\u0415 \u041c\u0415\u041d\u042e",en:"MAIN MENU"};
+  var btn=document.querySelector('.tp-menu-btn');
+  if(!btn) return;
+  var lbl=btn.querySelector('span');
+  function apply(l){
+    var t=T[l]||T.uz;
+    if(lbl) lbl.textContent=t;
+    btn.setAttribute('title',t);
+  }
+  function stored(){ try{ return localStorage.getItem('turonLang'); }catch(e){ return null; } }
+  apply(stored()||'uz');
+  /* stay in sync with any language switcher on this page */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-lang]'),function(el){
+    el.addEventListener('click',function(){
+      var l=el.getAttribute('data-lang');
+      if(!T[l]) return;
+      try{ localStorage.setItem('turonLang',l); }catch(e){}
+      apply(l);
+    });
+  });
+  window.addEventListener('storage',function(e){ if(e.key==='turonLang') apply(e.newValue||'uz'); });
+})();
+</script>
+
 </body>
 </html>

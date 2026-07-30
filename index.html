@@ -488,6 +488,7 @@ en:{
    ================================================================== */
 (function(){
   var lang = 'uz';
+  try{ var savedLang = localStorage.getItem('turonLang'); if (savedLang && TP_DATA[savedLang]) lang = savedLang; }catch(e){}
   var IDLE_MS = 180000;   /* 3 минуты бездействия -> экран выбора языка */
   var idleTimer = null;
 
@@ -541,6 +542,7 @@ en:{
   function setLang(l){
     lang = l;
     document.documentElement.lang = l;
+    try{ localStorage.setItem('turonLang', l); }catch(e){}
     renderMenu();
   }
 
