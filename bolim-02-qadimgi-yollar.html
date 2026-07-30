@@ -229,21 +229,6 @@ h2.title{
 <body>
 <canvas id="dust"></canvas>
 
-<!-- ================= COVER ================= -->
-<section id="cover">
-  <svg class="cover-arch" viewBox="0 0 200 230">
-    <path d="M30 220 L30 96 A70 70 0 0 1 170 96 L170 220" class="d1"/>
-    <path d="M72 220 L72 138 A28 28 0 0 1 128 138 L128 220" class="d2"/>
-    <path d="M62 220 L138 220" class="d3"/>
-    <path d="M92 220 L92 178 A8 8 0 0 1 108 178 L108 220" class="d3"/>
-  </svg>
-  <div class="cover-num">I I</div>
-  <h1 class="cover-title">Qadimgi davlatlarning yo'l tarmoqlari</h1>
-  <div class="cover-sub">Buyuk Ipak yo'lidan avvalgi yo'llar<br>m.a. IV ming yillik &mdash; m.a. II asr</div>
-  <div class="cover-rule"></div>
-  <div class="cover-cta" id="start"><span class="pulse"></span> Boshlash uchun bosing</div>
-</section>
-
 <!-- ================= DECK ================= -->
 <main id="deck">
   <header class="topbar">
@@ -714,19 +699,14 @@ addEventListener('touchend',e=>{
 $('credlist').innerHTML = CREDITS.map(c=>'<div><b>'+c[0]+'</b>'+c[1]+'</div>').join('');
 
 // start
-$('start').onclick=()=>{
-  initAudio();
-  $('cover').classList.add('gone');
-  $('deck').classList.add('on');
-  setTimeout(()=>{ go(0,true); bell(); },700);
-};
+$('deck').classList.add('on');
+go(0,true);
 addEventListener('click',()=>{ if(AC&&AC.state==='suspended') AC.resume(); });
 
-// idle -> back to cover after 4 min of no touch
+// idle -> back to the first slide after 4 min of no touch
 let idle=null;
 function resetIdle(){ clearTimeout(idle); idle=setTimeout(()=>{
-  $('deck').classList.remove('on'); $('cover').classList.remove('gone');
-  $('credits').classList.remove('on'); clearTimeout(timer); idx=0;
+  $('credits').classList.remove('on'); clearTimeout(timer); go(0,true);
 },240000); }
 ['click','touchstart','keydown'].forEach(ev=>addEventListener(ev,resetIdle,{passive:true}));
 resetIdle();
