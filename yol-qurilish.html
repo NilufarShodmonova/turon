@@ -2,7 +2,7 @@
 <html lang="uz" class="road-tech-host">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Yo'l qurilish texnologiyasi — interaktiv taqdimot</title>
 <style>
 /* =========================================================================
@@ -102,7 +102,7 @@ html.road-tech-host, body.road-tech-host{
 .road-tech-btn-icon{ opacity:.9 }
 .road-tech-btn-off{ opacity:.32; pointer-events:none }
 .road-tech-btn-icon{ width:1.2em; height:1.2em }
-.road-tech-btnrow{ display:flex; gap:1em; flex-wrap:nowrap; align-items:center; margin-top:1.8em }
+.road-tech-btnrow{ display:flex; gap:1em; flex-wrap:wrap; align-items:center; margin-top:1.8em }
 .road-tech-lang{ display:flex; gap:.7em; flex-wrap:nowrap }
 .road-tech-chip{ display:inline-flex; align-items:center; border:1px solid var(--road-tech-line);
   border-radius:8px; background:transparent; color:var(--road-tech-muted); font-weight:600;
@@ -277,6 +277,9 @@ html,body{scrollbar-width:none;-ms-overflow-style:none}
 ::-webkit-scrollbar{width:0;height:0;display:none}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:transparent}
+
+/* ---------- museum touch kiosk: no pinch / double-tap zoom ---------- */
+html,body{touch-action:pan-x pan-y}
 </style>
 </head>
 <body class="road-tech-host">
@@ -1239,5 +1242,26 @@ drawHero(); resetGame(); renderAll();
 })();
 </script>
 
+
+<script>
+/* ---------- museum touch kiosk: block every zoom gesture ---------- */
+(function(){
+  /* iOS/Safari pinch gestures */
+  ['gesturestart','gesturechange','gestureend'].forEach(function(ev){
+    document.addEventListener(ev,function(e){ e.preventDefault(); },{passive:false});
+  });
+  /* two-finger pinch on touch screens */
+  document.addEventListener('touchstart',function(e){ if(e.touches.length>1) e.preventDefault(); },{passive:false});
+  document.addEventListener('touchmove',function(e){ if(e.touches.length>1) e.preventDefault(); },{passive:false});
+  /* trackpad pinch and ctrl+wheel */
+  document.addEventListener('wheel',function(e){ if(e.ctrlKey||e.metaKey) e.preventDefault(); },{passive:false});
+  /* ctrl/cmd +, -, 0 */
+  document.addEventListener('keydown',function(e){
+    if((e.ctrlKey||e.metaKey) && ['+','-','=','0','_'].indexOf(e.key)>-1) e.preventDefault();
+  },{passive:false});
+  /* double-tap / double-click zoom */
+  document.addEventListener('dblclick',function(e){ e.preventDefault(); },{passive:false});
+})();
+</script>
 </body>
 </html>
