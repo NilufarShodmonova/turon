@@ -357,7 +357,7 @@ html,body{touch-action:pan-x pan-y}
     </div>
     <div class="road-tech-build">
       <div class="road-tech-site">
-        <svg class="road-tech-site-svg" id="road-tech-order-svg" viewBox="0 0 900 560"
+        <svg class="road-tech-site-svg" id="road-tech-order-svg" viewBox="0 0 1040 560"
              preserveAspectRatio="xMidYMid meet"></svg>
         <span class="road-tech-ruler" data-t="depth"></span>
       </div>
@@ -387,7 +387,7 @@ html,body{touch-action:pan-x pan-y}
     </div>
     <div class="road-tech-build">
       <div class="road-tech-site">
-        <svg class="road-tech-site-svg" id="road-tech-site-svg" viewBox="0 0 900 560"
+        <svg class="road-tech-site-svg" id="road-tech-site-svg" viewBox="0 0 1040 560"
              preserveAspectRatio="xMidYMid meet"></svg>
         <span class="road-tech-ruler" data-t="depth"></span>
       </div>
@@ -901,7 +901,7 @@ const WHY={
 
 /* --- 2-bosqich: butun kesim, tanlangan qatlam yonadi --- */
 function drawOrder(){
-  const W=900,H=560,x0=120,x1=780,ground=170,floor=520;
+  const W=1040,H=560,x0=120,x1=780,ground=170,floor=520;
   let s=`<defs>
    <linearGradient id="road-tech-soil2" x1="0" y1="0" x2="0" y2="1">
      <stop offset="0" stop-color="#4a3d2c"/><stop offset="1" stop-color="#241d14"/></linearGradient>
@@ -914,6 +914,7 @@ function drawOrder(){
   let acc=0; const bands=[];
   solid.forEach((st,idx)=>{ const hh=hpx*st.h/total;
     bands.push({st,idx,y1:floor-acc,y0:floor-acc-hh}); acc+=hh; });
+  let lbl='';                       /* nomlar eng ustki qatlamda chiziladi */
   bands.forEach(({st,idx,y0,y1})=>{
     const on = ordSel===idx, dim = ordSel>=0 && !on;
     s+=`<g opacity="${dim?.34:1}">`;
@@ -928,9 +929,9 @@ function drawOrder(){
                  fill:${on?'#0c1728':'#9fb0c8'}">${idx+1}</text>`;
     if(on) s+=`<rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" fill="none"
                  stroke="#f0d9a8" stroke-width="3"/>`;
-    s+=`<text class="road-tech-lname" x="${x1+14}" y="${(y0+y1)/2+3}"
+    lbl+=`<text class="road-tech-lname" x="${x1+34}" y="${(y0+y1)/2+3}"
           opacity="${dim?.45:1}">${st.n[lang].split('—')[0].trim()}</text>
-        <text class="road-tech-lsize" x="${x1+14}" y="${(y0+y1)/2+22}"
+        <text class="road-tech-lsize" x="${x1+34}" y="${(y0+y1)/2+22}"
           opacity="${dim?.45:1}">${st.sz[lang]}</text>`;
   });
   const topY=bands[bands.length-1].y0;
@@ -948,7 +949,7 @@ function drawOrder(){
       <text x="${x0-44}" y="${topY-19}" text-anchor="middle"
         style="font-family:var(--road-tech-serif);font-size:19px;font-weight:700;
                fill:${wsel?'#0c1728':'#9fb0c8'}">6</text>`;
-  document.getElementById('road-tech-order-svg').innerHTML=s;
+  document.getElementById('road-tech-order-svg').innerHTML=s+lbl;
 
   const st=RT_STEPS[ordSel];
   document.getElementById('road-tech-order-rows').innerHTML=RT_STEPS.map((x,i)=>`
@@ -968,7 +969,7 @@ function drawOrder(){
 
 /* --- kesim chizish --- */
 function drawSite(){
-  const W=900,H=560,x0=120,x1=780,ground=170,floor=520;
+  const W=1040,H=560,x0=120,x1=780,ground=170,floor=520;
   let s=`<defs>
    <linearGradient id="road-tech-soil" x1="0" y1="0" x2="0" y2="1">
      <stop offset="0" stop-color="#4a3d2c"/><stop offset="1" stop-color="#241d14"/></linearGradient>
@@ -982,14 +983,15 @@ function drawSite(){
   solid.forEach((st,idx)=>{ const hh=hpx*st.h/total;
     bands.push({st,idx,y1:floor-acc,y0:floor-acc-hh}); acc+=hh; });
   const lastIdx = placed.length? placed[placed.length-1] : -1;
+  let lbl='';                         /* nomlar eng ustki qatlamda chiziladi */
   bands.forEach(({st,idx,y0,y1})=>{
     if(!placed.includes(idx)) return;
     const fresh=idx===lastIdx;
     roadTechFill(x0+4,x1-4,y0,y1,st.size,st.c,idx*997+13,st.kind).forEach(p=>{
       s+=`<path class="${fresh?'road-tech-st':''}" d="${p.d}" fill="${p.f}" stroke="#1a140d" stroke-width="1.1"
            ${fresh?`style="animation-delay:${Math.min(p.i*7,520)}ms"`:''}/>`; });
-    s+=`<text class="road-tech-lname" x="${x1+12}" y="${(y0+y1)/2+5}">${st.n[lang].split('—')[0].trim()}</text>
-        <text class="road-tech-lsize" x="${x1+12}" y="${(y0+y1)/2+24}">${st.sz[lang]}</text>`;
+    lbl+=`<text class="road-tech-lname" x="${x1+34}" y="${(y0+y1)/2+5}">${st.n[lang].split('—')[0].trim()}</text>
+        <text class="road-tech-lsize" x="${x1+34}" y="${(y0+y1)/2+24}">${st.sz[lang]}</text>`;
   });
   const topY = bands.length? bands[bands.length-1].y0 : floor;
   if(placed.length>=5)
@@ -1003,7 +1005,7 @@ function drawSite(){
     s+=`<g class="road-tech-grow"><rect x="${x0-120}" y="${ground-92}" width="34" height="92" rx="4" fill="#5c6472" stroke="#1a140d" stroke-width="1.5"/>
         <text x="${x0-103}" y="${ground-58}" class="road-tech-mtxt">XV</text></g>`;
   }
-  $('#road-tech-site-svg').innerHTML=s;
+  $('#road-tech-site-svg').innerHTML=s+lbl;
 }
 function fracIcon(st){
   if(st.kind==='earth') return `<svg class="road-tech-pick-ic-svg" viewBox="0 0 60 26"><path d="M4 20 q12 -12 26 0 t26 0" fill="none" stroke="#8a7c63" stroke-width="4"/></svg>`;
