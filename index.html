@@ -337,6 +337,10 @@ body.tp-mode-inner .tp-bg__veil{
   hyphens:none;-webkit-hyphens:none;
   text-wrap:balance;
 }
+/* sarlavha ikki qatorda: oxirgi so'z alohida pastki qatorda */
+.tp-card__title-1,
+.tp-card__title-2{display:block}
+.tp-card__title-2{margin-top:.15em}
 
 /* ============ АНИМАЦИИ ============ */
 @keyframes tp-fade-up{from{opacity:0;transform:translateY(3.2rem)}to{opacity:1;transform:none}}
@@ -534,6 +538,15 @@ en:{
     '</div>';
   }
 
+  /* Sarlavhani ikki qatorga bo'ladi: oxirgi so'z doim pastki qatorda */
+  function titleHTML(t){
+    var w = String(t).trim().split(/\s+/);
+    if (w.length < 2) return '<span class="tp-card__title-1">' + w[0] + '</span>';
+    var last = w.pop();
+    return '<span class="tp-card__title-1">' + w.join(' ') + '</span>' +
+           '<span class="tp-card__title-2">' + last + '</span>';
+  }
+
   function renderMenu(){
     var d = TP_DATA[lang];
     if ($('#tp-head-welcome')) $('#tp-head-welcome').textContent = d.welcome;
@@ -553,7 +566,7 @@ en:{
       b.innerHTML =
         archSVG(sec.icon) +
         '<div class="tp-card__num">' + sec.num + '</div>' +
-        '<div class="tp-card__title">' + sec.title + '</div>';
+        '<div class="tp-card__title">' + titleHTML(sec.title) + '</div>';
       grid.appendChild(b);
     });
 
