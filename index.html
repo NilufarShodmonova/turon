@@ -271,6 +271,9 @@ body.tp-mode-inner .tp-bg__veil{
   color:var(--tp-sand);text-align:center;
   animation:tp-fade-down .7s both;
 }
+/* menyu sarlavhasi ikki qatorda: oxirgi so'z pastki qatorda */
+.tp-mt-1,.tp-mt-2{display:block;line-height:1.16}
+.tp-mt-2{margin-top:.1em}
 .tp-menu__sub{
   font-size:1.45rem;letter-spacing:.26em;text-transform:uppercase;color:var(--tp-text-dim);
   margin-top:1.1rem;
@@ -538,20 +541,30 @@ en:{
     '</div>';
   }
 
-  /* Sarlavhani ikki qatorga bo'ladi: oxirgi so'z doim pastki qatorda */
-  function titleHTML(t){
+  /* Sarlavhani ikki qatorga bo'ladi: oxirgi so'z doim pastki qatorda.
+     Oxirgi so'zdan oldingi qisqa bog'lovchi (OF, VA, И...) ham pastga tushadi. */
+  var TAIL_GLUE = { 'of':1, 'va':1, 'и':1, 'the':1, 'to':1 };
+  function splitTail(t){
     var w = String(t).trim().split(/\s+/);
-    if (w.length < 2) return '<span class="tp-card__title-1">' + w[0] + '</span>';
-    var last = w.pop();
-    return '<span class="tp-card__title-1">' + w.join(' ') + '</span>' +
-           '<span class="tp-card__title-2">' + last + '</span>';
+    if (w.length < 2) return [w.join(' '), ''];
+    var tail = [w.pop()];
+    if (w.length > 1 && TAIL_GLUE[w[w.length - 1].toLowerCase()]) tail.unshift(w.pop());
+    return [w.join(' '), tail.join(' ')];
+  }
+  function titleHTML(t){
+    var p = splitTail(t);
+    return '<span class="tp-card__title-1">' + p[0] + '</span>' +
+           (p[1] ? '<span class="tp-card__title-2">' + p[1] + '</span>' : '');
   }
 
   function renderMenu(){
     var d = TP_DATA[lang];
     if ($('#tp-head-welcome')) $('#tp-head-welcome').textContent = d.welcome;
     if ($('#tp-splash-welcome')) $('#tp-splash-welcome').textContent = d.welcome;
-    $('#tp-menu-title').textContent = d.menuTitle;
+    var mt = splitTail(d.menuTitle);
+    $('#tp-menu-title').innerHTML =
+      '<span class="tp-mt-1">' + mt[0] + '</span>' +
+      (mt[1] ? '<span class="tp-mt-2">' + mt[1] + '</span>' : '');
     $('#tp-menu-sub').textContent   = d.menuSub;
 
     var grid = $('#tp-grid');
