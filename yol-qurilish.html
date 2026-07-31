@@ -792,6 +792,11 @@ const RT_T={
 (function(){
 'use strict';
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+/* sahifadan olib tashlangan bloklar uchun xavfsiz yordamchilar */
+const setTxt=(sel,v)=>{ const el=$(sel); if(el) el.textContent=v; };
+const setHtml=(sel,v)=>{ const el=$(sel); if(el) el.innerHTML=v; };
+const setCls=(sel,c,on)=>{ const el=$(sel); if(el) el.classList.toggle(c,on); };
+const on=(sel,ev,fn)=>{ const el=$(sel); if(el) el.addEventListener(ev,fn); };
 let lang=(function(){ try{ var l=localStorage.getItem('turonLang');
   return (l==='ru'||l==='en')? l : 'uz'; }catch(e){ return 'uz'; } })();
 let placed=[], order=[], bad=null, day=0, matOpen=-1, ordSel=0;
@@ -1012,23 +1017,23 @@ function fracIcon(st){
 }
 function drawPanel(){
   const n=placed.length, last = n? RT_STEPS[placed[n-1]] : null;
-  $('#road-tech-stepno').textContent=`${Math.min(n+1,RT_STEPS.length)} / ${RT_STEPS.length}`;
+  setTxt('#road-tech-stepno',`${Math.min(n+1,RT_STEPS.length)} / ${RT_STEPS.length}`);
   if(last){
-    $('#road-tech-steptitle').textContent=last.t[lang];
-    $('#road-tech-whybox').innerHTML=WHY[last.id]? WHY[last.id](last.why.map(x=>x.split('|')[{uz:0,ru:1,en:2}[lang]])) : '';
-    $('#road-tech-steptext').textContent=last.d[lang];
-    $('#road-tech-factval').textContent=last.f[0];
-    $('#road-tech-factlab').textContent=tx(last.f[1]);
+    setTxt('#road-tech-steptitle',last.t[lang]);
+    setHtml('#road-tech-whybox',WHY[last.id]? WHY[last.id](last.why.map(x=>x.split('|')[{uz:0,ru:1,en:2}[lang]])) : '');
+    setTxt('#road-tech-steptext',last.d[lang]);
+    setTxt('#road-tech-factval',last.f[0]);
+    setTxt('#road-tech-factlab',tx(last.f[1]));
   } else {
-    $('#road-tech-steptitle').textContent=tr('pick');
-    $('#road-tech-whybox').innerHTML='';
-    $('#road-tech-steptext').textContent=tr('intro');
-    $('#road-tech-factval').textContent='—'; $('#road-tech-factlab').textContent='';
+    setTxt('#road-tech-steptitle',tr('pick'));
+    setHtml('#road-tech-whybox','');
+    setTxt('#road-tech-steptext',tr('intro'));
+    setTxt('#road-tech-factval','—'); setTxt('#road-tech-factlab','');
   }
-  $('#road-tech-hint').textContent = bad!==null? tr('wrong'):'';
-  $('#road-tech-hint').classList.toggle('road-tech-hint-on', bad!==null);
-  $('#road-tech-donenote').textContent=tr('done');
-  $('#road-tech-donenote').classList.toggle('road-tech-done-note-on', n===RT_STEPS.length);
+  setTxt('#road-tech-hint', bad!==null? tr('wrong'):'');
+  setCls('#road-tech-hint','road-tech-hint-on', bad!==null);
+  setTxt('#road-tech-donenote',tr('done'));
+  setCls('#road-tech-donenote','road-tech-done-note-on', n===RT_STEPS.length);
 }
 function drawPicks(){
   $('#road-tech-picks').innerHTML=order.map(i=>{
@@ -1175,9 +1180,9 @@ function drawStatic(){
 function drawTexts(){
   drawStatic();
   $$('[data-t]').forEach(el=>{ el.textContent=tr(el.dataset.t); });
-  $('#road-tech-hero-lead').textContent=tr('lead');
-  $('#road-tech-go-t').textContent=tr('go');
-  $('#road-tech-snd-t').textContent=tr('snd');
+  setTxt('#road-tech-hero-lead',tr('lead'));
+  setTxt('#road-tech-go-t',tr('go'));
+  setTxt('#road-tech-snd-t',tr('snd'));
 }
 function renderAll(){ drawTexts(); drawCards(); drawOrder(); drawSite(); drawPicks(); drawPanel(); drawDay(); }
 
@@ -1186,15 +1191,16 @@ $$('.road-tech-chip').forEach(el=>el.addEventListener('click',()=>{
   lang=el.dataset.lang;
   $$('.road-tech-chip').forEach(c=>c.classList.toggle('road-tech-chip-on', c===el));
   renderAll(); }));
-$('#road-tech-go').addEventListener('click',()=>{ ac();
+on('#road-tech-go','click',()=>{ ac();
   document.getElementById('road-tech-cut').scrollIntoView({behavior:'smooth',block:'start'}); });
-$('#road-tech-snd').addEventListener('click',()=>{ sndOn=!sndOn;
-  $('#road-tech-snd').style.opacity=sndOn?1:.5; if(sndOn){ ac(); gravelSound(); } });
-$('#road-tech-again').addEventListener('click',resetGame);
-$('#road-tech-toGame').addEventListener('click',()=>{ ac();
+on('#road-tech-snd','click',()=>{ sndOn=!sndOn;
+  const b=$('#road-tech-snd'); if(b) b.style.opacity=sndOn?1:.5;
+  if(sndOn){ ac(); gravelSound(); } });
+on('#road-tech-again','click',resetGame);
+on('#road-tech-toGame','click',()=>{ ac();
   document.getElementById('road-tech-cut').scrollIntoView({behavior:'smooth',block:'start'}); });
-$('#road-tech-day-prev').addEventListener('click',()=>{ if(day>0){day--; drawDay();} });
-$('#road-tech-day-next').addEventListener('click',()=>{ if(day<RT_DAY.length-1){day++; drawDay();} });
+on('#road-tech-day-prev','click',()=>{ if(day>0){day--; drawDay();} });
+on('#road-tech-day-next','click',()=>{ if(day<RT_DAY.length-1){day++; drawDay();} });
 
 window.addEventListener('storage',function(e){
   if(e.key!=='turonLang') return;
