@@ -329,15 +329,6 @@ html,body{touch-action:pan-x pan-y}
       <div>
         <svg class="road-tech-hero-svg" viewBox="0 0 720 380" id="road-tech-hero-svg"></svg>
       </div>
-        <div class="road-tech-btnrow">
-          <button class="road-tech-btn road-tech-btn-primary" id="road-tech-go">
-            <svg class="road-tech-btn-icon" viewBox="0 0 24 24"><use href="#road-tech-i-hand"/></svg>
-            <span id="road-tech-go-t"></span></button>
-          <button class="road-tech-btn" id="road-tech-snd">
-            <svg class="road-tech-btn-icon" viewBox="0 0 24 24"><use href="#road-tech-i-sound"/></svg>
-            <span id="road-tech-snd-t"></span></button>
-          
-        </div>
     </div>
   </div>
 </section>
@@ -400,18 +391,7 @@ html,body{touch-action:pan-x pan-y}
              preserveAspectRatio="xMidYMid meet"></svg>
         <span class="road-tech-ruler" data-t="depth"></span>
       </div>
-      <div class="road-tech-panel">
-        <span class="road-tech-step" id="road-tech-stepno"></span>
-        <h3 class="road-tech-panel-title" id="road-tech-steptitle"></h3>
-        <div class="road-tech-why" id="road-tech-whybox"></div>
-        <p class="road-tech-card-text" id="road-tech-steptext" style="color:var(--road-tech-text)"></p>
-        <div class="road-tech-fact">
-          <div class="road-tech-fact-val" id="road-tech-factval">—</div>
-          <div class="road-tech-fact-lab" id="road-tech-factlab"></div>
-        </div>
-        <div class="road-tech-hint" id="road-tech-hint"></div>
-      </div>
-    </div>
+     </div>
     <div class="road-tech-picks" id="road-tech-picks"></div>
     <div class="road-tech-done-note" id="road-tech-donenote"></div>
     <div class="road-tech-btnrow">
@@ -812,7 +792,9 @@ const RT_T={
 (function(){
 'use strict';
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-let lang='uz', placed=[], order=[], bad=null, day=0, matOpen=-1, ordSel=0;
+let lang=(function(){ try{ var l=localStorage.getItem('turonLang');
+  return (l==='ru'||l==='en')? l : 'uz'; }catch(e){ return 'uz'; } })();
+let placed=[], order=[], bad=null, day=0, matOpen=-1, ordSel=0;
 const tr=k=>RT_T[lang][k];
 const tx=v=> typeof v==='string'? v : v[lang];
 
@@ -1173,7 +1155,25 @@ function drawCards(){
     <div class="road-tech-card"><h3 class="road-tech-card-title">${x.n[lang]}</h3>
       <p class="road-tech-card-text">${x.d[lang]}</p>${cutStrip(x.cut)}</div>`).join('');
 }
+const RT_STATIC={
+  uz:{ head:"YO‘L QURILISH TEXNOLOGIYASI", eyebrow:"Interaktiv taqdimot",
+       title:"Yo'l qurilish texnologiyasi — interaktiv taqdimot" },
+  ru:{ head:"ТЕХНОЛОГИЯ ДОРОЖНОГО СТРОИТЕЛЬСТВА",
+       eyebrow:"Интерактивная презентация",
+       title:"Технология дорожного строительства — интерактивная презентация" },
+  en:{ head:"ROAD CONSTRUCTION TECHNOLOGY", eyebrow:"Interactive presentation",
+       title:"Road construction technology — an interactive presentation" }
+};
+function drawStatic(){
+  const t=RT_STATIC[lang]||RT_STATIC.uz;
+  const h=$('.road-tech-header-title'); if(h) h.textContent=t.head;
+  const e=$('#road-tech-hero-eyebrow'); if(e) e.textContent=t.eyebrow;
+  const ht=$('#road-tech-hero-title'); if(ht) ht.textContent=t.head;
+  document.title=t.title;
+  document.documentElement.setAttribute('lang',lang);
+}
 function drawTexts(){
+  drawStatic();
   $$('[data-t]').forEach(el=>{ el.textContent=tr(el.dataset.t); });
   $('#road-tech-hero-lead').textContent=tr('lead');
   $('#road-tech-go-t').textContent=tr('go');
@@ -1196,6 +1196,12 @@ $('#road-tech-toGame').addEventListener('click',()=>{ ac();
 $('#road-tech-day-prev').addEventListener('click',()=>{ if(day>0){day--; drawDay();} });
 $('#road-tech-day-next').addEventListener('click',()=>{ if(day<RT_DAY.length-1){day++; drawDay();} });
 
+window.addEventListener('storage',function(e){
+  if(e.key!=='turonLang') return;
+  const l=e.newValue;
+  lang=(l==='ru'||l==='en')? l : 'uz';
+  renderAll();
+});
 drawHero(); resetGame(); renderAll();
 })();
 </script>
