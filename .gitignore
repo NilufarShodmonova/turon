@@ -1,0 +1,5 @@
+# arxivlar
+*.zip
+
+# macOS
+.DS_Store

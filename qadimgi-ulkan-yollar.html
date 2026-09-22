@@ -13,6 +13,7 @@ body{font-family:"Manrope","Segoe UI",Helvetica,Arial,sans-serif;color:#f5eedf;u
  --serif:"Cormorant Garamond","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
  --e:cubic-bezier(.22,.9,.28,1)}
 #deck{position:fixed;inset:0;perspective:1600px}
+:root{ --tp-ctl:calc(clamp(16px,calc(.6vw + .6vh),34px) * 2.7); }
 
 /* ---------- слайд: вход и выход ---------- */
 .sl{position:absolute;inset:0;opacity:0;visibility:hidden;
@@ -62,7 +63,7 @@ body{font-family:"Manrope","Segoe UI",Helvetica,Arial,sans-serif;color:#f5eedf;u
 
 /* ---------- титул ---------- */
 .ti{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
- text-align:center;padding:0 10vw;background:radial-gradient(120% 95% at 50% 12%,#182943,#080e1a)}
+ text-align:center;padding:calc(var(--tp-u,15.7px) * 9.4 + 3vh) 10vw 30vh;background:radial-gradient(120% 95% at 50% 12%,#182943,#080e1a)}
 .ti .kick{font-size:clamp(12px,1.05vw,19px);letter-spacing:.42em;text-transform:uppercase;color:var(--g);margin-bottom:24px}
 .ti h1{font-family:var(--serif);font-size:clamp(42px,5.8vw,104px);line-height:1.02;margin:0 0 18px;color:var(--gp)}
 .ti .rule{width:min(320px,40vw);height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);margin:12px 0 24px}
@@ -376,14 +377,14 @@ body.light #dots i.on{background:#a97c2c}
 #bar{z-index:60}
 #cnt{top:calc(var(--tp-hd) + 2vh)}
 /* низ: точки и подписи не заходят под кнопку */
-#dots{bottom:calc(var(--tp-fb) + 1vh)}
-.cap{padding-bottom:calc(8vh + var(--tp-fb) * .5)}
-.fig .cap{padding-bottom:calc(7vh + var(--tp-fb) * .5)}
+#dots{bottom:calc(5vh + var(--tp-ctl) + 40px)}
+.cap{padding-bottom:calc(8vh + var(--tp-fb) * .5 + 15vh)}
+.fig .cap{padding-bottom:calc(7vh + var(--tp-fb) * .5 + 15vh)}
 .cr{bottom:calc(2.4vh + var(--tp-fb) * .5)}
 @media (max-aspect-ratio: 1/1){
   .cap{padding-bottom:calc(9vh + var(--tp-fb) * .5)}
   .num .cap{padding-bottom:calc(10vh + var(--tp-fb) * .5)}
-  .fig .cap{padding-bottom:calc(7vh + var(--tp-fb) * .5)}
+  .fig .cap{padding-bottom:calc(7vh + var(--tp-fb) * .5 + 15vh)}
 }
 /* содержимое слайдов не заходит под шапку и под кнопку */
 .era{top:calc(var(--tp-hd) + 2vh)}
@@ -394,7 +395,7 @@ body.light #dots i.on{background:#a97c2c}
 .vis.portal img{top:calc(var(--tp-hd) + 1vh)}
 /* ---------- нижняя центральная кнопка «на главную» ---------- */
 .tp-menu-btn{
-  position:fixed;left:50%;bottom:2.2vh;transform:translateX(-50%);z-index:50;
+  position:fixed;left:50%;bottom:5vh;transform:translateX(-50%);z-index:50;
   display:flex;align-items:center;gap:.7em;
   padding:.8em 2em;border:1px solid rgba(212,175,110,.55);border-radius:999px;
   background:linear-gradient(135deg,rgba(16,31,56,.92),rgba(11,22,40,.88));
@@ -538,7 +539,7 @@ var IXD={"1": {"r1": ["1. Shoh yo‘li — Ahamoniylar", "Eramizdan avvalgi V as
 "use strict";
 var sl=[].slice.call(document.querySelectorAll('.sl')), n=sl.length, i=0;
 var bar=document.getElementById('bar'), cnt=document.getElementById('cnt');
-var dots=document.getElementById('dots'), playing=true, tid=null, t0=0, left=0;
+var dots=document.getElementById('dots'), playing=false, tid=null, t0=0, left=0;  /* avto-o'tish o'chirilgan */
 var PI='<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
 var PL='<path d="M8 5l11 7-11 7z"/>';
 
@@ -1625,12 +1626,13 @@ var TP_TITLE = {"uz": "Qadimgi dunyoning ulkan yo‘llari", "ru": "Велики�
     /* --------- uslub --------- */
     var css = document.createElement('style');
     css.textContent =
-      /* pastki o'ng burchakdagi juftlik — BOSH MENYU tugmasi bilan bir qatorda */
-      '.tp-side-nav{position:fixed;right:min(4vw,44px);bottom:2.3vh;z-index:9998;' +
-        'display:flex;align-items:center;gap:clamp(10px,1vw,16px);' +
+      /* chap va o'ng chetda, pastki qatorda — BOSH MENYU tugmasi bilan bir sathda */
+      '.tp-side-nav{position:fixed;left:0;right:0;bottom:5vh;z-index:9998;' +
+        'display:flex;align-items:center;justify-content:space-between;' +
+        'padding:0 min(4vw,44px);pointer-events:none;' +
         'height:calc(clamp(16px,calc(.6vw + .6vh),34px) * 2.7)}' +
       '.tp-side-btn{' +
-        'height:100%;aspect-ratio:1/1;flex:0 0 auto;' +
+        'height:100%;aspect-ratio:1/1;flex:0 0 auto;pointer-events:auto;' +
         'display:grid;place-items:center;cursor:pointer;padding:0;' +
         'border:1px solid rgba(212,175,110,.55);border-radius:50%;' +
         'background:linear-gradient(135deg,rgba(16,31,56,.92),rgba(11,22,40,.88));' +
@@ -1654,7 +1656,7 @@ var TP_TITLE = {"uz": "Qadimgi dunyoning ulkan yo‘llari", "ru": "Велики�
       /* manbalar/kredit oynalari ochilganda yashirish */
       'body:has(#src.on) .tp-side-nav,body:has(#credits.on) .tp-side-nav,' +
       'body:has(#src.show) .tp-side-nav{opacity:0;visibility:hidden;pointer-events:none}' +
-      '@media(max-width:720px){.tp-side-nav{right:14px;gap:9px;height:46px}}';
+      '@media(max-width:720px){.tp-side-nav{padding:0 14px;height:46px}}';
     document.head.appendChild(css);
 
     /* --------- tugmalar --------- */
@@ -1757,5 +1759,29 @@ var TP_TITLE = {"uz": "Qadimgi dunyoning ulkan yo‘llari", "ru": "Велики�
   };
 })();
 </script>
+
+<!-- ============ SHAPKA: index.html bilan bir xil ============ -->
+<style>
+/* index.html dagi rem birligi: calc(0.5225vw + 0.5225vh) */
+:root{ --tp-u:calc(0.5225vw + 0.5225vh); }
+.tp-head{
+  display:flex;align-items:center;
+  gap:calc(var(--tp-u) * 2.2);
+  padding:calc(var(--tp-u) * 2) calc(var(--tp-u) * 3.4);
+  border-bottom:1px solid rgba(212,175,110,.35);
+  background:linear-gradient(135deg,rgba(16,31,56,.85) 0%,rgba(11,22,40,.70) 50%,rgba(7,14,26,.92) 100%);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  box-shadow:0 calc(var(--tp-u) * 1) calc(var(--tp-u) * 3) rgba(0,0,0,.5);
+}
+.tp-head__logo{ width:calc(var(--tp-u) * 5.4);height:auto;flex:0 0 auto;filter:none }
+.tp-head__name{
+  font-family:"Trajan Pro","Cinzel","Palatino Linotype","Book Antiqua",Georgia,"Times New Roman",serif;
+  font-size:calc(var(--tp-u) * 2.5);
+  letter-spacing:.22em;font-weight:400;line-height:1.2;
+  color:#f2dda8;text-transform:uppercase;text-shadow:none;
+}
+:root{ --tp-hd:calc(var(--tp-u) * 9.4) }
+.tp-head{height:var(--tp-hd)}
+</style>
 </body>
 </html>

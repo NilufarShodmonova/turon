@@ -50,12 +50,13 @@
     /* --------- uslub --------- */
     var css = document.createElement('style');
     css.textContent =
-      /* pastki o'ng burchakdagi juftlik — BOSH MENYU tugmasi bilan bir qatorda */
-      '.tp-side-nav{position:fixed;right:min(4vw,44px);bottom:2.3vh;z-index:9998;' +
-        'display:flex;align-items:center;gap:clamp(10px,1vw,16px);' +
+      /* chap va o'ng chetda, pastki qatorda — BOSH MENYU tugmasi bilan bir sathda */
+      '.tp-side-nav{position:fixed;left:0;right:0;bottom:5vh;z-index:9998;' +
+        'display:flex;align-items:center;justify-content:space-between;' +
+        'padding:0 min(4vw,44px);pointer-events:none;' +
         'height:calc(clamp(16px,calc(.6vw + .6vh),34px) * 2.7)}' +
       '.tp-side-btn{' +
-        'height:100%;aspect-ratio:1/1;flex:0 0 auto;' +
+        'height:100%;aspect-ratio:1/1;flex:0 0 auto;pointer-events:auto;' +
         'display:grid;place-items:center;cursor:pointer;padding:0;' +
         'border:1px solid rgba(212,175,110,.55);border-radius:50%;' +
         'background:linear-gradient(135deg,rgba(16,31,56,.92),rgba(11,22,40,.88));' +
@@ -79,7 +80,7 @@
       /* manbalar/kredit oynalari ochilganda yashirish */
       'body:has(#src.on) .tp-side-nav,body:has(#credits.on) .tp-side-nav,' +
       'body:has(#src.show) .tp-side-nav{opacity:0;visibility:hidden;pointer-events:none}' +
-      '@media(max-width:720px){.tp-side-nav{right:14px;gap:9px;height:46px}}';
+      '@media(max-width:720px){.tp-side-nav{padding:0 14px;height:46px}}';
     document.head.appendChild(css);
 
     /* --------- tugmalar --------- */

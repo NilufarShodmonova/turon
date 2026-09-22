@@ -132,7 +132,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:20;padding:clamp(14px,1.8vh,2
 footer{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:0 min(6vw,80px) clamp(20px,2.6vh,34px);
   display:flex;align-items:center;flex-wrap:nowrap;gap:clamp(14px,2vw,30px);
   background:linear-gradient(0deg,rgba(6,13,28,.9),transparent)}
-.prog{position:fixed;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.08);z-index:21}
+.prog{display:none}
 .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-soft))}
 .btn{width:clamp(52px,5.2vw,68px);height:clamp(52px,5.2vw,68px);border-radius:50%;flex:none;
   border:1.5px solid rgba(201,151,63,.5);background:rgba(10,20,40,.65);color:var(--gold-soft);
@@ -432,7 +432,7 @@ const dotEls=[...dots.children];
 document.getElementById('tot').textContent=String(S.length).padStart(2,'0');
 
 /* === STATE === */
-let idx=0, playing=true, timer=null, t0=0, DUR=15000, raf=null;
+let idx=0, playing=false, timer=null, t0=0, DUR=15000, raf=null;  /* avto-o'tish o'chirilgan */
 const pbar=document.getElementById('pbar');
 
 function paint(){
@@ -550,7 +550,7 @@ restart();
 footer{display:none !important}
 /* ---------- fixed bottom-center main-menu button ---------- */
 .tp-menu-btn{
-  position:fixed;left:50%;bottom:2.4vh;transform:translateX(-50%);z-index:9999;
+  position:fixed;left:50%;bottom:5vh;transform:translateX(-50%);z-index:9999;
   display:flex;align-items:center;gap:.7em;
   padding:.85em 2.1em;border:1px solid rgba(212,175,110,.55);border-radius:999px;
   background:linear-gradient(135deg,rgba(16,31,56,.92),rgba(11,22,40,.88));
@@ -576,11 +576,11 @@ footer{display:none !important}
 
 <!-- ============ SLIDER CONTROLS: dots bar (strelkalar tp-side-nav.js dan) ============ -->
 <style>
-/* matn bloklarini 20px yuqoriga ko'tarish (pastdagi slayder paneli uchun joy) */
-.copy{bottom:calc(clamp(120px,15vh,190px) + 20px)}
-.cap {bottom:calc(clamp(120px,15vh,190px) + 20px)}
+/* slayder to'liq ekranda qoladi — faqat matn bloklari yuqoriga ko'tarilgan */
+.copy{bottom:clamp(140px,20vh,250px)}
+.cap {bottom:clamp(140px,20vh,250px)}
 @media(max-width:720px){ .copy{bottom:150px} }
-@media(min-width:1600px){ .copy{bottom:220px} .cap{bottom:220px} }
+@media(min-width:1600px){ .copy{bottom:clamp(180px,20vh,260px)} .cap{bottom:clamp(180px,20vh,260px)} }
 
 /* umumiy o'lchov: BOSH MENYU tugmasi balandligiga tenglashtirilgan */
 :root{ --tp-ctl:calc(clamp(16px,calc(.6vw + .6vh),34px) * 2.7); }
@@ -588,32 +588,36 @@ footer{display:none !important}
 
 /* --- pastki chap: nuqtali (dots) panel + hisoblagich --- */
 .tp-dots-wrap{
-  position:fixed;left:min(6vw,80px);bottom:2.4vh;z-index:9998;
-  height:var(--tp-ctl);display:flex;align-items:center;gap:clamp(12px,1.3vw,22px);
+  position:fixed;left:0;right:0;
+  bottom:calc(5vh + var(--tp-ctl) + 40px);z-index:9998;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
 }
-.tp-dots{display:flex;align-items:center;gap:clamp(4px,.45vw,8px);
-  width:clamp(160px,26vw,420px)}
-.tp-dot{flex:1 1 auto;height:3px;min-width:5px;border-radius:2px;border:0;padding:0;
-  background:rgba(255,255,255,.18);cursor:pointer;position:relative;transition:.3s}
-.tp-dot::after{content:"";position:absolute;inset:-14px 0}
-.tp-dot.seen{background:rgba(201,151,63,.45)}
-.tp-dot.act{background:linear-gradient(90deg,#f3e2b8,#c9973f);flex-grow:2.6;height:4px;
-  box-shadow:0 0 12px rgba(216,178,108,.55)}
-.tp-count{font-family:'Cormorant Garamond',Georgia,serif;white-space:nowrap;
-  font-size:clamp(17px,calc(.55vw + .55vh),30px);color:#f3e2b8;letter-spacing:.06em}
-.tp-count i{font-style:normal;font-family:'Manrope',system-ui,sans-serif;
-  font-size:.55em;letter-spacing:.2em;color:rgba(238,242,250,.45);margin-left:.35em}
+.tp-dots{display:flex;align-items:center;justify-content:center;gap:8px;
+  flex-wrap:wrap;width:auto;max-width:88vw;pointer-events:auto}
+.tp-dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;border:0;padding:0;
+  background:rgba(245,238,223,.26);cursor:pointer;position:relative;
+  transition:all .4s cubic-bezier(.2,.7,.3,1)}
+.tp-dot::after{content:"";position:absolute;inset:-12px}
+.tp-dot.seen{background:rgba(245,238,223,.26)}
+.tp-dot.act{background:#e3b25e;transform:scale(1.6)}
+/* hisoblagich — IV bo'limdagidek yuqori o'ng burchakda */
+.tp-count{position:fixed;right:min(6vw,80px);
+  top:calc(var(--tp-u, 15.7px) * 9.4 + 2.6vh);z-index:9998;
+  font-family:"Trajan Pro","Cinzel","Palatino Linotype",Georgia,serif;white-space:nowrap;
+  font-size:clamp(14px,1.15vw,21px);letter-spacing:.2em;color:#f0d9a8;opacity:.85}
+.tp-count i{font-style:normal;letter-spacing:.2em;margin-left:.35em}
 
 /* manbalar oynasi ochilganda boshqaruvni yashirish */
 body:has(#src.on) .tp-dots-wrap{opacity:0;visibility:hidden;pointer-events:none}
 
 @media(max-width:1100px){
-  .tp-dots{width:clamp(120px,22vw,240px)}
+  .tp-dots{max-width:82vw}
 }
 @media(max-width:720px){
   /* mobil: nuqtalar paneli BOSH MENYU tugmasi ustidagi qatorda */
-  .tp-dots-wrap{left:22px;right:22px;bottom:calc(2.4vh + var(--tp-ctl) + 14px)}
-  .tp-dots{flex:1 1 auto;width:auto}
+  .tp-dots-wrap{left:22px;right:22px;bottom:calc(5vh + var(--tp-ctl) + 40px)}
+  .tp-dots{max-width:76vw}
 }
 </style>
 
@@ -1831,12 +1835,13 @@ var TP_TITLE = {"uz": "So'qmoqlardan yo'llarning yuzaga kelishi", "ru": "От т
     /* --------- uslub --------- */
     var css = document.createElement('style');
     css.textContent =
-      /* pastki o'ng burchakdagi juftlik — BOSH MENYU tugmasi bilan bir qatorda */
-      '.tp-side-nav{position:fixed;right:min(4vw,44px);bottom:2.3vh;z-index:9998;' +
-        'display:flex;align-items:center;gap:clamp(10px,1vw,16px);' +
+      /* chap va o'ng chetda, pastki qatorda — BOSH MENYU tugmasi bilan bir sathda */
+      '.tp-side-nav{position:fixed;left:0;right:0;bottom:5vh;z-index:9998;' +
+        'display:flex;align-items:center;justify-content:space-between;' +
+        'padding:0 min(4vw,44px);pointer-events:none;' +
         'height:calc(clamp(16px,calc(.6vw + .6vh),34px) * 2.7)}' +
       '.tp-side-btn{' +
-        'height:100%;aspect-ratio:1/1;flex:0 0 auto;' +
+        'height:100%;aspect-ratio:1/1;flex:0 0 auto;pointer-events:auto;' +
         'display:grid;place-items:center;cursor:pointer;padding:0;' +
         'border:1px solid rgba(212,175,110,.55);border-radius:50%;' +
         'background:linear-gradient(135deg,rgba(16,31,56,.92),rgba(11,22,40,.88));' +
@@ -1860,7 +1865,7 @@ var TP_TITLE = {"uz": "So'qmoqlardan yo'llarning yuzaga kelishi", "ru": "От т
       /* manbalar/kredit oynalari ochilganda yashirish */
       'body:has(#src.on) .tp-side-nav,body:has(#credits.on) .tp-side-nav,' +
       'body:has(#src.show) .tp-side-nav{opacity:0;visibility:hidden;pointer-events:none}' +
-      '@media(max-width:720px){.tp-side-nav{right:14px;gap:9px;height:46px}}';
+      '@media(max-width:720px){.tp-side-nav{padding:0 14px;height:46px}}';
     document.head.appendChild(css);
 
     /* --------- tugmalar --------- */
@@ -1963,5 +1968,28 @@ var TP_TITLE = {"uz": "So'qmoqlardan yo'llarning yuzaga kelishi", "ru": "От т
   };
 })();
 </script>
+
+<!-- ============ SHAPKA: index.html bilan bir xil ============ -->
+<style>
+/* index.html dagi rem birligi: calc(0.5225vw + 0.5225vh) */
+:root{ --tp-u:calc(0.5225vw + 0.5225vh); }
+header{
+  display:flex;align-items:center;
+  gap:calc(var(--tp-u) * 2.2);
+  padding:calc(var(--tp-u) * 2) calc(var(--tp-u) * 3.4);
+  border-bottom:1px solid rgba(212,175,110,.35);
+  background:linear-gradient(135deg,rgba(16,31,56,.85) 0%,rgba(11,22,40,.70) 50%,rgba(7,14,26,.92) 100%);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  box-shadow:0 calc(var(--tp-u) * 1) calc(var(--tp-u) * 3) rgba(0,0,0,.5);
+}
+.brand-logo{ width:calc(var(--tp-u) * 5.4);height:auto;flex:0 0 auto;filter:none }
+.brand-t b{
+  font-family:"Trajan Pro","Cinzel","Palatino Linotype","Book Antiqua",Georgia,"Times New Roman",serif;
+  font-size:calc(var(--tp-u) * 2.5);
+  letter-spacing:.22em;font-weight:400;line-height:1.2;
+  color:#f2dda8;text-transform:uppercase;text-shadow:none;
+}
+.brand{display:flex;align-items:center;gap:calc(var(--tp-u) * 2.2)}
+</style>
 </body>
 </html>

@@ -32,7 +32,7 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{font-size:calc(0.495vw + 0.495vh);}
+html{font-size:calc(0.47vw + 0.47vh);}
 body{
   font-family:var(--tp-body);
   background:var(--tp-navy-900);
@@ -46,7 +46,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ============ ЭКРАНЫ ============ */
 .tp-screen{
-  position:fixed;inset:0 0 10vh 0;
+  position:fixed;inset:0 0 5vh 0;
   display:flex;flex-direction:column;
   opacity:0;visibility:hidden;
   transition:opacity .5s ease, visibility .5s;
@@ -140,7 +140,7 @@ body.tp-mode-inner .tp-bg__veil{
   text-shadow:0 2px 10px rgba(0,0,0,.6);
 }
 
-.tp-splash__mid{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:.4rem;flex:1;justify-content:flex-start;padding-top:8vh;animation:tp-fade-up 1s .5s both}
+.tp-splash__mid{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:.4rem;flex:1;justify-content:flex-start;padding-top:2.5vh;animation:tp-fade-up 1s .5s both}
 .tp-hero{
   font-family:var(--tp-display);
   font-size:8.2rem;line-height:1.0;
@@ -194,7 +194,7 @@ body.tp-mode-inner .tp-bg__veil{
   .tp-splash__top{padding:1.2rem 2.4rem;gap:1.8rem}
   .tp-logo{width:6.5rem}
   .tp-org .tp-welcome{font-size:2.2rem}
-  .tp-splash__mid{margin-top:.2rem;gap:.4rem;padding-top:6vh}
+  .tp-splash__mid{margin-top:.2rem;gap:.4rem;padding-top:2vh}
   .tp-hero{font-size:6.8rem}
   .tp-hero__sup{font-size:2.5rem;margin-bottom:.1rem}
   .tp-hero__sub{font-size:3.0rem;margin-top:.1rem}
@@ -260,7 +260,7 @@ body.tp-mode-inner .tp-bg__veil{
 #tp-menu{padding:0}
 .tp-menu__body{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
-  gap:5rem;padding:2.2rem 1.8rem 1.4rem;min-height:0;
+  gap:5rem;padding:2.2rem 1.8rem calc(1.4rem + 10vh);min-height:0;
   overflow-y:auto;
 }
 .tp-menu__body .tp-menu__title{flex:0 0 auto;margin-top:auto}
@@ -356,10 +356,10 @@ body.tp-mode-inner .tp-bg__veil{
 }
 
 @media (min-width: 2500px) {
-  html { font-size: clamp(22px, calc(0.585vw + 0.585vh), 38px); }
+  html { font-size: clamp(21px, calc(0.5558vw + 0.5558vh), 36px); }
   .tp-grid { max-width: 220rem; gap: 3.2rem; }
   .tp-card { min-height: 30rem; padding: 4rem 2.2rem; }
-  .tp-menu__body { gap: 6rem; padding-top: 3rem; padding-bottom: 1.6rem; }
+  .tp-menu__body { gap: 6rem; padding-top: 3rem; padding-bottom: calc(1.6rem + 10vh); }
   .tp-menu__footer { padding-bottom: 3rem; }
 }
 
@@ -890,12 +890,13 @@ en:{
     /* --------- uslub --------- */
     var css = document.createElement('style');
     css.textContent =
-      /* pastki o'ng burchakdagi juftlik — BOSH MENYU tugmasi bilan bir qatorda */
-      '.tp-side-nav{position:fixed;right:min(4vw,44px);bottom:2.3vh;z-index:9998;' +
-        'display:flex;align-items:center;gap:clamp(10px,1vw,16px);' +
+      /* chap va o'ng chetda, pastki qatorda — BOSH MENYU tugmasi bilan bir sathda */
+      '.tp-side-nav{position:fixed;left:0;right:0;bottom:5vh;z-index:9998;' +
+        'display:flex;align-items:center;justify-content:space-between;' +
+        'padding:0 min(4vw,44px);pointer-events:none;' +
         'height:calc(clamp(16px,calc(.6vw + .6vh),34px) * 2.7)}' +
       '.tp-side-btn{' +
-        'height:100%;aspect-ratio:1/1;flex:0 0 auto;' +
+        'height:100%;aspect-ratio:1/1;flex:0 0 auto;pointer-events:auto;' +
         'display:grid;place-items:center;cursor:pointer;padding:0;' +
         'border:1px solid rgba(212,175,110,.55);border-radius:50%;' +
         'background:linear-gradient(135deg,rgba(16,31,56,.92),rgba(11,22,40,.88));' +
@@ -919,7 +920,7 @@ en:{
       /* manbalar/kredit oynalari ochilganda yashirish */
       'body:has(#src.on) .tp-side-nav,body:has(#credits.on) .tp-side-nav,' +
       'body:has(#src.show) .tp-side-nav{opacity:0;visibility:hidden;pointer-events:none}' +
-      '@media(max-width:720px){.tp-side-nav{right:14px;gap:9px;height:46px}}';
+      '@media(max-width:720px){.tp-side-nav{padding:0 14px;height:46px}}';
     document.head.appendChild(css);
 
     /* --------- tugmalar --------- */
