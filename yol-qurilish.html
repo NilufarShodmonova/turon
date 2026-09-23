@@ -1657,7 +1657,10 @@ drawHero(); resetGame(); renderAll();
   background:linear-gradient(135deg,rgba(16,31,56,.85) 0%,rgba(11,22,40,.70) 50%,rgba(7,14,26,.92) 100%);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
   box-shadow:0 calc(var(--tp-u) * 1) calc(var(--tp-u) * 3) rgba(0,0,0,.5);
+  position:fixed;top:0;left:0;right:0;z-index:900;
 }
+/* shapka fixed — sahifa mazmuni uning ostidan boshlanadi */
+body.road-tech-host{ padding-top:calc(var(--tp-u) * 9.4) }
 .road-tech-header-logo{ width:calc(var(--tp-u) * 5.4);height:auto;flex:0 0 auto;filter:none }
 .road-tech-header-title{
   font-family:"Trajan Pro","Cinzel","Palatino Linotype","Book Antiqua",Georgia,"Times New Roman",serif;

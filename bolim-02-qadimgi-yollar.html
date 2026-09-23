@@ -101,7 +101,7 @@ body{
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
 /* ============ DECK ============ */
-#deck{position:fixed;inset:0 0 40px;padding-bottom:calc(5vh + var(--tp-ctl) + 50px);z-index:5;display:flex;flex-direction:column;opacity:0;transition:opacity .8s .3s}
+#deck{position:fixed;inset:0 0 26vh;padding-bottom:0;z-index:5;display:flex;flex-direction:column;opacity:0;transition:opacity .8s .3s}
 #deck.on{opacity:1}
 
 .topbar{
@@ -674,6 +674,7 @@ function render(i){
   pp.innerHTML=s.p||''; pp.style.display=s.p?'block':'none';
   cp.textContent=s.c;
 
+  $('deck').classList.toggle('mapmode', s.img==='__MAP__');
   if(s.img==='__MAP__'){
     imgA.classList.remove('show'); imgB.classList.remove('show');
     mapwrap.classList.add('show'); restartMap();
@@ -2300,3 +2301,40 @@ var TP_TITLE = {"uz": "Qadimgi davlatlarning yo‘l tarmoqlari", "ru": "Доро
 </style>
 </body>
 </html>
+
+<!-- ====== Rasm butun sahifa bo'ylab (9-slayd — xarita — eski ko'rinishda) ====== -->
+<style>
+/* rasmli slaydlar: surat butun ekranni egallaydi, matn ustida turadi */
+#deck:not(.mapmode) .pane-media{ position:fixed;inset:0;padding:0;z-index:1 }
+.topbar{ position:relative;z-index:5 }
+#deck:not(.mapmode) .frame{ border:0;border-radius:0;box-shadow:none }
+#deck:not(.mapmode) .frame::after{
+  background:
+    linear-gradient(90deg, rgba(7,14,26,.94) 0%, rgba(7,14,26,.80) 30%,
+                           rgba(7,14,26,.28) 54%, transparent 76%),
+    linear-gradient(180deg, rgba(7,14,26,.55) 0%, transparent 20%,
+                            rgba(7,14,26,.28) 58%, rgba(7,14,26,.92) 100%);
+}
+/* HAMMA slayd: matn (sarlavha + asosiy matn + iqtibos) sahifaning 50% idan boshlanadi */
+#deck:not(.mapmode) .pane-text,
+#deck.mapmode .pane-text{
+  position:fixed;top:50vh;left:0;right:0;bottom:auto;
+  width:100%;flex:0 0 auto;
+  display:flex;flex-direction:column;justify-content:flex-start;
+  padding:0 3.2vw;z-index:4;
+}
+/* matn butun kenglikdan foydalansin */
+#deck .pane-text .body,
+#deck .pane-text .pull{ max-width:none }
+/* xarita slaydi: sxema yuqori yarmida, matn undan 40px pastda */
+#deck.mapmode{ bottom:50vh }
+#deck.mapmode .pane-media{ padding-bottom:0 }
+#deck.mapmode .pane-text{ top:calc(50vh + 40px) }
+
+/* rasm izohi — pastdan 25% balandda */
+#deck .caption{
+  position:fixed;right:3.2vw;left:auto;bottom:20vh;z-index:4;
+  max-width:44vw;padding-top:0;justify-content:flex-end;
+  color:rgba(232,234,240,.72);text-shadow:0 2px 10px rgba(0,0,0,.85);
+}
+</style>
