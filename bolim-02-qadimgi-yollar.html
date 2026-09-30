@@ -2312,8 +2312,8 @@ var TP_TITLE = {"uz": "Qadimgi davlatlarning yo‘l tarmoqlari", "ru": "Доро
   background:
     linear-gradient(90deg, rgba(7,14,26,.94) 0%, rgba(7,14,26,.80) 30%,
                            rgba(7,14,26,.28) 54%, transparent 76%),
-    linear-gradient(180deg, rgba(7,14,26,.55) 0%, transparent 20%,
-                            rgba(7,14,26,.28) 58%, rgba(7,14,26,.92) 100%);
+    linear-gradient(180deg, rgba(7,14,26,.72) 0%, rgba(7,14,26,.50) 34%, transparent 55%,
+                            rgba(7,14,26,.28) 68%, rgba(7,14,26,.92) 100%);
 }
 /* HAMMA slayd: matn (sarlavha + asosiy matn + iqtibos) sahifaning 50% idan boshlanadi */
 #deck:not(.mapmode) .pane-text,
@@ -2326,6 +2326,8 @@ var TP_TITLE = {"uz": "Qadimgi davlatlarning yo‘l tarmoqlari", "ru": "Доро
 /* matn butun kenglikdan foydalansin */
 #deck .pane-text .body,
 #deck .pane-text .pull{ max-width:none }
+/* rasmli slaydlar: matn ekran tepasi va o'rtasining qoq o'rtasidan (25vh) boshlanadi */
+#deck:not(.mapmode) .pane-text{ top:25vh }
 /* xarita slaydi: sxema yuqori yarmida, matn undan 40px pastda */
 #deck.mapmode{ bottom:50vh }
 #deck.mapmode .pane-media{ padding-bottom:0 }
@@ -2337,4 +2339,6 @@ var TP_TITLE = {"uz": "Qadimgi davlatlarning yo‘l tarmoqlari", "ru": "Доро
   max-width:44vw;padding-top:0;justify-content:flex-end;
   color:rgba(232,234,240,.72);text-shadow:0 2px 10px rgba(0,0,0,.85);
 }
+/* rasmli slaydlar: izoh to'liq kenglikda, ekran balandligining o'rtasida */
+#deck:not(.mapmode) .caption{ left:3.2vw;right:3.2vw;max-width:none;justify-content:flex-start;top:50vh;bottom:auto }
 </style>

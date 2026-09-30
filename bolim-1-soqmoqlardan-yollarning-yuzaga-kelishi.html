@@ -577,10 +577,23 @@ footer{display:none !important}
 <!-- ============ SLIDER CONTROLS: dots bar (strelkalar tp-side-nav.js dan) ============ -->
 <style>
 /* slayder to'liq ekranda qoladi — faqat matn bloklari yuqoriga ko'tarilgan */
-.copy{bottom:25vh}
-.cap {bottom:25vh}
-@media(max-width:720px){ .copy{bottom:25vh} }
-@media(min-width:1600px){ .copy{bottom:25vh} .cap{bottom:25vh} }
+/* matn bloki ekran tepasi va o'rtasining qoq o'rtasidan (25vh) boshlanadi, to'liq kenglikda */
+.copy{top:25vh;bottom:auto;right:min(6vw,80px);width:auto;text-shadow:0 2px 14px rgba(6,13,28,.75)}
+.copy .lead{max-width:none}
+/* faktlar qatori (va chizig'i) avvalgi kenglikda — rasm izohiga tegmasin */
+.copy .facts{max-width:min(52vw,900px)}
+@media(max-width:720px){ .copy{bottom:auto} }
+@media(min-width:1600px){ .copy{bottom:auto} }
+
+/* rasm izohi: to'liq kenglikda */
+.cap{left:min(6.5vw,90px);right:min(6vw,80px);max-width:none;text-align:left}
+/* tik ekranda — ekran balandligining o'rtasida */
+@media (orientation:portrait){ .cap{top:50vh;bottom:auto} }
+/* yotiq ekranda matn o'rtadan pastga tushadi — izoh ixcham, nuqtalar ustida */
+@media (orientation:landscape){
+  .cap{bottom:calc(5vh + var(--tp-ctl) + 56px)}
+  .cap b{display:inline;margin:0 .6em 0 0}
+}
 
 /* umumiy o'lchov: BOSH MENYU tugmasi balandligiga tenglashtirilgan */
 :root{ --tp-ctl:calc(clamp(16px,calc(.6vw + .6vh),34px) * 2.7); }

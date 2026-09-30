@@ -1796,3 +1796,30 @@ var TP_TITLE = {"uz": "Qadimgi dunyoning ulkan yo‘llari", "ru": "Велики�
   border:0;border-radius:0;box-shadow:none;
 }
 </style>
+
+<!-- ====== Rasm fonli slaydlar: matn yuqorida (25vh) va to'liq kenglikda, rasm manbasi ekran o'rtasida ====== -->
+<style>
+/* rasmli slaydlar (.vis): sarlavha + matn ekran tepasi va o'rtasining qoq o'rtasidan boshlanadi */
+.sl:has(> .vis) > .cap{top:25vh;bottom:auto;padding:0 7vw;
+  text-shadow:0 2px 14px rgba(7,13,24,.8)}
+.sl:has(> .vis) > .cap p{max-width:none}
+/* matn endi yuqorida — rasm ustidagi qoraytirish ham yuqorida kuchliroq */
+.sl:has(> .vis) > .scrim{background:linear-gradient(180deg,rgba(7,13,24,.72) 0%,rgba(7,13,24,.58) 22%,
+  rgba(7,13,24,.58) 50%,rgba(7,13,24,.40) 66%,rgba(7,13,24,.96) 100%)}
+
+/* raqamli slaydlar (.num): katta raqam joyida, matn darhol uning ostida, to'liq kenglikda */
+.num{display:flex;flex-direction:column;padding-top:13vh}
+.num .big{position:relative;top:auto;flex:0 0 auto}
+.num .cap{position:relative;left:auto;right:auto;bottom:auto;flex:0 0 auto;padding:3vh 8vw 0;
+  text-shadow:0 2px 14px rgba(7,13,24,.8)}
+.num .cap p{max-width:none}
+@media (min-aspect-ratio: 1/1){ .num{padding-top:17vh} .num .cap{padding:3vh 7vw 0} }
+
+/* rasm manbasi (pastki o'ngdagi yozuv): to'liq kenglikda, ekran balandligining o'rtasida */
+.sl:has(> .vis) > .cr,
+.sl:has(> .num) > .cr{top:50vh;bottom:auto;left:7vw;right:7vw;max-width:none;text-align:left}
+/* yotiq ekranda raqamli slayd matni o'rtadan pastga tushadi — manba pastda qoladi */
+@media (min-aspect-ratio: 1/1){
+  .sl:has(> .num) > .cr{top:auto;bottom:calc(2.4vh + var(--tp-fb) * .5 + 25vh)}
+}
+</style>
