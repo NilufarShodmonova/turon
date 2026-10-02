@@ -292,7 +292,7 @@ body.tp-mode-inner .tp-bg__veil{
 
 .tp-card{
   position:relative;overflow:hidden;container-type:inline-size;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   gap:1.3rem;padding:3rem 2rem;
   min-height:23.5rem;
   background:linear-gradient(170deg,rgba(22,41,74,.86) 0%,rgba(11,21,38,.92) 100%);
@@ -316,12 +316,12 @@ body.tp-mode-inner .tp-bg__veil{
 .tp-card:hover::after{opacity:1}
 .tp-card:active{transform:scale(.975)}
 
-.tp-arch{position:relative;width:8.2rem;height:9.2rem;flex:0 0 auto}
+.tp-arch{position:relative;width:11rem;height:12.3rem;flex:0 0 auto}
 .tp-arch__frame{position:absolute;inset:0;width:100%;height:100%}
 .tp-arch__frame path{fill:none;stroke:var(--tp-gold);stroke-width:3.4;stroke-linecap:round}
 .tp-arch__ico{
   position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);
-  width:3.9rem;height:3.9rem;
+  width:5.2rem;height:5.2rem;
   fill:none;stroke:var(--tp-gold);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;
 }
 .tp-card__num{
@@ -331,8 +331,8 @@ body.tp-mode-inner .tp-bg__veil{
 .tp-card__title{
   font-family:var(--tp-display);
   max-width:100%;
-  font-size:1.7rem;                        /* eski brauzerlar uchun zaxira */
-  font-size:clamp(1.2rem,8.4cqw,1.8rem);   /* karta kengligiga moslashadi */
+  font-size:1.9rem;                        /* eski brauzerlar uchun zaxira */
+  font-size:clamp(1.3rem,9.2cqw,2.0rem);   /* karta kengligiga moslashadi */
   line-height:1.4;letter-spacing:.055em;
   color:var(--tp-gold-hi);text-transform:uppercase;
   /* so'zlar bo'linmasin — faqat probel bo'yicha yangi qatorga o'tsin */
