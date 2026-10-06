@@ -364,7 +364,6 @@ html,body{touch-action:pan-x pan-y}
       <div class="road-tech-panel">
         <span class="road-tech-step" data-t="orderhint"></span>
         <div class="road-tech-rows" id="road-tech-order-rows"></div>
-        <div class="road-tech-why" id="road-tech-order-why"></div>
         <p class="road-tech-card-text" id="road-tech-order-text" style="color:var(--road-tech-text)"></p>
       </div>
     </div>
@@ -634,7 +633,7 @@ const RT_NUM=[
 
 const RT_DAY=[
 { time:"06:00", sun:.08,
-  n:{uz:"Razbivka",ru:"Разбивка",en:"Setting out"},
+  n:{uz:"Ertalabki tayyorgarlik",ru:"Разбивка",en:"Setting out"},
   d:{uz:"Kun groma bilan boshlanadi: o'q chiziladi, qoziqlar qoqiladi, kenglik belgilanadi. Xato shu yerda qilinsa, uni keyin tuzatib bo'lmaydi.",
      ru:"День начинается с громы: выносят ось, забивают колышки, размечают ширину. Ошибка, сделанная здесь, потом не исправляется.",
      en:"The day begins with the groma: the axis is set out, pegs driven, the width marked. A mistake made here cannot be fixed later."} },
@@ -720,7 +719,7 @@ const RT_T={
    done:"Yo'l tayyor. Appiy yo'li mil. av. 312-yilda aynan shunday qurilgan — ayrim uchastkalari bugun ham yuk ko'taradi.",
    orderhint:"Qatlamni bosing — sxemada yonadi", toGame:"Endi o'zingiz yig'ing",
    e2:"2-bosqich · Tartib", h2:"Qatlamlar tartibi",
-   l2:"Avval butun kesimni ko'rib chiqing. Har qatlam pastdan yuqoriga o'z vazifasi bilan. Keyingi bosqichda xuddi shuni o'zingiz yig'asiz.",
+   l2:"Avval ko'ndalak kesimni ko'rib chiqing. Har qatlam pastdan tepaga o'z vazifasi bilan joylashtiriladi. Keyingi bosqichda xuddi shuni o'zingiz yig'asiz.",
    e1:"1-bosqich · Trassa", h1:"Yo'l qayerdan o'tadi",
    l1:"Qatlamlardan oldin savol: umuman qayerdan yurish kerak. To'rt shart bir vaqtda hisobga olinadi.",
    e3:"3-bosqich · Kesim", h3:"Rim yo'lini yig'ing",
@@ -962,8 +961,6 @@ function drawOrder(){
       <span class="road-tech-row-s">${x.sz[lang]}</span></div>`).join('');
   Array.from(document.querySelectorAll('#road-tech-order-rows .road-tech-row')).forEach(el=>
     el.addEventListener('click',()=>{ ordSel=+el.dataset.o; drawOrder(); }));
-  document.getElementById('road-tech-order-why').innerHTML =
-    WHY[st.id]? WHY[st.id](st.why.map(x=>x.split('|')[{uz:0,ru:1,en:2}[lang]])) : '';
   document.getElementById('road-tech-order-text').textContent=st.d[lang];
 }
 
@@ -1103,7 +1100,7 @@ function drawDay(){
     s+=`<path d="M240 ${236-4*10} Q450 ${228-4*10} 660 ${236-4*10} l0 8 l-420 0 z" fill="#8d8378" stroke="#1a140d"/>`;
     s+=`<rect x="150" y="150" width="22" height="62" rx="3" fill="#5c6472" stroke="#1a140d"/>`;
   }
-  /* qoziqlar va arqon — razbivka */
+  /* qoziqlar va arqon — Ertalabki tayyorgarlik */
   if(day===0){ for(let i=0;i<7;i++){ const x=250+i*68;
     s+=`<rect x="${x}" y="192" width="4" height="22" fill="#8a7c63"/>`; }
     s+=`<path d="M250 194 L660 194" stroke="#f0d9a8" stroke-width="1.6" stroke-dasharray="7 6"/>`; }
